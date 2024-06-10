@@ -1,1 +1,1 @@
-# kfdb
+# Kinda Funny Database API
