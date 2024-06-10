@@ -1,0 +1,5 @@
+-r requirements_global.txt
+
+# Not using yet
+
+# django-storages[s3]>=1.14.3
