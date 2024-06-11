@@ -1,2 +1,11 @@
+[tool.coverage]
+plugins = "django_coverage_plugin"
+omit = [
+    "*/**/migrations/*",
+    "*/**/settings/*",
+    "*/.tox/*",
+    "*/.venv/*",
+]
+
 [tool.black]
 line-length = 79
