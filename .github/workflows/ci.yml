@@ -1,0 +1,23 @@
+name: Continuous Integration Checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+
+    name: Unit tests and code checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install CI
+        run: |
+            pip install "tox>=4.0"
+            tox
