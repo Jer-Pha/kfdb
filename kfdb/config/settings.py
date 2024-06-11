@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from decouple import config
+from dj_database_url import parse as db_url
 from pathlib import Path
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +33,11 @@ else:
 
 # Application definition
 
-INSTALLED_APPS = [
+PROJECT_APPS = [
+    "apps.kfdb_api",
+]
+
+THIRD_PARTY_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,8 +45,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "apps.kfdb_api",
 ]
+
+INSTALLED_APPS = PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -54,12 +59,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "kfdb.urls"
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -72,15 +77,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "kfdb.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
-# Database
+# DATABASES
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": config(
+        "DATABASE_URL",
+        default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),
+        cast=db_url,
+    )
 }
 
 # Password validation
