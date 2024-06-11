@@ -16,11 +16,15 @@ class Episode(models.Model):
     )
     show = models.ForeignKey(
         Show,
+        null=True,
+        blank=False,
         on_delete=models.CASCADE,
         related_query_name="episode",
     )
     channel = models.ForeignKey(
         Channel,
+        null=True,
+        blank=False,
         on_delete=models.CASCADE,
         related_query_name="episode",
     )
@@ -41,6 +45,10 @@ class Episode(models.Model):
         blank=True,
         verbose_name="Blurb",
         help_text="Optional description of the episode.",
+    )
+    short = models.BooleanField(
+        default=False,
+        verbose_name="YouTube Short",
     )
     members_only = models.BooleanField(
         default=False,
