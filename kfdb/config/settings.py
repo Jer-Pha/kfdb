@@ -34,7 +34,10 @@ else:
 # Application definition
 
 PROJECT_APPS = [
-    "apps.kfdb_api",
+    "apps.channels",
+    "apps.episodes",
+    "apps.hosts",
+    "apps.shows",
 ]
 
 THIRD_PARTY_APPS = [
