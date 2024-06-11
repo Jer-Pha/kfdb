@@ -1,4 +1,4 @@
--r requirements_global.txt
+-r global.txt
 
 # Not using yet
 
