@@ -1,5 +1,4 @@
-[tool.coverage]
-plugins = "django_coverage_plugin"
+[tool.coverage.run]
 omit = [
     "*/**/migrations/*",
     "*/**/settings/*",
