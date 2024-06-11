@@ -1,9 +1,8 @@
 [tool.coverage.run]
 omit = [
-    "*/**/migrations/*",
-    "*/**/settings/*",
-    "*/.tox/*",
-    "*/.venv/*",
+    "./kfdb/apps/**/migrations/*",
+    "./kfdb/manage.py",
+    "./kfdb/config/settings.py",
 ]
 
 [tool.black]
