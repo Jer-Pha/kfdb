@@ -23,7 +23,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     urlpatterns += [
         path("__debug__/", include("debug_toolbar.urls")),
     ]
