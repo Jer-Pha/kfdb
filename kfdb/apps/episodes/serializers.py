@@ -5,11 +5,6 @@ from rest_framework import serializers
 from .models import Episode
 
 
-class CustomPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
-    def to_representation(self, value):
-        return str(value)
-
-
 class EpisodeSerializer(serializers.ModelSerializer):
     channel = serializers.StringRelatedField()
     guests = serializers.StringRelatedField(many=True)
