@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from decouple import config
 from dj_database_url import parse as db_url
 from pathlib import Path
+from sys import argv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -63,11 +64,14 @@ if not DEBUG:
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-    INSTALLED_APPS += ["debug_toolbar"]
-    MIDDLEWARE = [
-        "debug_toolbar.middleware.DebugToolbarMiddleware"
-    ] + MIDDLEWARE
     INTERNAL_IPS = ["127.0.0.1"]
+    if "test" not in argv:
+        INSTALLED_APPS += [
+            "debug_toolbar",
+        ]
+        MIDDLEWARE += [
+            "debug_toolbar.middleware.DebugToolbarMiddleware",
+        ]
 
 ROOT_URLCONF = "config.urls"
 
