@@ -1,3 +1,18 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+from .models import Show
+from .serializers import ShowSerializer
+
+
+class ShowViewSet(ModelViewSet):
+    queryset = Show.objects.all()
+    serializer_class = ShowSerializer
+    search_fields = (
+        "name",
+        "blurb",
+    )
+
+    filterset_fields = (
+        "name",
+        "active",
+    )
