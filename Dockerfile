@@ -21,11 +21,6 @@ RUN addgroup www && useradd -g www www
 RUN chown -R www:www /code
 USER www
 
-
-# Output information about the build
-RUN git log -n 1 --pretty=format:"%h" > GIT_COMMIT
-RUN date -u +'%Y-%m-%dT%H:%M:%SZ' > BUILD_DATE
-
 EXPOSE 8000
 
 # Start the server
