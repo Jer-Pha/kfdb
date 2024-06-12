@@ -63,7 +63,7 @@ if not DEBUG:
     )
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
     INTERNAL_IPS = ["127.0.0.1"]
     if "test" not in argv:
         INSTALLED_APPS += [
