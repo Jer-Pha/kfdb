@@ -38,6 +38,5 @@ class Host(models.Model):
     def __str__(self):
         return self.name
 
-    @property
-    def name_lower(self):
-        return self.name.lower()
+    class Meta:
+        ordering = ("-kf_crew", "-part_timer", "name")

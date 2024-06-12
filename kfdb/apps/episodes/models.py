@@ -19,24 +19,48 @@ class Episode(models.Model):
         null=True,
         blank=False,
         on_delete=models.CASCADE,
-        related_query_name="episode",
+        related_name="episodes",
+        related_query_name="episode_show",
     )
     channel = models.ForeignKey(
         Channel,
         null=True,
         blank=False,
         on_delete=models.CASCADE,
-        related_query_name="episode",
+        related_name="episodes",
+        related_query_name="episode_channel",
     )
     hosts = models.ManyToManyField(
         Host,
-        related_query_name="episode",
+        related_name="hosted_episodes",
+        related_query_name="episode_host",
+        limit_choices_to=models.Q(kf_crew=True) | models.Q(part_timer=True),
+    )
+    guests = models.ManyToManyField(
+        Host,
+        related_name="guest_in_episodes",
+        related_query_name="episode_guest",
+        limit_choices_to={
+            "kf_crew": False,
+            "part_timer": False,
+        },
+    )
+    producer = models.ForeignKey(
+        Host,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="produced_episodes",
+        related_query_name="episode_producer",
+        limit_choices_to={
+            "kf_crew": True,
+        },
     )
     video_id = models.CharField(
         max_length=11,
         unique=True,
     )
-    url = models.URLField(
+    link = models.URLField(
         max_length=43,
         blank=True,
     )
@@ -54,9 +78,6 @@ class Episode(models.Model):
         default=False,
         help_text="The episode is only available for YouTube/Patreon members.",
     )
-
-    class Meta:
-        default_related_name = "episodes"
 
     def __str__(self):
         return self.title
