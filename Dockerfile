@@ -13,6 +13,7 @@ COPY ./requirements /requirements
 
 RUN pip install --upgrade pip
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r /requirements/prod.txt
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r /requirements/dev.txt
 
 COPY . /code/
 
