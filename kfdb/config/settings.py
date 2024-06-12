@@ -20,17 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-if not DEBUG:
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = config("SECRET_KEY")
-    ALLOWED_HOSTS = config(
-        "ALLOWED_HOSTS",
-        cast=lambda v: [s.strip() for s in v.split(",")],
-    )
-else:
-    SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
 # Application definition
 
 PROJECT_APPS = [
@@ -48,6 +37,8 @@ THIRD_PARTY_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    # "rest_framework_json_api",
+    "django_filters",
 ]
 
 INSTALLED_APPS = PROJECT_APPS + THIRD_PARTY_APPS
@@ -61,6 +52,22 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if not DEBUG:
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = config("SECRET_KEY")
+    ALLOWED_HOSTS = config(
+        "ALLOWED_HOSTS",
+        cast=lambda v: [s.strip() for s in v.split(",")],
+    )
+else:
+    SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware"
+    ] + MIDDLEWARE
+    INTERNAL_IPS = ["127.0.0.1"]
 
 ROOT_URLCONF = "config.urls"
 
@@ -138,9 +145,59 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # DRF
+# REST_FRAMEWORK = {
+#     "PAGE_SIZE": 10,
+#     "EXCEPTION_HANDLER": (
+#         "rest_framework_json_api.exceptions.exception_handler"
+#     ),
+#     "DEFAULT_PAGINATION_CLASS": (
+#         "rest_framework_json_api.pagination.JsonApiPageNumberPagination"
+#     ),
+#     "DEFAULT_PARSER_CLASSES": (
+#         "rest_framework_json_api.parsers.JSONParser",
+#         "rest_framework.parsers.FormParser",
+#         "rest_framework.parsers.MultiPartParser",
+#     ),
+#     "DEFAULT_RENDERER_CLASSES": (
+#         "rest_framework_json_api.renderers.JSONRenderer",
+#         # If you're performance testing, you will want to use the
+#         # browseable API without forms, as the forms can generate their
+#         # own queries. If performance testing, enable:
+#         # "config.utils.BrowsableAPIRendererWithoutForms",
+#         # Otherwise, to play around with the browseable API, enable:
+#         "rest_framework_json_api.renderers.BrowsableAPIRenderer",
+#     ),
+#     "DEFAULT_METADATA_CLASS": (
+#         "rest_framework_json_api.metadata.JSONAPIMetadata"
+#     ),
+#     "DEFAULT_SCHEMA_CLASS": (
+#         "rest_framework_json_api.schemas.openapi.AutoSchema"
+#     ),
+#     "DEFAULT_FILTER_BACKENDS": (
+#         "rest_framework_json_api.filters.QueryParameterValidationFilter",
+#         "rest_framework_json_api.filters.OrderingFilter",
+#         "rest_framework_json_api.django_filters.DjangoFilterBackend",
+#         "rest_framework.filters.SearchFilter",
+#     ),
+#     "SEARCH_PARAM": "filter[search]",
+#     "TEST_REQUEST_RENDERER_CLASSES": (
+#         "rest_framework_json_api.renderers.JSONRenderer",
+#     ),
+#     "TEST_REQUEST_DEFAULT_FORMAT": "vnd.api+json",
+# }
+
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": (
-        "rest_framework.pagination.PageNumberPagination"
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
-    "PAGE_SIZE": 20,
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ),
 }
