@@ -1,5 +1,5 @@
 kfdb/resources/
-Dockerrun.aws.json
+.aws-config/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
