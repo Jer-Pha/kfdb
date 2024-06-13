@@ -22,7 +22,11 @@ RUN addgroup www && useradd -g www www
 RUN chown -R www:www /code
 USER www
 
+RUN python ./kfdb/manage.py makemigrations
+RUN python ./kfdb/manage.py check
+RUN python ./kfdb/manage.py migrate
+
 EXPOSE 8000
 
 # Start the server
-CMD ["python", "./kfdb/manage.py", "runserver", "127.0.0.1:8000"]
+CMD ["python", "./kfdb/manage.py", "runserver", "0.0.0.0:8000"]
