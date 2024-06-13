@@ -1,7 +1,7 @@
 .git/
 .github/
 .gitignore
-.pre-commit-config
+.pre-commit-config.yaml
 pyproject.toml
-README.mkdocs
+README.md
 tox.ini
