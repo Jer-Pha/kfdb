@@ -1,10 +1,12 @@
-FROM python:3.12
+FROM python:3.12-slim
 
 LABEL maintainer="https://github.com/Jer-Pha"
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+RUN apt-get update
+RUN apt-get install -y default-libmysqlclient-dev
 RUN mkdir -p /code
 
 WORKDIR /code
@@ -17,14 +19,12 @@ RUN --mount=type=cache,target=/root/.cache/pip pip install -r /requirements/dev.
 
 COPY . /code/
 
+RUN python ./kfdb/manage.py makemigrations
+
 # Run the container unprivileged
 RUN addgroup www && useradd -g www www
 RUN chown -R www:www /code
 USER www
-
-RUN python ./kfdb/manage.py makemigrations
-RUN python ./kfdb/manage.py check
-RUN python ./kfdb/manage.py migrate
 
 EXPOSE 8000
 
