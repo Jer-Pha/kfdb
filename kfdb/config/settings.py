@@ -10,7 +10,7 @@ from sys import argv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = getenv("DEBUG", "TRUE") == "TRUE"
+DEBUG = getenv("DEBUG", "TRUE").strip() == "TRUE"
 
 PROJECT_APPS = [
     "apps.channels",
@@ -43,16 +43,18 @@ MIDDLEWARE = [
 ]
 
 if not DEBUG:
-    SECRET_KEY = getenv("SECRET_KEY")
-    ALLOWED_HOSTS = [s.strip() for s in getenv("ALLOWED_HOSTS").split(",")]
+    SECRET_KEY = getenv("SECRET_KEY").strip()
+    ALLOWED_HOSTS = [
+        s.strip() for s in getenv("ALLOWED_HOSTS").strip().split(",")
+    ]
     DATABASES = {
         "default": {
-            "ENGINE": getenv("SQL_ENGINE"),
-            "NAME": getenv("SQL_NAME"),
-            "HOST": getenv("SQL_HOST"),
-            "PORT": getenv("SQL_PORT"),
-            "USER": getenv("SQL_USER"),
-            "PASSWORD": getenv("SQL_PASSWORD"),
+            "ENGINE": getenv("SQL_ENGINE").strip(),
+            "NAME": getenv("SQL_NAME").strip(),
+            "HOST": getenv("SQL_HOST").strip(),
+            "PORT": getenv("SQL_PORT").strip(),
+            "USER": getenv("SQL_USER").strip(),
+            "PASSWORD": getenv("SQL_PASSWORD").strip(),
             "OPTIONS": {
                 "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
                 "charset": "utf8mb4",
@@ -128,7 +130,9 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": (
+        "rest_framework.pagination.PageNumberPagination"
+    ),
     "PAGE_SIZE": 10,
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.BasicAuthentication",
@@ -141,4 +145,8 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
     ),
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
 }
