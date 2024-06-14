@@ -27,7 +27,7 @@ class EpisodeViewSet(ModelViewSet):
     )
 
 
-def upload_view(request):
+def upload_view(request):  # pragma: no cover
     """This is a temporary view to load existing data into the db."""
 
     from csv import reader
