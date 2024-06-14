@@ -34,6 +34,7 @@ INSTALLED_APPS = PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -125,8 +126,20 @@ AUTH_PASSWORD_VALIDATORS = [
 
 TIME_ZONE = "UTC"
 
-STATIC_URL = "/static/"
-STATIC_ROOT = path.join(BASE_DIR, "static/")
+STATIC_URL = "/static-files/"
+STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+MEDIA_URL = getenv("MEDIA_URL", "/media/")
+MEDIA_ROOT = path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
