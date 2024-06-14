@@ -18,7 +18,7 @@ router.register("shows", ShowViewSet, basename="shows")
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("kfdb-admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
     path("api/", include(router.urls)),
     # path("temp/upload/", upload_view),  # Temporary
