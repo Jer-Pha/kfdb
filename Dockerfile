@@ -20,6 +20,7 @@ RUN --mount=type=cache,target=/root/.cache/pip pip install -r /requirements/dev.
 COPY . /code/
 
 RUN python ./kfdb/manage.py makemigrations
+RUN python ./kfdb/manage.py collectstatic --noinput --clear
 
 # Run the container unprivileged
 RUN addgroup www && useradd -g www www
