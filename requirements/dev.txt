@@ -1,4 +1,4 @@
--r global.txt
+-r base.txt
 
 black>=24.4.2
 coverage>=7.5
