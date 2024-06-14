@@ -1,3 +1,4 @@
 Django>=4.2
 django-filter>=24.2
 djangorestframework>=3.15.1
+whitenoise>=6.6.0
