@@ -14,9 +14,10 @@ DEBUG = getenv("DEBUG", "TRUE").strip() == "TRUE"
 
 PROJECT_APPS = [
     "apps.channels",
-    "apps.episodes",
+    "apps.core",
     "apps.hosts",
     "apps.shows",
+    "apps.videos",
 ]
 
 THIRD_PARTY_APPS = [
@@ -28,6 +29,7 @@ THIRD_PARTY_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
+    "drf_spectacular",
 ]
 
 INSTALLED_APPS = PROJECT_APPS + THIRD_PARTY_APPS
@@ -128,6 +130,12 @@ TIME_ZONE = "UTC"
 
 STATIC_URL = "/static-files/"
 STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [
+    path.join(BASE_DIR, "assets", "dist"),
+    path.join(BASE_DIR, "apps", "core", "static"),
+    # Only available after running `npm install`
+    path.join(BASE_DIR, "node_modules/htmx.org/dist"),
+]
 
 STORAGES = {
     "default": {
@@ -163,4 +171,14 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Kinda Funny Database API",
+    "DESCRIPTION": (
+        "Four, sometimes five, best friends gather around this data."
+    ),
+    "VERSION": "0.2.2",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
