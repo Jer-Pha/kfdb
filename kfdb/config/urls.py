@@ -1,27 +1,15 @@
-"""URL configuration for kfdb project."""
+"""URL configuration for the KFDB project."""
 
 from django.conf import settings
-from django.contrib import admin
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-
-from apps.channels.views import ChannelViewSet
-from apps.episodes.views import EpisodeViewSet  # , upload_view  # Temporary
-from apps.hosts.views import HostViewSet
-from apps.shows.views import ShowViewSet
-
-router = DefaultRouter()
-router.register("channels", ChannelViewSet, basename="channels")
-router.register("episodes", EpisodeViewSet, basename="episodes")
-router.register("hosts", HostViewSet, basename="hosts")
-router.register("shows", ShowViewSet, basename="shows")
 
 
 urlpatterns = [
-    path("kfdb-admin/", admin.site.urls),
-    path("api-auth/", include("rest_framework.urls")),
-    path("api/", include(router.urls)),
-    # path("temp/upload/", upload_view),  # Temporary
+    path("", include("apps.core.urls")),
+    path("channels/", include("apps.channels.urls")),
+    path("videos/", include("apps.videos.urls")),
+    path("hosts/", include("apps.hosts.urls")),
+    path("shows/", include("apps.shows.urls")),
 ]
 
 if settings.DEBUG:  # pragma: no cover
