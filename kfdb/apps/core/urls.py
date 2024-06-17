@@ -37,7 +37,7 @@ urlpatterns = [
 ]
 
 # Favicon urls
-urlpatterns += [
+urlpatterns += [  # pragma: no cover
     path(
         "android-chrome-192x192.png",
         RedirectView.as_view(url=static("favicon/android-chrome-192x192.png")),
