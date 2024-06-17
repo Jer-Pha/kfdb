@@ -1,8 +1,9 @@
 [tool.coverage.run]
 omit = [
     "./kfdb/apps/**/migrations/*",
-    "./kfdb/manage.py",
     "./kfdb/config/settings.py",
+    "./kfdb/core/urls.py",
+    "./kfdb/manage.py",
 ]
 
 [tool.black]
