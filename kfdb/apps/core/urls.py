@@ -16,9 +16,8 @@ from .views import update_index_stats
 from apps.channels.viewsets import ChannelViewSet
 from apps.hosts.viewsets import HostViewSet
 from apps.shows.viewsets import ShowViewSet
-from apps.videos.viewsets import (
-    VideoViewSet,
-)  # , upload_view  # Temporary
+from apps.videos.viewsets import VideoViewSet
+from apps.videos.views import upload_view  # Temporary
 
 router = DefaultRouter()
 router.register("channels", ChannelViewSet, basename="channels")
@@ -33,7 +32,7 @@ urlpatterns = [
     ),
     path("load-stats", update_index_stats, name="load_stats"),
     path("kfdb-admin/", admin.site.urls, name="admin"),
-    # path("temp/upload/", upload_view),  # Temporary
+    path("temp/upload/", upload_view),  # Temporary
 ]
 
 # Favicon urls
