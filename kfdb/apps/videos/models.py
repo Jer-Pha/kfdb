@@ -5,7 +5,7 @@ from apps.hosts.models import Host
 from apps.shows.models import Show
 
 
-class Episode(models.Model):
+class Video(models.Model):
     title = models.CharField(
         max_length=255,
         blank=False,
@@ -19,27 +19,27 @@ class Episode(models.Model):
         null=True,
         blank=False,
         on_delete=models.CASCADE,
-        related_name="episodes",
-        related_query_name="episode_show",
+        related_name="videos",
+        related_query_name="video_show",
     )
     channel = models.ForeignKey(
         Channel,
         null=True,
         blank=False,
         on_delete=models.CASCADE,
-        related_name="episodes",
-        related_query_name="episode_channel",
+        related_name="videos",
+        related_query_name="video_channel",
     )
     hosts = models.ManyToManyField(
         Host,
-        related_name="hosted_episodes",
-        related_query_name="episode_host",
+        related_name="hosted_videos",
+        related_query_name="video_host",
         limit_choices_to=models.Q(kf_crew=True) | models.Q(part_timer=True),
     )
     guests = models.ManyToManyField(
         Host,
-        related_name="guest_in_episodes",
-        related_query_name="episode_guest",
+        related_name="guest_in_videos",
+        related_query_name="video_guest",
         limit_choices_to={
             "kf_crew": False,
             "part_timer": False,
@@ -50,8 +50,8 @@ class Episode(models.Model):
         null=True,
         blank=True,
         on_delete=models.CASCADE,
-        related_name="produced_episodes",
-        related_query_name="episode_producer",
+        related_name="produced_videos",
+        related_query_name="video_producer",
         limit_choices_to={
             "kf_crew": True,
         },
@@ -68,7 +68,7 @@ class Episode(models.Model):
         null=True,
         blank=True,
         verbose_name="Blurb",
-        help_text="Optional description of the episode.",
+        help_text="Optional description of the video.",
     )
     short = models.BooleanField(
         default=False,
@@ -76,7 +76,7 @@ class Episode(models.Model):
     )
     members_only = models.BooleanField(
         default=False,
-        help_text="The episode is only available for YouTube/Patreon members.",
+        help_text="The video is only available for YouTube/Patreon members.",
     )
 
     def __str__(self):

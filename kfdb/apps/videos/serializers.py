@@ -2,10 +2,10 @@ from copy import deepcopy
 
 from rest_framework import serializers
 
-from .models import Episode
+from .models import Video
 
 
-class EpisodeSerializer(serializers.ModelSerializer):
+class VideoSerializer(serializers.ModelSerializer):
     channel = serializers.StringRelatedField()
     guests = serializers.StringRelatedField(many=True)
     hosts = serializers.StringRelatedField(many=True)
@@ -13,7 +13,7 @@ class EpisodeSerializer(serializers.ModelSerializer):
     show = serializers.StringRelatedField()
 
     class Meta:
-        model = Episode
+        model = Video
         fields = [
             "title",
             "release_date",

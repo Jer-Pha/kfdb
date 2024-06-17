@@ -1,16 +1,16 @@
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Episode
-from .serializers import EpisodeSerializer
+from .models import Video
+from .serializers import VideoSerializer
 
 
-class EpisodeViewSet(ModelViewSet):
+class VideoViewSet(ModelViewSet):
     queryset = (
-        Episode.objects.select_related("show", "channel")
+        Video.objects.select_related("show", "channel")
         .prefetch_related("hosts")
         .all()
     )
-    serializer_class = EpisodeSerializer
+    serializer_class = VideoSerializer
     search_fields = (
         "title",
         "blurb",
@@ -38,7 +38,7 @@ class EpisodeViewSet(ModelViewSet):
 #     from django.http import HttpResponse
 
 #     from apps.channels.models import Channel
-#     from apps.episodes.models import Episode
+#     from apps.videos.models import Video
 #     from apps.hosts.models import Host
 #     from apps.shows.models import Show
 
@@ -103,7 +103,7 @@ class EpisodeViewSet(ModelViewSet):
 #                 show, c = Show.objects.get_or_create(name=show_name)
 #                 patreon = row[1] == "patreon"
 #                 url = row[6]
-#                 episode = Episode.objects.create(
+#                 video = Video.objects.create(
 #                     title=row[3],
 #                     release_date=datetime.fromisoformat(row[4]),
 #                     show=show,
@@ -134,15 +134,15 @@ class EpisodeViewSet(ModelViewSet):
 #                     else:
 #                         guest_batch.append(host)
 
-#                 episode.hosts.add(*host_batch)
-#                 episode.guests.add(*guest_batch)
+#                 video.hosts.add(*host_batch)
+#                 video.guests.add(*guest_batch)
 #                 i += 1
 #             except Exception as e:
 #                 if str(e) == (
-#                     "UNIQUE constraint failed: episodes_episode.video_id"
+#                     "UNIQUE constraint failed: videos_video.video_id"
 #                 ):
 #                     continue
 #                 else:
 #                     raise e
 
-#     return HttpResponse(f"Episodes added: {i}")
+#     return HttpResponse(f"Videos added: {i}")
