@@ -1,6 +1,10 @@
+# Site-specific
 kfdb/resources/
 .aws-config/
 .aws-config.zip
+node_modules/
+staticfiles/
+media/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
