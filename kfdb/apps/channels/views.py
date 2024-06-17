@@ -1,15 +1,3 @@
-from rest_framework.viewsets import ModelViewSet
+from django.shortcuts import render
 
-from .models import Channel
-from .serializers import ChannelSerializer
-
-
-class ChannelViewSet(ModelViewSet):
-    queryset = Channel.objects.all()
-    serializer_class = ChannelSerializer
-    search_fields = (
-        "name",
-        "blurb",
-    )
-
-    filterset_fields = ("name",)
+# Create your views here.
