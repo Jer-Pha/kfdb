@@ -6,10 +6,10 @@ from django.urls import include, path
 
 urlpatterns = [
     path("", include("apps.core.urls")),
-    path("channels/", include("apps.channels.urls")),
-    path("videos/", include("apps.videos.urls")),
-    path("hosts/", include("apps.hosts.urls")),
-    path("shows/", include("apps.shows.urls")),
+    path("", include("apps.channels.urls")),
+    path("", include("apps.videos.urls")),
+    path("", include("apps.hosts.urls")),
+    path("", include("apps.shows.urls")),
 ]
 
 if settings.DEBUG:  # pragma: no cover

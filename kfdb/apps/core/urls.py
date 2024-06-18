@@ -12,7 +12,7 @@ from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
 from rest_framework.routers import DefaultRouter
 
-from .views import update_index_stats
+from .views import homepage, update_index_stats
 from apps.channels.viewsets import ChannelViewSet
 from apps.hosts.viewsets import HostViewSet
 from apps.shows.viewsets import ShowViewSet
@@ -28,8 +28,9 @@ router.register("videos", VideoViewSet, basename="videos")
 
 urlpatterns = [
     path(
-        "", TemplateView.as_view(template_name="core/index.html"), name="index"
+        "", TemplateView.as_view(template_name="core/hero.html"), name="hero"
     ),
+    path("home/", homepage, name="index"),
     path("load-stats", update_index_stats, name="load_stats"),
     path("kfdb-admin/", admin.site.urls, name="admin"),
     path("temp/upload/", upload_view),  # Temporary
