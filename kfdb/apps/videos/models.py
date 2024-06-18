@@ -1,4 +1,7 @@
+from autoslug import AutoSlugField
+
 from django.db import models
+from django.utils.text import slugify
 
 from apps.channels.models import Channel
 from apps.hosts.models import Host
@@ -10,6 +13,7 @@ class Video(models.Model):
         max_length=255,
         blank=False,
     )
+    slug = AutoSlugField(unique=True)
     release_date = models.DateField(
         null=True,
         blank=True,
@@ -78,6 +82,10 @@ class Video(models.Model):
         default=False,
         help_text="The video is only available for YouTube/Patreon members.",
     )
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
