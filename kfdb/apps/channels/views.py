@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def channel_home(request):
+    pass
+
+
+def channel_page(request, channel):
+    pass
