@@ -95,6 +95,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "apps.core.context_processors.global_context",
             ],
         },
     },
@@ -126,7 +127,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
+USE_TZ = True
+USE_L10N = True
+USE_THOUSAND_SEPARATOR = True
 
 STATIC_URL = "/static-files/"
 STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
@@ -177,7 +182,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "Kinda Funny Database API",
     "DESCRIPTION": (
-        "Four, sometimes five, best friends gather around this data."
+        "Four, sometimes five, best friends gather around this table."
     ),
     "VERSION": "0.2.2",
     "SERVE_INCLUDE_SCHEMA": False,
