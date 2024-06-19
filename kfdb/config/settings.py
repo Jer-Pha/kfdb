@@ -28,6 +28,7 @@ THIRD_PARTY_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_json_api",
     "django_filters",
     "drf_spectacular",
 ]
@@ -74,13 +75,13 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-    if "test" not in argv:
-        INSTALLED_APPS += [
-            "debug_toolbar",
-        ]
-        MIDDLEWARE += [
-            "debug_toolbar.middleware.DebugToolbarMiddleware",
-        ]
+    # if "test" not in argv:
+    #     INSTALLED_APPS += [
+    #         "debug_toolbar",
+    #     ]
+    #     MIDDLEWARE += [
+    #         "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #     ]
 
 ROOT_URLCONF = "config.urls"
 
@@ -157,10 +158,39 @@ MEDIA_ROOT = path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": (
-        "rest_framework.pagination.PageNumberPagination"
-    ),
     "PAGE_SIZE": 10,
+    "EXCEPTION_HANDLER": (
+        "rest_framework_json_api.exceptions.exception_handler"
+    ),
+    "DEFAULT_PARSER_CLASSES": (
+        "rest_framework_json_api.parsers.JSONParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+    ),
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework_json_api.renderers.JSONRenderer",
+        # If you're performance testing, you will want to use the
+        # browseable API without forms, as the forms can generate their
+        # own queries. If performance testing, enable:
+        # 'example.utils.BrowsableAPIRendererWithoutForms',
+        # Otherwise, to play around with the browseable API, enable:
+        "rest_framework_json_api.renderers.BrowsableAPIRenderer",
+    ),
+    "DEFAULT_METADATA_CLASS": (
+        "rest_framework_json_api.metadata.JSONAPIMetadata"
+    ),
+    "DEFAULT_FILTER_BACKENDS": (
+        "rest_framework_json_api.filters.QueryParameterValidationFilter",
+        "rest_framework_json_api.filters.OrderingFilter",
+        "rest_framework_json_api.django_filters.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ),
+    "SEARCH_PARAM": "filter[search]",
+    "TEST_REQUEST_RENDERER_CLASSES": (
+        "rest_framework_json_api.renderers.JSONRenderer",
+    ),
+    "TEST_REQUEST_DEFAULT_FORMAT": "vnd.api+json",
+    # Added
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
@@ -168,16 +198,10 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
-    "DEFAULT_FILTER_BACKENDS": (
-        "django_filters.rest_framework.DjangoFilterBackend",
-        "rest_framework.filters.SearchFilter",
-    ),
-    "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    ],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular_jsonapi.schemas.openapi.JsonApiAutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "drf_spectacular_jsonapi.schemas.pagination.JsonApiPageNumberPagination",
 }
+
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Kinda Funny Database API",
@@ -186,4 +210,9 @@ SPECTACULAR_SETTINGS = {
     ),
     "VERSION": "0.2.2",
     "SERVE_INCLUDE_SCHEMA": False,
+    # Added
+    "COMPONENT_SPLIT_REQUEST": True,
+    "PREPROCESSING_HOOKS": [
+        "drf_spectacular_jsonapi.hooks.fix_nested_path_parameters"
+    ],
 }

@@ -1,10 +1,10 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .models import Host
 from .serializers import HostSerializer
 
 
-class HostViewSet(ModelViewSet):
+class HostViewSet(ReadOnlyModelViewSet):
     queryset = Host.objects.all()
     serializer_class = HostSerializer
     search_fields = (
@@ -15,6 +15,7 @@ class HostViewSet(ModelViewSet):
 
     filterset_fields = (
         "name",
+        "slug",
         "kf_crew",
         "part_timer",
     )

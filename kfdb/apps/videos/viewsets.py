@@ -1,10 +1,10 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .models import Video
 from .serializers import VideoSerializer
 
 
-class VideoViewSet(ModelViewSet):
+class VideoViewSet(ReadOnlyModelViewSet):
     queryset = (
         Video.objects.select_related("show", "channel")
         .prefetch_related("hosts")
@@ -18,6 +18,7 @@ class VideoViewSet(ModelViewSet):
 
     filterset_fields = (
         "title",
+        "slug",
         "blurb",
         "hosts",
         "guests",

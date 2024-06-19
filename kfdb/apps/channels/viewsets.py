@@ -1,10 +1,10 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from .models import Channel
 from .serializers import ChannelSerializer
 
 
-class ChannelViewSet(ModelViewSet):
+class ChannelViewSet(ReadOnlyModelViewSet):
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
     search_fields = (
@@ -12,4 +12,4 @@ class ChannelViewSet(ModelViewSet):
         "blurb",
     )
 
-    filterset_fields = ("name",)
+    filterset_fields = ("name", "slug")
