@@ -7,16 +7,21 @@ class Channel(models.Model):
         max_length=255,
         blank=False,
         unique=True,
+        help_text="Channel name.",
     )
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(
+        unique=True,
+        help_text="URL-compatible channel name.",
+    )
     blurb = models.TextField(
         null=True,
         blank=True,
-        help_text="Optional description of the channel.",
+        help_text="Description of the channel.",
     )
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        if not self.slug:
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     def __str__(self):
