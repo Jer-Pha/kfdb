@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="kindafunny" class="bg-base-300">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, shrink-to-fit=no" />
@@ -32,10 +32,10 @@
     <div class="drawer">
       <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col">
-        <div class="w-full navbar bg-gradient-to-r from-fuchsia-500 to-cyan-500">
+        <div class="w-full navbar bg-gradient-to-r from-secondary to-primary">
           <div class="flex-none md:hidden">
             <label for="nav-drawer" aria-label="Open Side Navigation" class="btn btn-square btn-ghost">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-base-content">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
             </label>
@@ -46,44 +46,54 @@
               href="{% if request.path != index_url %}
                 {{ index_url }}
               {% else %}
+
+
+
+
+
                 #
+
+
+
+
+
               {% endif %}">
               <img class="max-h-12" src="{% static 'img/kfdb-logo.svg' %}" alt="KFDB Logo" />
             </a>
           </div>
-          <div class="navbar-center hidden md:flex text-white">
+          <div class="navbar-center hidden md:flex text-base-300">
             <ul class="menu menu-horizontal px-1">
               <li class="dropdown dropdown-hover">
                 <div tabindex="0">Kinda Funny Games</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 bg-white text-black rounded-box">
+                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
                   {% for i in games_active %}
                     <li>
-                      <a href="{% url 'show_page' channel='kinda-funny-games' show=i.show__slug %}" class="text-nowrap">{{ i.show__name }}</a>
+                      <a href="{% url 'show_page' channel='kfg' show=i.show__slug %}" class="text-nowrap">{{ i.show__name }}</a>
                     </li>
                   {% endfor %}
-                  <hr class="px-4" />
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
                   <li>
-                    <a href="{% url 'channel_page' channel='kinda-funny-games' %}" class="text-nowrap">View All</a>
+                    <a href="{% url 'channel_page' channel='kfg' %}" class="text-nowrap">Browse Videos</a>
                   </li>
                 </ul>
               </li>
               <li class="dropdown dropdown-hover">
                 <div tabindex="0">Kinda Funny</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 bg-white text-black rounded-box">
+                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
                   {% for i in prime_active %}
                     <li>
-                      <a href="{% url 'show_page' channel='kinda-funny' show=i.show__slug %}" class="text-nowrap">{{ i.show__name }}</a>
+                      <a href="{% url 'show_page' channel='kf' show=i.show__slug %}" class="text-nowrap">{{ i.show__name }}</a>
                     </li>
                   {% endfor %}
-                  <hr class="px-4" />
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
                   <li>
-                    <a href="{% url 'channel_page' channel='kinda-funny' %}" class="text-nowrap">View All</a>
+                    <a href="{% url 'channel_page' channel='kf' %}" class="text-nowrap">Browse Videos</a>
                   </li>
                 </ul>
               </li>
               <li class="dropdown dropdown-hover">
                 <div tabindex="0">Hosts</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 bg-white text-black rounded-box">
+                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
                   <li>
                     <a href="{% url 'host_page' type='kf-crew' %}" class="text-nowrap">KF Crew</a>
                   </li>
@@ -93,24 +103,32 @@
                   <li>
                     <a href="{% url 'host_page' type='guests' %}" class="text-nowrap">Guests</a>
                   </li>
-                  <hr class="px-4" />
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
                   <li>
-                    <a href="{% url 'host_home' %}" class="text-nowrap">View All</a>
+                    <a href="{% url 'host_home' %}" class="text-nowrap">Browse Hosts</a>
                   </li>
                 </ul>
               </li>
-              <li class="dropdown dropdown-hover">
+              <li class="dropdown dropdown-end dropdown-hover">
                 <div tabindex="0">Membership</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 bg-white text-black rounded-box">
+                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
                   <li>
-                    <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="text-nowrap">YouTube</a>
+                    <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="text-nowrap">
+                      YouTube<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
                   </li>
                   <li>
-                    <a href="https://www.patreon.com/kindafunnygames/membership" target="_blank" class="text-nowrap">Patreon</a>
+                    <a href="https://www.patreon.com/kindafunny/membership" target="_blank" class="text-nowrap">
+                      Patreon<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
                   </li>
-                  <hr class="px-4" />
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
                   <li>
-                    <a href="{% url 'channel_page' channel='kinda-funny-membership' %}" class="text-nowrap">View All</a>
+                    <a href="{% url 'channel_page' channel='members' %}" class="text-nowrap">Browse Videos</a>
                   </li>
                 </ul>
               </li>
@@ -131,27 +149,27 @@
             </svg>
           </label>
           <li class="mt-12">
-            <a href="{% url 'channel_page' channel='kinda-funny-games' %}">Kinda Funny Games</a>
+            <a href="{% url 'channel_page' channel='kfg' %}">Kinda Funny Games</a>
             <ul class="p-2">
               {% for i in games_active %}
                 <li>
-                  <a href="{% url 'show_page' channel='kinda-funny-games' show=i.show__slug %}">{{ i.show__name }}</a>
+                  <a href="{% url 'show_page' channel='kfg' show=i.show__slug %}">{{ i.show__name }}</a>
                 </li>
               {% endfor %}
             </ul>
           </li>
           <li>
-            <a href="{% url 'channel_page' channel='kinda-funny' %}">Kinda Funny</a>
+            <a href="{% url 'channel_page' channel='kf' %}">Kinda Funny</a>
             <ul class="p-2">
               {% for i in prime_active %}
                 <li>
-                  <a href="{% url 'show_page' channel='kinda-funny' show=i.show__slug %}">{{ i.show__name }}</a>
+                  <a href="{% url 'show_page' channel='kf' show=i.show__slug %}">{{ i.show__name }}</a>
                 </li>
               {% endfor %}
             </ul>
           </li>
           <li>
-            <a href="{% url 'channel_page' channel='kinda-funny-membership' %}">Kinda Funny Membership</a>
+            <a href="{% url 'channel_page' channel='members' %}">Kinda Funny Membership</a>
           </li>
         </ul>
       </div>

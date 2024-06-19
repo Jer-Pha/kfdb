@@ -32,8 +32,8 @@
           <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">Kinda Funny Database</h2>
           <p class="mt-6 text-lg leading-8 text-gray-300">Four, sometimes five, best friends gather around this table.</p>
         </div>
-        <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-          <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4" hx-get="{% url 'load_stats' %}" hx-target="#crew-count" hx-trigger="load once">
+        <div class="mx-auto mt-4 sm:mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
+          <dl class="grid grid-cols-1 gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-4" hx-get="{% url 'load_stats' %}" hx-target="#crew-count" hx-trigger="load once">
             <div class="flex flex-col-reverse">
               <dt class="text-base leading-7 text-gray-300">Crew Members</dt>
               <dd id="crew-count" class="text-2xl font-bold leading-9 tracking-tight text-white"></dd>
@@ -51,6 +51,13 @@
               <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="video-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" /></span></dd>
             </div>
           </dl>
+        </div>
+        <div class="mx-auto mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
+          <a href="{% url 'index' %}" class="btn btn-accent btn-sm 2xl:btn-md">
+            Get Started<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
+              <path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z" />
+            </svg>
+          </a>
         </div>
       </div>
     </div>
