@@ -1,9 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 
 def channel_home(request):
-    pass
+    return HttpResponse()
 
 
 def channel_page(request, channel):
-    pass
+    return HttpResponse()

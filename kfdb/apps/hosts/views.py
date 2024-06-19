@@ -1,13 +1,14 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 
 def host_home(request):
-    pass
+    return HttpResponse()
 
 
 def host_page(request, type):
-    pass
+    return HttpResponse()
 
 
 def host_detail(request, type, name):
-    pass
+    return HttpResponse()
