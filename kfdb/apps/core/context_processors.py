@@ -14,7 +14,7 @@ def global_context(request):
             "show__name",
             "show__slug",
         )
-        .filter(channel__slug="kinda-funny-games", show__active=True)
+        .filter(channel__slug="kfg", show__active=True)
         .values("show__name", "show__slug")
         .distinct()
     )
@@ -28,7 +28,7 @@ def global_context(request):
             "show__name",
             "show__slug",
         )
-        .filter(channel__slug="kinda-funny", show__active=True)
+        .filter(channel__slug="kf", show__active=True)
         .values("show__name", "show__slug")
         .distinct()
     )
