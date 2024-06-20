@@ -2,6 +2,11 @@ from django.db import models
 from django.utils.text import slugify
 
 
+def slug_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/uploads/img/hosts/<slug>/<filename>
+    return f"uploads/img/hosts/{instance.slug}/{filename}"
+
+
 class Host(models.Model):
     name = models.CharField(
         max_length=255,
@@ -15,6 +20,7 @@ class Host(models.Model):
         verbose_name="Nickname(s)",
         help_text="Should be formatted as a list, not dict.",
     )
+    image = models.ImageField(upload_to=slug_directory_path, blank=True)
     kf_crew = models.BooleanField(
         default=False,
         verbose_name="Kinda Funny Employee",
