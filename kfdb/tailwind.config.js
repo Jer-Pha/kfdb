@@ -11,6 +11,7 @@ module.exports = {
       "light",
       "dark",
       "lofi",
+      "black",
       {
         kindafunny: {
           "primary": "#27f8ff",

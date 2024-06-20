@@ -271,6 +271,7 @@
             <div tabindex="0" class="dropdown-content mt-14 md:mt-[3.75rem] p-0 z-10 rounded-box bg-base-100 text-base-content join join-vertical">
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Dark" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Light" value="light" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'light' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Slick" value="black" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'black' %}checked{% endif %} />
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Clean" value="lofi" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'lofi' %}checked{% endif %} />
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Kinda Funny" value="kindafunny" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'kindafunny' %}checked{% endif %} />
             </div>
