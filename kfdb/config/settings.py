@@ -37,7 +37,6 @@ INSTALLED_APPS = PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -45,6 +44,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+}
 
 if not DEBUG:
     SECRET_KEY = getenv("SECRET_KEY").strip()
@@ -65,6 +70,23 @@ if not DEBUG:
             },
         },
     }
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+    }
+    # AWS
+    AWS_S3_ACCESS_KEY_ID = getenv("AWS_S3_ACCESS_KEY_ID").strip()
+    AWS_S3_SECRET_ACCESS_KEY = getenv("AWS_S3_SECRET_ACCESS_KEY").strip()
+    AWS_STORAGE_BUCKET_NAME = getenv("AWS_STORAGE_BUCKET_NAME").strip()
+    AWS_QUERYSTRING_AUTH = False
+    AWS_S3_MAX_MEMORY_SIZE = 500000
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_S3_REGION_NAME = getenv("AWS_S3_REGION_NAME").strip()
+    AWS_S3_SIGNATURE_VERSION = getenv("AWS_S3_SIGNATURE_VERSION").strip()
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
@@ -74,6 +96,17 @@ else:
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
+    }
+    MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": (
+                "whitenoise.storage.CompressedManifestStaticFilesStorage"
+            ),
+        },
     }
     # if "test" not in argv:
     #     INSTALLED_APPS += [
@@ -143,6 +176,9 @@ STATICFILES_DIRS = [
     path.join(BASE_DIR, "node_modules/htmx.org/dist"),
 ]
 
+MEDIA_URL = getenv("MEDIA_URL", "/media-files/")
+MEDIA_ROOT = path.join(BASE_DIR, "media")
+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -151,9 +187,6 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
-MEDIA_URL = getenv("MEDIA_URL", "/media/")
-MEDIA_ROOT = path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -216,3 +249,18 @@ SPECTACULAR_SETTINGS = {
         "drf_spectacular_jsonapi.hooks.fix_nested_path_parameters"
     ],
 }
+
+# Cookies
+KFDB_COOKIE_SALT = getenv(
+    "KFDB_COOKIE_SALT", "abcdefghijklmnopqrstuvwxyz123456"
+).strip()
+
+# Session
+SESSION_COOKIE_NAME = "kfdb_session"
+SESSION_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# CSRF
+CSRF_COOKIE_NAME = "kfdb_csrf"
+CSRF_COOKIE_SECURE = True
+CSRF_USE_SESSIONS = True
