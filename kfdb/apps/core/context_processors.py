@@ -1,39 +1,24 @@
-from django.db.models import Q
-
-from apps.videos.models import Video
+from django.conf import settings
 
 
 def global_context(request):
-    games_active = (
-        Video.objects.select_related("channel", "show")
-        .only(
-            "channel",
-            "channel__slug",
-            "show",
-            "show__active",
-            "show__name",
-            "show__slug",
-        )
-        .filter(channel__slug="kfg", show__active=True)
-        .values("show__name", "show__slug")
-        .distinct()
-    )
-    prime_active = (
-        Video.objects.select_related("channel", "show")
-        .only(
-            "channel",
-            "channel__slug",
-            "show",
-            "show__active",
-            "show__name",
-            "show__slug",
-        )
-        .filter(channel__slug="kf", show__active=True)
-        .values("show__name", "show__slug")
-        .distinct()
+    # Set theme
+    theme_cookie = request.get_signed_cookie(
+        key="kfdb_theme",
+        salt=settings.KFDB_COOKIE_SALT,
+        max_age=31536000,
+        default=None,
     )
 
-    return {
-        "games_active": games_active,
-        "prime_active": prime_active,
+    print(theme_cookie)
+
+    if theme_cookie:
+        theme = theme_cookie
+    else:
+        theme = "light"
+
+    context = {
+        "theme": theme,
     }
+
+    return context

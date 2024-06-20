@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="kindafunny" class="bg-base-300">
+<html lang="en" data-theme="{{ theme }}" class="bg-base-300">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, shrink-to-fit=no" />
@@ -35,57 +35,185 @@
         <div class="w-full navbar bg-gradient-to-r from-secondary to-primary">
           <div class="flex-none md:hidden">
             <label for="nav-drawer" aria-label="Open Side Navigation" class="btn btn-square btn-ghost">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-base-content">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-base-300">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
             </label>
           </div>
-          <div class="flex-1 px-2 mx-2">
+          <div class="flex-1 mx-2">
             {% url 'index' as index_url %}
-            <a class="px-4"
-              href="{% if request.path != index_url %}
+            <a href="{% if request.path != index_url %}
                 {{ index_url }}
               {% else %}
-
-
-
-
-
                 #
-
-
-
-
-
               {% endif %}">
-              <img class="max-h-12" src="{% static 'img/kfdb-logo.svg' %}" alt="KFDB Logo" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 524" class="w-12 h-12 fill-base-300 stroke-none">
+                <path id="Selection #2"
+                  d="M 237.00,416.00
+                        C 236.81,424.88 234.15,433.63 231.33,442.00
+                          214.49,492.03 165.70,521.92 114.00,522.00
+                          114.00,522.00 30.00,522.00 30.00,522.00
+                          23.45,522.00 8.06,523.93 4.31,517.79
+                          2.78,515.27 3.01,511.85 3.00,509.00
+                          3.00,509.00 3.00,120.00 3.00,120.00
+                          3.00,120.00 3.00,30.00 3.00,30.00
+                          3.00,23.58 1.09,6.50 7.13,3.02
+                          9.25,1.80 12.60,2.00 15.00,2.00
+                          15.00,2.00 63.00,2.00 63.00,2.00
+                          72.91,2.14 73.96,6.00 74.00,15.00
+                          74.00,15.00 74.00,68.00 74.00,68.00
+                          74.00,75.76 73.29,88.96 75.00,96.00
+                          81.30,91.27 89.55,78.77 94.63,72.00
+                          94.63,72.00 128.63,27.00 128.63,27.00
+                          133.92,19.94 142.88,5.60 151.00,2.85
+                          153.88,1.88 157.00,2.00 160.00,2.00
+                          160.00,2.00 220.00,2.00 220.00,2.00
+                          224.84,2.01 230.98,1.99 229.53,9.00
+                          228.86,12.21 225.08,16.40 223.00,19.00
+                          223.00,19.00 208.60,37.00 208.60,37.00
+                          208.60,37.00 156.60,102.00 156.60,102.00
+                          156.60,102.00 139.00,124.00 139.00,124.00
+                          136.49,127.19 132.70,131.61 133.52,136.00
+                          134.17,139.47 139.04,144.24 141.42,147.00
+                          141.42,147.00 164.00,171.00 164.00,171.00
+                          164.00,171.00 175.04,183.00 175.04,183.00
+                          175.04,183.00 238.00,250.00 238.00,250.00
+                          238.00,250.00 238.00,60.00 238.00,60.00
+                          238.00,60.00 238.00,23.00 238.00,23.00
+                          238.00,18.97 237.42,9.27 239.17,6.06
+                          241.61,1.61 245.63,2.01 250.00,2.00
+                          250.00,2.00 393.00,2.00 393.00,2.00
+                          393.00,2.00 424.00,2.00 424.00,2.00
+                          426.92,2.01 430.33,1.71 432.77,3.60
+                          436.36,6.37 435.99,10.96 436.00,15.00
+                          436.00,15.00 436.00,49.00 436.00,49.00
+                          436.00,53.03 436.68,60.58 434.26,63.77
+                          431.53,67.39 427.03,66.99 423.00,67.00
+                          423.00,67.00 336.00,67.00 336.00,67.00
+                          325.39,67.00 309.29,63.74 309.00,79.00
+                          308.88,85.97 307.34,96.17 316.00,98.86
+                          317.84,99.08 321.03,99.00 323.00,98.86
+                          323.00,98.86 397.00,98.86 397.00,98.86
+                          404.26,99.00 418.02,96.85 421.26,105.02
+                          422.13,107.21 422.00,110.62 422.00,113.00
+                          422.00,113.00 422.00,152.00 422.00,152.00
+                          421.99,155.61 422.23,159.70 419.99,162.77
+                          417.31,166.47 413.05,165.99 409.00,166.00
+                          409.00,166.00 324.00,166.00 324.00,166.00
+                          313.06,166.02 309.02,168.57 309.00,180.00
+                          309.00,180.00 309.00,235.00 309.00,235.00
+                          309.00,244.25 310.78,253.32 305.00,261.00
+                          305.00,261.00 350.00,261.00 350.00,261.00
+                          350.00,261.00 362.00,262.04 362.00,262.04
+                          362.00,262.04 370.00,262.04 370.00,262.04
+                          399.11,264.95 426.79,277.62 437.14,307.00
+                          439.29,313.11 440.92,321.52 441.00,328.00
+                          441.19,344.54 439.98,352.26 429.84,366.00
+                          426.12,371.05 423.65,373.44 419.01,377.58
+                          417.28,379.11 414.25,381.32 414.62,383.96
+                          414.95,386.29 418.22,388.41 420.00,389.65
+                          425.86,393.75 427.69,394.54 432.96,400.00
+                          442.85,410.27 448.93,424.73 449.00,439.00
+                          449.07,453.26 449.05,464.43 443.55,478.00
+                          431.69,507.27 405.51,518.34 376.00,521.07
+                          376.00,521.07 366.00,522.00 366.00,522.00
+                          366.00,522.00 268.00,522.00 268.00,522.00
+                          263.48,522.00 247.22,522.52 244.02,521.26
+                          241.89,520.43 240.25,518.97 239.17,516.96
+                          237.79,514.37 238.00,510.87 238.00,508.00
+                          238.00,508.00 238.00,447.00 238.00,447.00
+                          238.00,439.38 238.84,422.48 237.00,416.00 Z
+                        M 238.00,262.00
+                        C 238.00,262.00 168.00,262.00 168.00,262.00
+                          150.21,261.97 147.95,253.99 136.92,242.00
+                          136.92,242.00 96.58,197.00 96.58,197.00
+                          91.52,191.17 81.88,178.46 75.00,176.00
+                          73.30,181.97 74.00,190.62 74.00,197.00
+                          74.00,197.00 74.00,235.00 74.00,235.00
+                          74.00,245.86 75.77,251.39 70.00,261.00
+                          108.77,261.00 142.64,258.88 178.00,278.31
+                          185.62,282.50 192.39,287.99 199.00,293.59
+                          205.20,298.85 213.81,309.14 218.30,316.00
+                          224.07,324.81 229.48,335.91 232.57,346.00
+                          232.57,346.00 238.00,367.00 238.00,367.00
+                          238.00,367.00 238.00,262.00 238.00,262.00 Z
+                        M 315.02,327.22
+                        C 309.42,329.76 309.08,332.32 309.00,338.00
+                          308.88,347.34 306.06,359.76 319.00,360.00
+                          319.00,360.00 348.00,360.00 348.00,360.00
+                          351.56,359.99 354.83,360.27 357.98,358.26
+                          367.45,352.23 368.76,337.70 359.91,330.56
+                          356.05,327.45 352.73,327.06 348.00,327.22
+                          348.00,327.22 315.02,327.22 315.02,327.22 Z
+                        M 79.02,328.60
+                        C 76.59,329.96 75.67,330.35 74.31,333.02
+                          72.18,337.21 73.00,353.46 73.00,359.00
+                          73.00,359.00 73.00,441.00 73.00,441.00
+                          73.02,452.52 73.89,455.98 86.00,456.00
+                          86.00,456.00 113.00,456.00 113.00,456.00
+                          126.81,455.98 141.94,451.96 151.91,441.91
+                          166.84,426.86 168.23,405.85 168.00,386.00
+                          167.83,371.82 163.87,357.32 155.10,346.01
+                          141.22,328.13 120.36,328.00 100.00,328.00
+                          94.22,328.00 84.27,327.47 79.02,328.60 Z
+                        M 316.00,419.20
+                        C 313.83,420.11 312.27,420.48 310.74,422.39
+                          308.00,425.80 308.99,439.22 309.00,444.00
+                          309.01,446.96 308.73,450.35 310.60,452.85
+                          312.81,455.82 315.64,455.93 319.00,456.00
+                          319.00,456.00 354.00,456.00 354.00,456.00
+                          359.06,455.99 362.57,456.16 366.98,453.15
+                          378.44,445.34 376.58,430.24 365.99,422.65
+                          361.42,419.38 357.37,419.03 352.00,419.20
+                          352.00,419.20 316.00,419.20 316.00,419.20 Z" />
+              </svg>
             </a>
           </div>
-          <div class="navbar-center hidden md:flex text-base-300">
+          <div class="justify-end hidden sm:flex text-base-300">
             <ul class="menu menu-horizontal px-1">
               <li class="dropdown dropdown-hover">
                 <div tabindex="0">Kinda Funny Games</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
-                  {% for i in games_active %}
-                    <li>
-                      <a href="{% url 'show_page' channel='kfg' show=i.show__slug %}" class="text-nowrap">{{ i.show__name }}</a>
-                    </li>
-                  {% endfor %}
-                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
+                <ul tabindex="0" class="menu dropdown-content mt-4 p-2 z-10 rounded-box bg-base-100 text-base-content">
+                  <li>
+                    <a href="{% url 'show_page' channel='kfg' show='kfgd' %}" class="text-nowrap">Games Daily</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kfg' show='gamescast' %}" class="text-nowrap">Gamescast</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kfg' show='game-showdown' %}" class="text-nowrap">Game Showdown</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kfg' show='gameplay' %}" class="text-nowrap">Gameplay</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kfg' show='reactions' %}" class="text-nowrap">Reactions</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kfg' show='highlights' %}" class="text-nowrap">Highlights</a>
+                  </li>
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1 border-accent" />
                   <li>
                     <a href="{% url 'channel_page' channel='kfg' %}" class="text-nowrap">Browse Videos</a>
                   </li>
                 </ul>
               </li>
-              <li class="dropdown dropdown-hover">
+              <li class="flex-none dropdown dropdown-hover">
                 <div tabindex="0">Kinda Funny</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
-                  {% for i in prime_active %}
-                    <li>
-                      <a href="{% url 'show_page' channel='kf' show=i.show__slug %}" class="text-nowrap">{{ i.show__name }}</a>
-                    </li>
-                  {% endfor %}
-                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
+                <ul tabindex="0" class="menu dropdown-content mt-4 p-2 z-10 rounded-box bg-base-100 text-base-content">
+                  <li>
+                    <a href="{% url 'show_page' channel='kf' show='kf-podcast' %}" class="text-nowrap">KF Podcast</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kf' show='in-review' %}" class="text-nowrap">In Review</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kf' show='screencast' %}" class="text-nowrap">Screencast</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' channel='kf' show='reactions' %}" class="text-nowrap">Reactions</a>
+                  </li>
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1 border-accent" />
                   <li>
                     <a href="{% url 'channel_page' channel='kf' %}" class="text-nowrap">Browse Videos</a>
                   </li>
@@ -93,7 +221,7 @@
               </li>
               <li class="dropdown dropdown-hover">
                 <div tabindex="0">Hosts</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
+                <ul tabindex="0" class="menu dropdown-content mt-4 p-2 z-10 rounded-box bg-base-100 text-base-content">
                   <li>
                     <a href="{% url 'host_page' type='kf-crew' %}" class="text-nowrap">KF Crew</a>
                   </li>
@@ -103,36 +231,49 @@
                   <li>
                     <a href="{% url 'host_page' type='guests' %}" class="text-nowrap">Guests</a>
                   </li>
-                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1 border-accent" />
                   <li>
                     <a href="{% url 'host_home' %}" class="text-nowrap">Browse Hosts</a>
                   </li>
                 </ul>
               </li>
-              <li class="dropdown dropdown-end dropdown-hover">
+              <li class="dropdown dropdown-hover">
                 <div tabindex="0">Membership</div>
-                <ul tabindex="0" class="menu dropdown-content p-2 z-10 rounded-box bg-base-100 text-base-content">
+                <ul tabindex="0" class="menu dropdown-content mt-4 p-2 z-10 rounded-box bg-base-100 text-base-content">
                   <li>
                     <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="text-nowrap">
-                      YouTube<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
+                      YouTube<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-accent fill-accent" viewBox="0 -960 960 960">
                         <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
                       </svg>
                     </a>
                   </li>
                   <li>
                     <a href="https://www.patreon.com/kindafunny/membership" target="_blank" class="text-nowrap">
-                      Patreon<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
+                      Patreon<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-accent fill-accent" viewBox="0 -960 960 960">
                         <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
                       </svg>
                     </a>
                   </li>
-                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1" />
+                  <hr class="w-[calc(100%-2rem)] mx-auto mt-2 mb-1 border-accent" />
                   <li>
                     <a href="{% url 'channel_page' channel='members' %}" class="text-nowrap">Browse Videos</a>
                   </li>
                 </ul>
               </li>
             </ul>
+          </div>
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-square btn-ghost" aria-label="Color Themes">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-base-300">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+              </svg>
+            </div>
+            <div tabindex="0" class="dropdown-content mt-14 md:mt-[3.75rem] p-0 z-10 rounded-box bg-base-100 text-base-content join join-vertical">
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Dark" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Light" value="light" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'light' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Clean" value="lofi" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'lofi' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Kinda Funny" value="kindafunny" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'kindafunny' %}checked{% endif %} />
+            </div>
           </div>
         </div>
 
@@ -142,34 +283,82 @@
       </div>
       <div class="drawer-side">
         <label for="nav-drawer" aria-label="Close Side Navigation" class="drawer-overlay"></label>
-        <ul class="menu p-4 w-80 min-h-full bg-base-200">
+        <ul class="p-4 w-80 min-h-full bg-base-200">
           <label for="nav-drawer" aria-label="Close Side Navigation" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px] z-50">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 0 24 24">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />
             </svg>
           </label>
           <li class="mt-12">
-            <a href="{% url 'channel_page' channel='kfg' %}">Kinda Funny Games</a>
-            <ul class="p-2">
-              {% for i in games_active %}
-                <li>
-                  <a href="{% url 'show_page' channel='kfg' show=i.show__slug %}">{{ i.show__name }}</a>
-                </li>
-              {% endfor %}
-            </ul>
+            <div tabindex="0" class="collapse collapse-arrow focus:bg-base-100 text-lg focus:text-sm focus:text-accent">
+              <div class="collapse-title font-medium">Kinda Funny Games</div>
+              <div class="collapse-content text-lg text-base-content">
+                <ul class="px-4 py-0 mt-[-16px]">
+                  <a href="{% url 'show_page' channel='kfg' show='kfgd' %}" class="text-nowrap"><li class="py-2">Games Daily</li></a>
+                  <a href="{% url 'show_page' channel='kfg' show='gamescast' %}" class="text-nowrap"><li class="py-2">Gamescast</li></a>
+                  <a href="{% url 'show_page' channel='kfg' show='game-showdown' %}" class="text-nowrap"><li class="py-2">Game Showdown</li></a>
+                  <a href="{% url 'show_page' channel='kfg' show='gameplay' %}" class="text-nowrap"><li class="py-2">Gameplay</li></a>
+                  <a href="{% url 'show_page' channel='kfg' show='reactions' %}" class="text-nowrap"><li class="py-2">Reactions</li></a>
+                  <a href="{% url 'show_page' channel='kfg' show='highlights' %}" class="text-nowrap"><li class="py-2">Highlights</li></a>
+                  <hr class="mt-2 mb-1 border-accent" />
+                  <a href="{% url 'channel_page' channel='kfg' %}" class="text-nowrap"><li class="py-2">Browse Videos</li></a>
+                </ul>
+              </div>
+            </div>
           </li>
           <li>
-            <a href="{% url 'channel_page' channel='kf' %}">Kinda Funny</a>
-            <ul class="p-2">
-              {% for i in prime_active %}
-                <li>
-                  <a href="{% url 'show_page' channel='kf' show=i.show__slug %}">{{ i.show__name }}</a>
-                </li>
-              {% endfor %}
-            </ul>
+            <div tabindex="0" class="collapse collapse-arrow focus:bg-base-100 text-lg focus:text-sm focus:text-accent">
+              <div class="collapse-title font-medium">Kinda Funny</div>
+              <div class="collapse-content text-lg text-base-content">
+                <ul class="px-4 py-0 mt-[-16px]">
+                  <a href="{% url 'show_page' channel='kf' show='kf-podcast' %}" class="text-nowrap"><li class="py-2">KF Podcast</li></a>
+                  <a href="{% url 'show_page' channel='kf' show='in-review' %}" class="text-nowrap"><li class="py-2">In Review</li></a>
+                  <a href="{% url 'show_page' channel='kf' show='screencast' %}" class="text-nowrap"><li class="py-2">Screencast</li></a>
+                  <a href="{% url 'show_page' channel='kf' show='reactions' %}" class="text-nowrap"><li class="py-2">Reactions</li></a>
+                  <hr class="mt-2 mb-1 border-accent" />
+                  <a href="{% url 'channel_page' channel='kf' %}" class="text-nowrap"><li class="py-2">Browse Videos</li></a>
+                </ul>
+              </div>
+            </div>
           </li>
           <li>
-            <a href="{% url 'channel_page' channel='members' %}">Kinda Funny Membership</a>
+            <div tabindex="0" class="collapse collapse-arrow focus:bg-base-100 text-lg focus:text-sm focus:text-accent">
+              <div class="collapse-title font-medium">Hosts</div>
+              <div class="collapse-content text-lg text-base-content">
+                <ul class="px-4 py-0 mt-[-16px]">
+                  <a href="{% url 'host_page' type='kf-crew' %}" class="text-nowrap"><li class="py-2">KF Crew</li></a>
+                  <a href="{% url 'host_page' type='part-timers' %}" class="text-nowrap"><li class="py-2">Part-Timers</li></a>
+                  <a href="{% url 'host_page' type='guests' %}" class="text-nowrap"><li class="py-2">Guests</li></a>
+                  <hr class="mt-2 mb-1 border-accent" />
+                  <a href="{% url 'host_home' %}" class="text-nowrap"><li class="py-2">Browse Hosts</li></a>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div tabindex="0" class="collapse collapse-arrow focus:bg-base-100 text-lg focus:text-sm focus:text-accent">
+              <div class="collapse-title font-medium">Membership</div>
+              <div class="collapse-content text-lg text-base-content">
+                <ul class="px-4 py-0 mt-[-16px]">
+                  <li class="py-2">
+                    <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="text-nowrap">
+                      YouTube<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-accent fill-accent" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="py-2">
+                    <a href="https://www.patreon.com/kindafunny/membership" target="_blank" class="text-nowrap">
+                      Patreon<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-accent fill-accent" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <hr class="mt-2 mb-1 border-accent" />
+                  <a href="{% url 'host_home' %}" class="text-nowrap"><li class="py-2">Browse Videos</li></a>
+                </ul>
+              </div>
+            </div>
           </li>
         </ul>
       </div>

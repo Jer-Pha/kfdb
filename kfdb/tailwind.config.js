@@ -10,6 +10,7 @@ module.exports = {
     themes: [
       "light",
       "dark",
+      "lofi",
       {
         kindafunny: {
           "primary": "#27f8ff",
