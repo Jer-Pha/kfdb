@@ -2,9 +2,9 @@
 
 from django.urls import path
 
-from .views import channel_home, channel_page
+from .views import channels_home, channel_page
 
 urlpatterns = [
-    path("channels/", channel_home, name="channel_home"),
+    path("channels/", channels_home, name="channels_home"),
     path("<slug:channel>/", channel_page, name="channel_page"),
 ]
