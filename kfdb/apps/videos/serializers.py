@@ -50,6 +50,4 @@ class VideoSerializer(serializers.ModelSerializer):
         for key in obj.keys():
             if not obj[key]:
                 non_null.pop(key)
-        for query in connection.queries:
-            print(query)
         return non_null
