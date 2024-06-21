@@ -108,13 +108,13 @@ else:
             ),
         },
     }
-    # if "test" not in argv:
-    #     INSTALLED_APPS += [
-    #         "debug_toolbar",
-    #     ]
-    #     MIDDLEWARE += [
-    #         "debug_toolbar.middleware.DebugToolbarMiddleware",
-    #     ]
+    if "test" not in argv:
+        INSTALLED_APPS += [
+            "debug_toolbar",
+        ]
+        MIDDLEWARE += [
+            "debug_toolbar.middleware.DebugToolbarMiddleware",
+        ]
 
 ROOT_URLCONF = "config.urls"
 
@@ -176,7 +176,7 @@ STATICFILES_DIRS = [
     path.join(BASE_DIR, "node_modules/htmx.org/dist"),
 ]
 
-MEDIA_URL = getenv("MEDIA_URL", "/media-files/")
+MEDIA_URL = getenv("MEDIA_URL", "/media/")
 MEDIA_ROOT = path.join(BASE_DIR, "media")
 
 STORAGES = {
