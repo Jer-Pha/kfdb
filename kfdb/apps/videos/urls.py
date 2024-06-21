@@ -2,7 +2,8 @@
 
 from django.urls import path
 
+from .views import get_video_details
 
 urlpatterns = [
-    # path("", "<view function/class>", name=""),
+    path("video/details", get_video_details, name="load_video_details"),
 ]

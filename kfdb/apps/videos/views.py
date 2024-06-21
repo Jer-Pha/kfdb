@@ -1,4 +1,25 @@
 from django.shortcuts import render
+from django.views.decorators.http import require_GET
+
+from .models import Video
+
+
+@require_GET
+def get_video_details(request):
+    video_id = request.GET.get("video_id", "")
+
+    video = (
+        Video.objects.select_related("show", "producer")
+        .defer("title")
+        .prefetch_related("hosts", "guests")
+        .get(video_id=video_id)
+    )
+
+    context = {
+        "video": video,
+    }
+
+    return render(request, "videos/partials/get-video-details.html", context)
 
 
 # Temporary
