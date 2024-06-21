@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block meta %}
+  <meta name="author" content="Kinda Funny" />
   <meta name="description" content="The original database for Kinda Funny content. Filter by channel, show, host, or
     guest. This is a fan-run site, we are not associated with Kinda Funny." />
   <meta name="keywords" content="Kinda, Funny, KindaFunny, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd
@@ -13,5 +14,16 @@
 {% endblock %}
 
 {% block main %}
-
+  <div class="hero min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-4.25rem)]">
+    <div class="hero-content p-0 sm:p-4 flex-col md:flex-row">
+      <img src="{% static 'img/crew/nick.webp' %}" class="w-screen max-w-md sm:max-w- xl:max-w-lg rounded-none sm:rounded-lg shadow-2xl" alt="Nick Scarpino looking good" />
+      <div class="px-4 sm:p-0">
+        <h1 class="text-4xl md:text-5xl font-bold">Welcome to KFDB!</h1>
+        <p class="pt-6">Made for the community, by the community.</p>
+        <p class="py-6">This database contains all Kinda Funny YouTube content, including host and guest appearances for each episode. All content can be filtered, sorted, and searched.</p>
+        <button class="btn btn-sm 2xl:btn-md btn-accent">All Hosts</button>
+        <button class="btn btn-sm 2xl:btn-md btn-accent mx-2">All Videos</button>
+      </div>
+    </div>
+  </div>
 {% endblock %}

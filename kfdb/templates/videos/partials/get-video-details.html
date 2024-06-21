@@ -1,4 +1,4 @@
-<div class="collapse-content bg-base-100">
+<div class="collapse-content bg-base-100 shadow-inner shadow-base-content">
   <p>Show: {{ video.show.name }}</p>
   <p>
     Hosts:{% for host in video.hosts.all %}
@@ -12,7 +12,7 @@
   </p>
   <p>Producer: {{ video.producer.name }}</p>
   <p>Link: {{ video.link }}</p>
-  <p>Blurb: {{ video.blurb }}</p>
+  <p>Blurb: {{ video.blurb|safe }}</p>
   <p>Short: {{ video.short }}</p>
   <p>Members only: {{ video.members_only }}</p>
 </div>
