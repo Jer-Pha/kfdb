@@ -10,8 +10,6 @@ def global_context(request):
         default=None,
     )
 
-    print(theme_cookie)
-
     if theme_cookie:
         theme = theme_cookie
     else:
