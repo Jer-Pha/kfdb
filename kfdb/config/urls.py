@@ -1,6 +1,7 @@
 """URL configuration for the KFDB project."""
 
 from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import include, path
 
 
@@ -13,6 +14,8 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:  # pragma: no cover
-    urlpatterns += [
+    urlpatterns = [
         path("__debug__/", include("debug_toolbar.urls")),
-    ]
+    ] + urlpatterns
+
+    urlpatterns += static("/media/", document_root=settings.MEDIA_ROOT)
