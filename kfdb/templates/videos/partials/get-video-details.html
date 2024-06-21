@@ -1,0 +1,18 @@
+<div class="collapse-content bg-base-100">
+  <p>Show: {{ video.show.name }}</p>
+  <p>
+    Hosts:{% for host in video.hosts.all %}
+      {{ host.name }}{% if not forloop.last %},&nbsp;{% endif %}
+    {% endfor %}
+  </p>
+  <p>
+    Guests:{% for guest in video.guests.all %}
+      {{ guest.name }}{% if not forloop.last %},&nbsp;{% endif %}
+    {% endfor %}
+  </p>
+  <p>Producer: {{ video.producer.name }}</p>
+  <p>Link: {{ video.link }}</p>
+  <p>Blurb: {{ video.blurb }}</p>
+  <p>Short: {{ video.short }}</p>
+  <p>Members only: {{ video.members_only }}</p>
+</div>
