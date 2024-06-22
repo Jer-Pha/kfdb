@@ -53,3 +53,7 @@ class Host(models.Model):
 
     class Meta:
         ordering = ("-kf_crew", "-part_timer", "name")
+
+    @property
+    def initials(self):
+        return "".join(i[0].upper() for i in self.slug.split("-"))
