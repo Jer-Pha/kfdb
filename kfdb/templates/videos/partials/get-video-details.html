@@ -1,5 +1,4 @@
-<div class="collapse-content bg-base-100 shadow-inner shadow-base-content">
-  <p>Show: {{ video.show.name }}</p>
+<div class="collapse-content bg-base-100 border-t-2 border-dotted border-base-content">
   <p>
     Hosts:{% for host in video.hosts.all %}
       {{ host.name }}{% if not forloop.last %},&nbsp;{% endif %}
@@ -12,7 +11,62 @@
   </p>
   <p>Producer: {{ video.producer.name }}</p>
   <p>Link: {{ video.link }}</p>
-  <p>Blurb: {{ video.blurb|safe }}</p>
-  <p>Short: {{ video.short }}</p>
-  <p>Members only: {{ video.members_only }}</p>
+
+  <div>
+    {% comment %} {% with host_count=video.hosts.all|length %}
+      {% endcomment %}
+      {% for host in video.hosts.all %}
+        {% if host.image %}
+          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
+        {% else %}
+          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
+            <span>{{ host.initials }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% for host in video.hosts.all %}
+        {% if host.image %}
+          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
+        {% else %}
+          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
+            <span>{{ host.initials }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% for host in video.hosts.all %}
+        {% if host.image %}
+          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
+        {% else %}
+          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
+            <span>{{ host.initials }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% for host in video.hosts.all %}
+        {% if host.image %}
+          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
+        {% else %}
+          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
+            <span>{{ host.initials }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% for host in video.hosts.all %}
+        {% if host.image %}
+          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
+        {% else %}
+          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
+            <span>{{ host.initials }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% comment %}
+    {% endwith %} {% endcomment %}
+
+    {% comment %} <div class="avatar placeholder">
+      <div class="w-12 bg-neutral text-neutral-content">
+        <span>+99</span>
+      </div>
+    </div> {% endcomment %}
+  </div>
 </div>
