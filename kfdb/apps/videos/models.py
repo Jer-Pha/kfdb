@@ -93,6 +93,12 @@ class Video(models.Model):
             "part_timer": False,
         },
     )
+    audio_only = models.ManyToManyField(
+        Host,
+        blank=True,
+        related_name="audio_only_in_videos",
+        related_query_name="video_audio_only",
+    )
     producer = models.ForeignKey(
         Host,
         null=True,
@@ -121,11 +127,11 @@ class Video(models.Model):
     short = models.BooleanField(
         default=False,
         verbose_name="YouTube Short",
-    )
+    )  # Delete later
     members_only = models.BooleanField(
         default=False,
         help_text="The video is only available for YouTube/Patreon members.",
-    )
+    )  # Delete later
 
     def save(self, *args, **kwargs):
         if not self.slug:
