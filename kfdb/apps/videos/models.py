@@ -92,7 +92,7 @@ class Video(models.Model):
             "kf_crew": False,
             "part_timer": False,
         },
-    )
+    )  # Combine with hosts then delete later
     audio_only = models.ManyToManyField(
         Host,
         blank=True,
