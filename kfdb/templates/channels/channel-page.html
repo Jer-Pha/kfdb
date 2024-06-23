@@ -17,10 +17,10 @@
 {% endblock %}
 
 {% block main %}
-  <div class="drawer md:drawer-open">
+  <div class="drawer md:drawer-open min-h-[inherit]">
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col bg-base-300 px-2">
-      <div class="flex-1 min-h-14 md:min-h-1">
+      <div class="min-h-14 md:min-h-1">
         <h1 class="text-lg md:text-3xl text-base-content">
           {{ channel.name }}
         </h1>
