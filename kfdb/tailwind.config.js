@@ -3,6 +3,11 @@ module.exports = {
   content: [
     "./templates/**/*.{html,js}"
   ],
+  safelist: [
+    'border-primary',
+    'border-secondary',
+    'border-accent',
+  ],
   theme: {
     extend: {},
   },
