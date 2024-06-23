@@ -32,7 +32,7 @@
     <div class="drawer">
       <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
-        <div class="w-full navbar bg-gradient-to-r from-secondary to-primary z-50">
+        <div class="w-full navbar bg-gradient-to-r from-secondary to-primary z-50 sticky top-0">
           <div class="flex-none md:hidden">
             <label tabindex="0" for="nav-drawer" aria-label="Open Side Navigation" class="btn btn-square btn-ghost">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-secondary-content">
@@ -278,9 +278,11 @@
           </div>
         </div>
 
+        <main class="flex flex-col justify-center mx-auto min-h-[calc(100vh-13.75rem)] md:min-h-[calc(100vh-11.5rem)] lg:max-w-[80%]">
         {% block main %}
 
         {% endblock %}
+        </main>
 
       </div>
       <div class="drawer-side z-50">
