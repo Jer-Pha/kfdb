@@ -55,5 +55,26 @@ class Host(models.Model):
         ordering = ("-kf_crew", "-part_timer", "name")
 
     @property
+    def url_type(self):
+        if self.kf_crew:
+            return "kf-crew"
+        elif self.part_timer:
+            return "part-timers"
+        return "guests"
+
+    @property
     def initials(self):
-        return "".join(i[0].upper() for i in self.slug.split("-"))
+        if self.slug == "fran-mirabella-iii":
+            return "FM3"
+        elif self.slug[-3:] == "-jr":
+            return "".join(i[0].upper() for i in self.slug[:-3].split("-"))
+        else:
+            return "".join(i[0].upper() for i in self.slug.split("-"))
+
+    @property
+    def border_color(self):
+        if self.kf_crew:
+            return "primary"
+        elif self.part_timer:
+            return "secondary"
+        return "accent"
