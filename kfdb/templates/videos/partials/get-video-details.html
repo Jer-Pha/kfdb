@@ -1,72 +1,29 @@
 <div class="collapse-content bg-base-100 border-t-2 border-dotted border-base-content">
-  <p>
-    Hosts:{% for host in video.hosts.all %}
-      {{ host.name }}{% if not forloop.last %},&nbsp;{% endif %}
-    {% endfor %}
-  </p>
-  <p>
-    Guests:{% for guest in video.guests.all %}
-      {{ guest.name }}{% if not forloop.last %},&nbsp;{% endif %}
-    {% endfor %}
-  </p>
   <p>Producer: {{ video.producer.name }}</p>
   <p>Link: {{ video.link }}</p>
 
-  <div>
-    {% comment %} {% with host_count=video.hosts.all|length %}
-      {% endcomment %}
-      {% for host in video.hosts.all %}
+  <div class="pl-3 pt-8">
+    {% for host in video.hosts.all %}
+      <a href="{% url 'host_detail' type=host.url_type name=host.slug %}">
         {% if host.image %}
-          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
+          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} aspect-square object-cover" />
         {% else %}
-          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
-            <span>{{ host.initials }}</span>
+          <div class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} bg-neutral text-neutral-content">
+            <span class="flex flex-col h-full w-full justify-around items-center leading-none">{{ host.initials }}</span>
           </div>
         {% endif %}
-      {% endfor %}
-      {% for host in video.hosts.all %}
+      </a>
+    {% endfor %}
+    {% for guest in video.guests.all %}
+      <a href="{% url 'host_detail' type=guest.url_type name=guest.slug %}">
         {% if host.image %}
-          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
+          <img src="{{ guest.image.url }}" alt="{{ guest.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ guest.border_color }} aspect-square object-cover" />
         {% else %}
-          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
-            <span>{{ host.initials }}</span>
+          <div class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ guest.border_color }} bg-neutral text-neutral-content">
+            <span class="flex flex-col h-full w-full justify-around items-center leading-none">{{ guest.initials }}</span>
           </div>
         {% endif %}
-      {% endfor %}
-      {% for host in video.hosts.all %}
-        {% if host.image %}
-          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
-        {% else %}
-          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
-            <span>{{ host.initials }}</span>
-          </div>
-        {% endif %}
-      {% endfor %}
-      {% for host in video.hosts.all %}
-        {% if host.image %}
-          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
-        {% else %}
-          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
-            <span>{{ host.initials }}</span>
-          </div>
-        {% endif %}
-      {% endfor %}
-      {% for host in video.hosts.all %}
-        {% if host.image %}
-          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-12 h-12 rounded-full inline-block" />
-        {% else %}
-          <div class="w-12 h-12 rounded-full inline-block bg-neutral text-neutral-content">
-            <span>{{ host.initials }}</span>
-          </div>
-        {% endif %}
-      {% endfor %}
-      {% comment %}
-    {% endwith %} {% endcomment %}
-
-    {% comment %} <div class="avatar placeholder">
-      <div class="w-12 bg-neutral text-neutral-content">
-        <span>+99</span>
-      </div>
-    </div> {% endcomment %}
+      </a>
+    {% endfor %}
   </div>
 </div>
