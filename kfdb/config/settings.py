@@ -95,7 +95,6 @@ else:
             "BACKEND": "django.core.files.storage.FileSystemStorage",
         },
     }
-    MEDIA_URL = "/media/"
     if "test" not in argv:
         INSTALLED_APPS += [
             "debug_toolbar",
@@ -168,6 +167,7 @@ STATICFILES_DIRS = [
 
 STATIC_URL = "/static-files/"
 STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
+MEDIA_URL = "/media/"
 MEDIA_ROOT = path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
