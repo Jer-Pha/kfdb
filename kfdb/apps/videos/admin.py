@@ -11,6 +11,4 @@ class VideoAdmin(admin.ModelAdmin):
         "channel",
         "hosts",
         "producer",
-        "short",
-        "members_only",
     )

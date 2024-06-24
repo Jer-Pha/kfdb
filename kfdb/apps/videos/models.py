@@ -81,17 +81,12 @@ class Video(models.Model):
         blank=True,
         related_name="hosted_videos",
         related_query_name="video_host",
-        limit_choices_to=models.Q(kf_crew=True) | models.Q(part_timer=True),
     )
     guests = models.ManyToManyField(
         Host,
         blank=True,
         related_name="guest_in_videos",
         related_query_name="video_guest",
-        limit_choices_to={
-            "kf_crew": False,
-            "part_timer": False,
-        },
     )  # Combine with hosts then delete later
     audio_only = models.ManyToManyField(
         Host,
@@ -119,19 +114,10 @@ class Video(models.Model):
         blank=True,
     )
     blurb = models.TextField(
-        null=True,
         blank=True,
         verbose_name="Blurb",
         help_text="Video description",
     )
-    short = models.BooleanField(
-        default=False,
-        verbose_name="YouTube Short",
-    )  # Delete later
-    members_only = models.BooleanField(
-        default=False,
-        help_text="The video is only available for YouTube/Patreon members.",
-    )  # Delete later
 
     def save(self, *args, **kwargs):
         if not self.slug:
