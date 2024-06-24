@@ -38,107 +38,77 @@ def upload_view(request):  # pragma: no cover
     from apps.shows.models import Show
     from apps.videos.models import Video
 
-    ch_prime, c = Channel.objects.get_or_create(name="Kinda Funny")
-    ch_games, c = Channel.objects.get_or_create(name="Kinda Funny Games")
-    ch_members, c = Channel.objects.get_or_create(
-        name="Kinda Funny Membership"
+    i = 0
+    file_path = path.join(
+        settings.BASE_DIR / "resources", "import_channels.csv"
     )
-
-    CHANNELS = {
-        "prime": ch_prime,
-        "games": ch_games,
-        "patreon": ch_members,
-    }
-
-    SHOWS = {
-        "KFGD": "Kinda Funny Games Daily",
-        "PSILY": "PS I Love You XOXO",
-        "KFW": "Kinda Funny Wrestling",
-        "GOG": "The GameOverGreggy Show",
-        "Morning Show": "Kinda Funny Morning Show",
-        "KF Podcast": "Kinda Funny Podcast",
-        "Other": "Miscellaneous",
-        "Kinda Funny Plays": "Gameplay",
-        "KFFL": "Kinda Funny Football League",
-    }
-
-    KF = [
-        "Greg Miller",
-        "Nick Scarpino",
-        "Tim Gettys",
-        "Kevin Coello",
-        "Andy Cortez",
-        "Blessing Adeoye Jr.",
-        "Mike Howard",
-        "Joey Noelle",
-        "Cool Greg",
-        "Barrett Courtney",
-        "Roger Pokorny",
-    ]
-
-    PT = [
-        "Andrea Rene",
-        "Danny O'Dwyer",
-        "Fran Mirabella III",
-        "Gary Whitta",
-        "Janet Garcia",
-        "Jared Petty",
-        "Imran Khan",
-        "Parris Lilly",
-        "Tamoor Hussain",
-    ]
+    with open(file_path, "r", encoding="utf-8") as file:
+        data = reader(file)
+        batch = []
+        for row in data:
+            channel = Channel(name=row[0], slug=row[1])
+            batch.append(channel)
+            i += 1
+        Channel.objects.bulk_create(batch)
+        print(f"{i} / 3 channels created")
 
     i = 0
-    file_path = path.join(settings.BASE_DIR / "resources", "shows.csv")
+    file_path = path.join(settings.BASE_DIR / "resources", "import_hosts.csv")
+    with open(file_path, "r", encoding="utf-8") as file:
+        data = reader(file)
+        batch = []
+        for row in data:
+            host = Host(
+                name=row[0],
+                slug=row[1],
+                kf_crew=row[2] == "True",
+                part_timer=row[3] == "True",
+            )
+            batch.append(host)
+            i += 1
+        Host.objects.bulk_create(batch)
+        print(f"{i} / 830 hosts created")
+
+    i = 0
+    file_path = path.join(settings.BASE_DIR / "resources", "import_shows.csv")
+    with open(file_path, "r", encoding="utf-8") as file:
+        data = reader(file)
+        batch = []
+        for row in data:
+            host = Show(
+                name=row[0],
+                slug=row[1],
+                active=row[2] == "True",
+            )
+            batch.append(host)
+            i += 1
+        Show.objects.bulk_create(batch)
+        print(f"{i} / 49 shows created")
+
+    i = 0
+    file_path = path.join(settings.BASE_DIR / "resources", "import_videos.csv")
 
     with open(file_path, "r", encoding="utf-8") as file:
         data = reader(file)
         for row in data:
-            try:
-                show_name = SHOWS[row[2]] if row[2] in SHOWS else row[2]
-                show, c = Show.objects.get_or_create(name=show_name)
-                patreon = row[1] == "patreon"
-                url = row[6]
-                video = Video.objects.create(
-                    title=row[3],
-                    release_date=datetime.fromisoformat(row[4]),
-                    show=show,
-                    channel=CHANNELS[row[1]] if row[1] in CHANNELS else None,
-                    video_id=url[-11:] if not patreon else url.split("/")[-1],
-                    link=url,
-                    short=True if "/shorts/" in url else False,
-                    members_only=False if not patreon else True,
-                    blurb=row[8] if row[8].upper() != "NULL" else None,
-                )
+            video = Video.objects.create(
+                title=row[0],
+                slug=row[1],
+                release_date=datetime.fromisoformat(row[2]),
+                show=Show.objects.get(name=row[3]),
+                channel=Channel.objects.get(name=row[4]),
+                video_id=row[5],
+                link=row[6],
+                blurb=row[7],
+            )
 
-                host_batch, guest_batch = [], []
+            host_batch = []
 
-                for name in (
-                    n
-                    for n in (str(row[5]) + "," + str(row[7])).split(",")
-                    if n.upper() != "NULL"
-                ):
-                    if not name:
-                        continue
-                    host, c = Host.objects.get_or_create(
-                        name=name,
-                        kf_crew=name in KF,
-                        part_timer=name in PT,
-                    )
-                    if name in KF or name in PT:
-                        host_batch.append(host)
-                    else:
-                        guest_batch.append(host)
+            for name in (n for n in row[8].split(",") if n):
+                host_batch.append(Host.objects.get(name=name))
 
-                video.hosts.add(*host_batch)
-                video.guests.add(*guest_batch)
-                i += 1
-            except Exception as e:
-                if str(e) == (
-                    "UNIQUE constraint failed: videos_video.video_id"
-                ):
-                    continue
-                else:
-                    raise e
+            video.hosts.add(*host_batch)
+            i += 1
+        print(f"{i} / 10057 shows created")
 
-    return HttpResponse(f"Videos added: {i}")
+    return HttpResponse("Done")
