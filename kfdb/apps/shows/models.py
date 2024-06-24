@@ -20,7 +20,6 @@ class Show(models.Model):
         verbose_name="Is Active",
     )
     blurb = models.TextField(
-        null=True,
         blank=True,
         help_text="Optional description of the show.",
     )

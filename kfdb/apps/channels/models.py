@@ -14,7 +14,6 @@ class Channel(models.Model):
         help_text="URL-compatible channel name.",
     )
     blurb = models.TextField(
-        null=True,
         blank=True,
         help_text="Description of the channel.",
     )

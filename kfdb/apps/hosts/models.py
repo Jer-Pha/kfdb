@@ -38,7 +38,6 @@ class Host(models.Model):
         blank=True,
     )
     blurb = models.TextField(
-        null=True,
         blank=True,
         help_text="Optional description or interesting notes about the host.",
     )
