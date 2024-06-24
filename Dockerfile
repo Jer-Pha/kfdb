@@ -33,6 +33,7 @@ COPY . /code/
 RUN --mount=type=cache,target=/root/.npm npm install
 
 RUN python ./kfdb/manage.py makemigrations
+# RUN python ./kfdb/manage.py collectstatic --noinput --clear
 
 # Run the container unprivileged
 RUN addgroup www && useradd -g www www

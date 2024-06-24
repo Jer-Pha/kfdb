@@ -37,6 +37,7 @@ INSTALLED_APPS = PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -68,9 +69,6 @@ if not DEBUG:
         "default": {
             "BACKEND": "storages.backends.s3.S3Storage",
         },
-        "staticfiles": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-        },
     }
     # AWS
     AWS_S3_ACCESS_KEY_ID = getenv("AMZ_S3_ACCESS_KEY_ID").strip()
@@ -80,10 +78,6 @@ if not DEBUG:
     AWS_S3_MAX_MEMORY_SIZE = 500000
     AWS_S3_REGION_NAME = getenv("AMZ_S3_REGION_NAME").strip()
     AWS_S3_SIGNATURE_VERSION = getenv("AMZ_S3_SIGNATURE_VERSION").strip()
-
-    S3_DOMAIN = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
-    STATIC_URL = f"{S3_DOMAIN}/static/"
-    MEDIA_URL = f"{S3_DOMAIN}/media/"
 
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
@@ -99,11 +93,6 @@ else:
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": (
-                "whitenoise.storage.CompressedManifestStaticFilesStorage"
-            ),
         },
     }
     STATIC_URL = "/static-files/"
@@ -167,6 +156,11 @@ USE_TZ = True
 USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
 
+STORAGES["staticfiles"] = (
+    {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+)
 STATICFILES_DIRS = [
     path.join(BASE_DIR, "assets", "dist"),
     path.join(BASE_DIR, "apps", "core", "static"),
