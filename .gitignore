@@ -1,5 +1,5 @@
 # Site-specific
-kfdb/resources/
+kfdb/resources/temp/
 .aws-config/
 .aws-config.zip
 node_modules/
