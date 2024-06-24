@@ -156,11 +156,10 @@ USE_TZ = True
 USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
 
-STORAGES["staticfiles"] = (
-    {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-)
+STORAGES["staticfiles"] = {
+    "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+}
+
 STATICFILES_DIRS = [
     path.join(BASE_DIR, "assets", "dist"),
     path.join(BASE_DIR, "apps", "core", "static"),
