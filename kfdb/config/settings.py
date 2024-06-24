@@ -79,14 +79,14 @@ if not DEBUG:
         },
     }
     # AWS
-    AWS_S3_ACCESS_KEY_ID = getenv("AWS_S3_ACCESS_KEY_ID").strip()
-    AWS_S3_SECRET_ACCESS_KEY = getenv("AWS_S3_SECRET_ACCESS_KEY").strip()
-    AWS_STORAGE_BUCKET_NAME = getenv("AWS_STORAGE_BUCKET_NAME").strip()
+    AWS_S3_ACCESS_KEY_ID = getenv("AMZ_S3_ACCESS_KEY_ID").strip()
+    AWS_S3_SECRET_ACCESS_KEY = getenv("AMZ_S3_SECRET_ACCESS_KEY").strip()
+    AWS_STORAGE_BUCKET_NAME = getenv("AMZ_STORAGE_BUCKET_NAME").strip()
     AWS_QUERYSTRING_AUTH = False
     AWS_S3_MAX_MEMORY_SIZE = 500000
     AWS_S3_FILE_OVERWRITE = False
-    AWS_S3_REGION_NAME = getenv("AWS_S3_REGION_NAME").strip()
-    AWS_S3_SIGNATURE_VERSION = getenv("AWS_S3_SIGNATURE_VERSION").strip()
+    AWS_S3_REGION_NAME = getenv("AMZ_S3_REGION_NAME").strip()
+    AWS_S3_SIGNATURE_VERSION = getenv("AMZ_S3_SIGNATURE_VERSION").strip()
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
