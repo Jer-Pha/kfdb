@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #hero-banner {
-  background-image: url(/static-files/img/kf-crew.webp);
+  background-image: url(/img/kf-crew.webp);
   background-color: rgba(0,0,0,0.8);
   background-blend-mode: darken;
 }
