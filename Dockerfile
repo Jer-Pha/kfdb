@@ -31,6 +31,10 @@ COPY . /code/
 
 # Build JS/static assets
 RUN --mount=type=cache,target=/root/.npm npm install
+RUN npm install -D tailwindcss
+RUN npx tailwindcss init
+RUN npm i -D daisyui@latest
+RUN npm install htmx.org
 RUN npm run dist
 
 RUN python ./kfdb/manage.py makemigrations
