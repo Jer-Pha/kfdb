@@ -78,13 +78,12 @@ if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = getenv("AMZ_STORAGE_BUCKET_NAME").strip()
     AWS_QUERYSTRING_AUTH = False
     AWS_S3_MAX_MEMORY_SIZE = 500000
-    AWS_S3_FILE_OVERWRITE = False
     AWS_S3_REGION_NAME = getenv("AMZ_S3_REGION_NAME").strip()
     AWS_S3_SIGNATURE_VERSION = getenv("AMZ_S3_SIGNATURE_VERSION").strip()
 
-    S3_DOMAIN = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-    STATIC_URL = f"{S3_DOMAIN}/static-files/"
-    MEDIA_URL = f"{S3_DOMAIN}{getenv("MEDIA_URL", "/media/")}"
+    S3_DOMAIN = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+    STATIC_URL = f"{S3_DOMAIN}/static/"
+    MEDIA_URL = f"{S3_DOMAIN}/media/"
 
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
@@ -168,7 +167,6 @@ USE_TZ = True
 USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
 
-STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     path.join(BASE_DIR, "assets", "dist"),
     path.join(BASE_DIR, "apps", "core", "static"),
@@ -176,6 +174,7 @@ STATICFILES_DIRS = [
     path.join(BASE_DIR, "node_modules/htmx.org/dist"),
 ]
 
+STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -254,6 +253,3 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 CSRF_COOKIE_NAME = "kfdb_csrf"
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = True
-
-print(DEBUG)
-print(STORAGES)
