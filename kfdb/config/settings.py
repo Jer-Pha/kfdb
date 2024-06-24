@@ -81,6 +81,10 @@ if not DEBUG:
     AWS_S3_REGION_NAME = getenv("AMZ_S3_REGION_NAME").strip()
     AWS_S3_SIGNATURE_VERSION = getenv("AMZ_S3_SIGNATURE_VERSION").strip()
 
+    S3_DOMAIN = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+    STATIC_URL = f"{S3_DOMAIN}/static/"
+    MEDIA_URL = f"{S3_DOMAIN}/media/"
+
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
