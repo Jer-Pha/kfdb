@@ -45,12 +45,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-}
-
 if not DEBUG:
     SECRET_KEY = getenv("SECRET_KEY").strip()
     ALLOWED_HOSTS = [
@@ -183,15 +177,6 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = path.join(BASE_DIR, "media")
-
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
