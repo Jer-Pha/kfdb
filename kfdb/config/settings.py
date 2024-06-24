@@ -87,6 +87,11 @@ if not DEBUG:
     AWS_S3_FILE_OVERWRITE = False
     AWS_S3_REGION_NAME = getenv("AMZ_S3_REGION_NAME").strip()
     AWS_S3_SIGNATURE_VERSION = getenv("AMZ_S3_SIGNATURE_VERSION").strip()
+
+    S3_DOMAIN = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    STATIC_URL = f"{S3_DOMAIN}/static-files/"
+    MEDIA_URL = f"{S3_DOMAIN}{getenv("MEDIA_URL", "/media/")}"
+
 else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
@@ -108,6 +113,8 @@ else:
             ),
         },
     }
+    STATIC_URL = "/static-files/"
+    MEDIA_URL = "/media/"
     if "test" not in argv:
         INSTALLED_APPS += [
             "debug_toolbar",
@@ -167,7 +174,6 @@ USE_TZ = True
 USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
 
-STATIC_URL = "/static-files/"
 STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     path.join(BASE_DIR, "assets", "dist"),
@@ -176,7 +182,6 @@ STATICFILES_DIRS = [
     path.join(BASE_DIR, "node_modules/htmx.org/dist"),
 ]
 
-MEDIA_URL = getenv("MEDIA_URL", "/media/")
 MEDIA_ROOT = path.join(BASE_DIR, "media")
 
 STORAGES = {
