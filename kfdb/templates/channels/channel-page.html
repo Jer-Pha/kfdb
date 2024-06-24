@@ -36,7 +36,7 @@
             <input type="checkbox" />
             <div class="collapse-title p-0 max-h-16">
               <div class="flex flex-row">
-                <img src="{{ video.show.image.url }}" class="max-w-16 max-h-16 w-auto h-auto" />
+                <img src="{% if video.show.image %}{{ video.show.image.url }}{% else %}#{% endif %}" class="max-w-16 max-h-16 w-auto h-auto" />
                 <p class="pl-4 pr-10 py-0">
                   <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap">{{ video.release_date }} - {{ video.show.name }}</span>
                   <br />
