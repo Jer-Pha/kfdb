@@ -95,7 +95,6 @@ else:
             "BACKEND": "django.core.files.storage.FileSystemStorage",
         },
     }
-    STATIC_URL = "/static-files/"
     MEDIA_URL = "/media/"
     if "test" not in argv:
         INSTALLED_APPS += [
@@ -167,6 +166,7 @@ STATICFILES_DIRS = [
     path.join(BASE_DIR, "node_modules/htmx.org/dist"),
 ]
 
+STATIC_URL = "/static-files/"
 STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = path.join(BASE_DIR, "media")
 
