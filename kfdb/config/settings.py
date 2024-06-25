@@ -69,8 +69,12 @@ if not DEBUG:
         "default": {
             "BACKEND": "storages.backends.s3.S3Storage",
         },
+        "staticfiles": {
+            "BACKEND": (
+                "whitenoise.storage.CompressedManifestStaticFilesStorage"
+            ),
+        },
     }
-    # AWS
     AWS_S3_ACCESS_KEY_ID = getenv("AMZ_S3_ACCESS_KEY_ID").strip()
     AWS_S3_SECRET_ACCESS_KEY = getenv("AMZ_S3_SECRET_ACCESS_KEY").strip()
     AWS_STORAGE_BUCKET_NAME = getenv("AMZ_STORAGE_BUCKET_NAME").strip()
@@ -93,6 +97,9 @@ else:
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
     if "test" not in argv:
@@ -153,10 +160,6 @@ TIME_ZONE = "UTC"
 USE_TZ = True
 USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
-
-STORAGES["staticfiles"] = {
-    "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-}
 
 STATICFILES_DIRS = [
     path.join(BASE_DIR, "assets", "dist"),
