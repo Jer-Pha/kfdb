@@ -138,10 +138,6 @@ class Video(models.Model):
             and (c and c.name != "Kinda Funny Games" or not c)
         ):
             self.channel = Channel.objects.get(name="Kinda Funny Games")
-        elif s and s.name == "Shorts" and not self.short:
-            self.short = True
-        elif s and s.name != "Shorts" and self.short:
-            self.show = Show.objects.get(name="Shorts")
 
         super().save(*args, **kwargs)
 
