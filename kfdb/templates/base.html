@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ theme }}" class="bg-base-300">
+<html lang="en" data-theme="{{ theme }}" class="bg-base-100">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, shrink-to-fit=no" />
@@ -173,7 +173,7 @@
             <ul class="menu menu-horizontal px-1">
               <li class="dropdown dropdown-hover">
                 <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Kinda Funny Games</div>
-                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-100 text-base-content z-50">
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'show_page' channel='games' show='kfgd' %}" class="text-nowrap">Games Daily</a>
                   </li>
@@ -200,7 +200,7 @@
               </li>
               <li class="flex-none dropdown dropdown-hover">
                 <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Kinda Funny</div>
-                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-100 text-base-content z-50">
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'show_page' channel='prime' show='kf-podcast' %}" class="text-nowrap">KF Podcast</a>
                   </li>
@@ -221,7 +221,7 @@
               </li>
               <li class="dropdown dropdown-hover">
                 <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Hosts</div>
-                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-100 text-base-content z-50">
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'host_page' type='kf-crew' %}" class="text-nowrap">KF Crew</a>
                   </li>
@@ -239,7 +239,7 @@
               </li>
               <li class="dropdown dropdown-hover">
                 <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Membership</div>
-                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-100 text-base-content z-50">
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 p-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="text-nowrap">
                       YouTube<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-accent fill-accent" viewBox="0 -960 960 960">
@@ -268,7 +268,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
               </svg>
             </div>
-            <div tabindex="0" class="dropdown-content mt-14 md:mt-[3.75rem] p-0 rounded-box bg-base-100 text-base-content join join-vertical z-50">
+            <div tabindex="0" class="dropdown-content mt-14 md:mt-[3.75rem] p-0 rounded-box bg-base-200 text-base-content join join-vertical z-50">
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Dark" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Light" value="light" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'light' %}checked{% endif %} />
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Slick" value="black" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'black' %}checked{% endif %} />
@@ -372,7 +372,7 @@
       </div>
     </div>
 
-    <footer class="footer footer-center p-6 bg-base-300 text-base-content rounded-none gap-y-6">
+    <footer class="footer footer-center p-6 bg-base-100 text-base-content rounded-none gap-y-6">
       <nav class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-x-6 md:gap-x-4 gap-y-6">
         <a href="#" class="link link-hover min-w-28" tabindex="0">About</a>
         <a href="#" class="link link-hover min-w-28" tabindex="0">Contact</a>
