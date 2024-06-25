@@ -5,14 +5,14 @@ LABEL maintainer="https://github.com/Jer-Pha"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends curl
+RUN apk-get update
+RUN apk-get install -y --no-install-recommends curl
 
 # Install Node v20
-# This should be run before apt-get install nodejs
+# This should be run before apk-get install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 
-RUN apt-get install -y --no-install-recommends \
+RUN apk-get install -y --no-install-recommends \
     nodejs \
     default-libmysqlclient-dev
 
