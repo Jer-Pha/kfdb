@@ -26,17 +26,17 @@ def get_video_details(request):
 def upload_view(request):  # pragma: no cover
     """This is a temporary view to load existing data into the db."""
 
-    from csv import reader
-    from datetime import datetime
-    from os import path
+    # from csv import reader
+    # from datetime import datetime
+    # from os import path
 
-    from django.conf import settings
+    # from django.conf import settings
     from django.http import HttpResponse
 
-    from apps.channels.models import Channel
-    from apps.hosts.models import Host
-    from apps.shows.models import Show
-    from apps.videos.models import Video
+    # from apps.channels.models import Channel
+    # from apps.hosts.models import Host
+    # from apps.shows.models import Show
+    # from apps.videos.models import Video
 
     # i = 0
     # file_path = path.join(
@@ -85,35 +85,35 @@ def upload_view(request):  # pragma: no cover
     #     Show.objects.bulk_create(batch)
     #     print(f"{i} / 49 shows created")
 
-    try:
-        i = 0
-        file_path = path.join(
-            settings.BASE_DIR / "resources", "import_videos.csv"
-        )
+    # try:
+    #     i = 0
+    #     file_path = path.join(
+    #         settings.BASE_DIR / "resources", "import_videos.csv"
+    #     )
 
-        with open(file_path, "r", encoding="utf-8") as file:
-            data = reader(file)
-            for row in data:
-                video = Video.objects.create(
-                    title=row[0],
-                    slug=row[1],
-                    release_date=datetime.fromisoformat(row[2]),
-                    show=Show.objects.get(name=row[3]),
-                    channel=Channel.objects.get(name=row[4]),
-                    video_id=row[5],
-                    link=row[6],
-                    blurb=row[7],
-                )
+    #     with open(file_path, "r", encoding="utf-8") as file:
+    #         data = reader(file)
+    #         for row in data:
+    #             video = Video.objects.create(
+    #                 title=row[0],
+    #                 slug=row[1],
+    #                 release_date=datetime.fromisoformat(row[2]),
+    #                 show=Show.objects.get(name=row[3]),
+    #                 channel=Channel.objects.get(name=row[4]),
+    #                 video_id=row[5],
+    #                 link=row[6],
+    #                 blurb=row[7],
+    #             )
 
-                host_batch = []
+    #             host_batch = []
 
-                for name in (n for n in row[8].split(",") if n):
-                    host_batch.append(Host.objects.get(name=name))
+    #             for name in (n for n in row[8].split(",") if n):
+    #                 host_batch.append(Host.objects.get(name=name))
 
-                video.hosts.add(*host_batch)
-                i += 1
-            print(f"{i} / 10057 shows created")
-    except Exception as e:
-        print(e)
+    #             video.hosts.add(*host_batch)
+    #             i += 1
+    #         print(f"{i} / 10057 shows created")
+    # except Exception as e:
+    #     print(e)
 
     return HttpResponse("Done")
