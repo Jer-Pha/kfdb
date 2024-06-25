@@ -68,7 +68,7 @@ def update_theme(request):
             value=theme,
             salt=settings.KFDB_COOKIE_SALT,
             max_age=31536000,
-            secure=True,
+            secure=False,
             httponly=True,
             samesite="Lax",
         )
