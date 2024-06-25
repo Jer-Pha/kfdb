@@ -1,18 +1,18 @@
-FROM python:3.12-alpine
+FROM python:3.12-slim
 
 LABEL maintainer="https://github.com/Jer-Pha"
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update
-RUN apk add -y --no-install-recommends curl
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends curl
 
 # Install Node v20
-# This should be run before apk-get install nodejs
+# This should be run before apt-get install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 
-RUN apk -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
     nodejs \
     default-libmysqlclient-dev
 
