@@ -11,7 +11,7 @@ def get_video_details(request):
     video = (
         Video.objects.select_related("show", "producer")
         .defer("title")
-        .prefetch_related("hosts", "guests")
+        .prefetch_related("hosts")
         .get(video_id=video_id)
     )
 

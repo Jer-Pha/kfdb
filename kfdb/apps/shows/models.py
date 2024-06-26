@@ -13,16 +13,22 @@ class Show(models.Model):
         blank=False,
         unique=True,
     )
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, db_index=False)
     image = models.ImageField(upload_to=slug_directory_path, blank=True)
     active = models.BooleanField(
         default=False,
         verbose_name="Is Active",
+        db_index=True,
     )
     blurb = models.TextField(
         blank=True,
         help_text="Optional description of the show.",
     )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["slug", "name"], name="show_slug_name_idx"),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:

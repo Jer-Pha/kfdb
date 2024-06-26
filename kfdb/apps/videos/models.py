@@ -82,18 +82,6 @@ class Video(models.Model):
         related_name="hosted_videos",
         related_query_name="video_host",
     )
-    guests = models.ManyToManyField(
-        Host,
-        blank=True,
-        related_name="guest_in_videos",
-        related_query_name="video_guest",
-    )  # Combine with hosts then delete later
-    audio_only = models.ManyToManyField(
-        Host,
-        blank=True,
-        related_name="audio_only_in_videos",
-        related_query_name="video_audio_only",
-    )
     producer = models.ForeignKey(
         Host,
         null=True,

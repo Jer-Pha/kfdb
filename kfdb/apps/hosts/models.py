@@ -42,6 +42,12 @@ class Host(models.Model):
         help_text="Optional description or interesting notes about the host.",
     )
 
+    class Meta:
+        ordering = ("-kf_crew", "-part_timer", "name")
+        indexes = [
+            models.Index(fields=["kf_crew", "part_timer"], name="crew_pt_idx"),
+        ]
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
@@ -49,9 +55,6 @@ class Host(models.Model):
 
     def __str__(self):
         return self.name
-
-    class Meta:
-        ordering = ("-kf_crew", "-part_timer", "name")
 
     @property
     def url_type(self):
