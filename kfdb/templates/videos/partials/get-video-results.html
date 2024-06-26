@@ -1,0 +1,22 @@
+{% load static %}
+
+{% for video in videos %}
+  <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t bg-base-300 rounded-none" hx-get="{% url 'load_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
+    <input type="checkbox" />
+    <div class="collapse-title p-0 max-h-16">
+        <div class="flex flex-row">
+        <img src="{% if video.show.image %}
+            {{ video.show.image.url }}
+            {% else %}
+            {% static 'img/crew/nick.webp' %}
+            {% endif %}"
+            class="max-h-16 max-w-16 w-auto h-auto" />
+        <p class="pl-4 pr-10 py-0">
+            <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap">{{ video.release_date }} - {{ video.show.name }}</span>
+            <br />
+            <span class="inline-block leading-none font-semibold h-[35px] overflow-hidden">{{ video.title|safe }}</span>
+        </p>
+        </div>
+    </div>
+  </div>
+{% endfor %}

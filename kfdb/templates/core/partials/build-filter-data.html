@@ -1,0 +1,40 @@
+<label class="w-full max-w-xs">
+  <div class="label">
+    <span class="label-text">Show</span>
+  </div>
+  <select name="show" class="select select-bordered select-sm md:select-md w-full max-w-xs trigger">
+    <option value="" selected>- All Shows -</option>
+    <hr />
+    {% for show in shows_active %}
+      <option value="{{ show.0 }}">{{ show.1 }}</option>
+    {% endfor %}
+    <hr />
+    {% for show in shows_inactive %}
+      <option value="{{ show.0 }}">{{ show.1 }}</option>
+    {% endfor %}
+  </select>
+</label>
+<label class="w-full max-w-xs">
+  <div class="label">
+    <span class="label-text">Host(s)</span>
+  </div>
+  <select name="host" class="select select-bordered select-sm md:select-md w-full max-w-xs trigger">
+    <option value="" selected>- All Hosts -</option>
+    <hr />
+    {% for part_timer in hosts_part_timers %}
+      <option value="{{ part_timer.slug }}">{{ part_timer.name }}</option>
+    {% endfor %}
+    <hr />
+    {% for guest in hosts_guests %}
+      <option value="{{ guest.slug }}">{{ guest.name }}</option>
+    {% endfor %}
+  </select>
+</label>
+<div class="pt-2">
+  {% for host in hosts_crew %}
+    <label class="label cursor-pointer">
+      <span class="label-text">{{ host.name }}</span>
+      <input type="checkbox" class="checkbox trigger" name="crew" value="{{ host.slug }}" />
+    </label>
+  {% endfor %}
+</div>
