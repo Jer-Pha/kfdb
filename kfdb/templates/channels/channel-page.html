@@ -21,66 +21,39 @@
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col bg-base-100 px-2">
       <div class="min-h-14 md:min-h-1">
-        <h1 class="text-lg md:text-3xl text-base-content">
-          {{ channel.name }}
-        </h1>
+        <h1 class="text-lg md:text-3xl text-base-content">{{ channel.name }}</h1>
       </div>
       <label for="filter-drawer" class="btn btn-accent btn-square drawer-button md:hidden absolute right-0 m-2" aria-label="Search, Sort, and Filter">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-base-100" viewBox="0 -960 960 960" >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-base-100" viewBox="0 -960 960 960">
           <path d="M455.39-180q-15.08 0-25.23-10.16Q420-200.31 420-215.39v-231.53L192.69-735.85q-11.12-13.64-3.14-28.89Q197.54-780 214.44-780h531.12q16.9 0 24.89 15.26 7.98 15.25-3.14 28.89L540-446.92v231.53q0 15.08-10.16 25.23Q519.69-180 504.61-180h-49.22ZM480-452.31l218.56-277.43H261.44L480-452.31Zm0 0Z" />
         </svg>
       </label>
-      <div class="mb-2 pt-2">
-        {% for video in videos %}
-          <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t bg-base-300 rounded-none" hx-get="{% url 'load_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
-            <input type="checkbox" />
-            <div class="collapse-title p-0 max-h-16">
-              <div class="flex flex-row">
-                <img src="{% if video.show.image %}{{ video.show.image.url }}{% else %}#{% endif %}" class="max-w-16 max-h-16 w-auto h-auto" />
-                <p class="pl-4 pr-10 py-0">
-                  <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap">{{ video.release_date }} - {{ video.show.name }}</span>
-                  <br />
-                  <span class="inline-block leading-none font-semibold h-[35px] overflow-hidden">{{ video.title|safe }}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
+      <div id="results-body" class="mb-2 pt-2">
+        {% include "videos/partials/get-video-results.html" %}
       </div>
     </div>
     <div class="drawer-side md:h-full md:border-b-8 md:border-base-100 z-20 md:z-auto">
       <label for="filter-drawer" aria-label="Close Side Navigation" class="drawer-overlay"></label>
-      <div class="menu p-4 w-80 min-h-full bg-base-200">
+      <div class="menu p-4 w-80 min-h-full bg-base-200 mt-16 md:mt-0">
         <label for="filter-drawer" aria-label="Close Side Navigation" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px] md:hidden">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 0 24 24">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />
           </svg>
         </label>
-        <form>
-          <h3 class="text-lg font-semibold mt-12 md:mt-0">Search</h3>
-          <div class="form-control pb-4 pt-2">
-            <input type="text" placeholder="Search {{ channel.name }}..." class="input input-sm md:input:md input-bordered w-auto" />
-          </div>
-          <hr class="border-accent">
-          <h3 class="text-lg font-semibold pt-2 pb-4">Sort</h3>
-          <hr class="border-accent">
-          <h3 class="text-lg font-semibold pt-2">Filter</h3>
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <span class="label-text">Show</span>
+        <form hx-get="{{ curr_path }}" hx-trigger="change target:.trigger" hx-target="#results-body">
+          <h3 class="text-lg font-semibold">Filter</h3>
+          <div class="pb-2" hx-get="{% url 'build_filter' %}?u={{ curr_path }}&amp;c={{ channel.id }}" hx-trigger="intersect once" hx-target="this">
+            <div class="bg-white rounded-[50%] max-w-6">
+              <img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" alt="Loading..." />
             </div>
-            <select class="select select-bordered select-sm md:select-md w-full max-w-xs">
-              <option value="" selected>- All Shows -</option>
-              <hr>
-              {% for show in build_filter.shows_active %}
-                <option value="{{ show.0 }}">{{ show.1 }}</option>
-              {% endfor %}
-              <hr>
-              {% for show in build_filter.shows_inactive %}
-                <option value="{{ show.0 }}">{{ show.1 }}</option>
-              {% endfor %}
-            </select>
-          </label>
+          </div>
+          <hr class="border-accent" />
+          <h3 class="text-lg font-semibold pt-2 pb-4">Sort</h3>
+          <hr class="border-accent" />
+          <h3 class="text-lg font-semibold pt-2">Search</h3>
+          <div class="form-control pt-2">
+            <input type="text" name="search" placeholder="Search {{ channel.name }}..." class="input input-sm md:input:md input-bordered w-auto" />
+          </div>
         </form>
       </div>
     </div>
