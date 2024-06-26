@@ -12,7 +12,7 @@ from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
 from rest_framework.routers import DefaultRouter
 
-from .views import homepage, update_index_stats, update_theme
+from .views import build_filter, homepage, update_index_stats, update_theme
 from apps.channels.viewsets import ChannelViewSet
 from apps.hosts.viewsets import HostViewSet
 from apps.shows.viewsets import ShowViewSet
@@ -33,6 +33,7 @@ urlpatterns = [
     path("home/", homepage, name="index"),
     path("load-stats", update_index_stats, name="load_stats"),
     path("change-theme", update_theme, name="update_theme"),
+    path("build-filter", build_filter, name="build_filter"),
     path("kfdb-admin/", admin.site.urls, name="admin"),
     path("temp/upload/", upload_view),  # Temporary
 ]
