@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.core.paginator import Paginator
+from django.db import connection
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
@@ -14,57 +16,71 @@ def channels_home(request):
 
 @require_GET
 def channel_page(request, channel):
-    page = request.GET.get("page", 1)
+    # paginator = Paginator(qs, results_per_page)
+    # page_count = paginator.num_pages
+    # page = request.GET.get("page", 1)
+
+    sort = request.GET.get("sort", "-release_date")
     search = request.GET.get("search", "")
-    filter_crew = request.GET.get("crew", "").split(",")
-    filter_part_timers = request.GET.get("part-timers", "").split(",")
-    filter_guests = request.GET.get("guests", "").split(",")
-    filter_show = request.GET.get("shows", "").split(",")
-    results_per_page = request.GET.get("per_page", 25)
+    filter_show = request.GET.get("show", "")
+    filter_host = request.GET.get("host", "")
+    filter_crew = dict(request.GET).get("crew", [])
+    results_per_page = request.GET.get("results", 25)
 
     channel = Channel.objects.values().get(slug=channel)
 
-    build_filter = {
-        "shows_active": list(
-            Video.objects.select_related("show")
-            .filter(channel=channel["id"], show__active=True)
-            .distinct()
-            .values_list("show__slug", "show__name")
-            .order_by("show__name")
-        ),
-        "shows_inactive": list(
-            Video.objects.select_related("show")
-            .filter(channel=channel["id"], show__active=False)
-            .distinct()
-            .values_list("show__slug", "show__name")
-            .order_by("show__name")
-        ),
+    filter_params = {
+        "channel": channel["id"],
+    }
+
+    if search and not settings.DEBUG:
+        filter_params["blurb__search"] = search
+        filter_params["title__search"] = search
+    elif search:
+        filter_params["blurb__icontains"] = search
+        filter_params["title__icontains"] = search
+
+    if filter_show:
+        filter_params["show__slug"] = filter_show
+
+    if filter_crew and filter_host:
+        filter_crew.append(filter_host)
+        filter_params["hosts__slug__in"] = filter_crew
+    elif filter_crew:
+        filter_params["hosts__slug__in"] = filter_crew
+    elif filter_host:
+        filter_params["hosts__slug"] = filter_host
+
+    videos = (
+        Video.objects.select_related("show")
+        .only(
+            "title",
+            "video_id",
+            "release_date",
+            "show",
+            "show__name",
+            "show__image",
+        )
+        .filter(**filter_params)
+        .order_by(sort)[:results_per_page]
+    )
+
+    print(filter_params)
+
+    context = {
+        "videos": videos,
     }
 
     # Standard page load
-    if not "HX-Request" in request.META:
-        videos = (
-            Video.objects.select_related("show")
-            .only(
-                "title",
-                "video_id",
-                "release_date",
-                "show",
-                "show__name",
-                "show__image",
-            )
-            .filter(channel=channel["id"])
-            .order_by("-release_date")[:results_per_page]
-        )
+    if "Hx-Boosted" in request.headers or not "Hx-Request" in request.headers:
 
-        context = {
-            "channel": channel,
-            "videos": videos,
-            "build_filter": build_filter,
-        }
+        context.update(
+            {
+                "channel": channel,
+                "curr_path": request.path,
+            }
+        )
 
         return render(request, "channels/channel-page.html", context)
 
-    # HTMX request for pagination
-    paginator = Paginator(qs, results_per_page)
-    page_count = paginator.num_pages
+    return render(request, "videos/partials/get-video-results.html", context)
