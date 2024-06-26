@@ -24,7 +24,7 @@
     <link href="{% static 'main.css' %}" rel="stylesheet" />
   </head>
 
-  <body>
+  <body hx-boost="true">
     <div id="hero-banner" class="hero min-h-screen py-24 sm:py-32 bg-cover bg-center">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl lg:mx-0">
@@ -35,19 +35,19 @@
           <dl class="grid grid-cols-1 gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-4" hx-get="{% url 'load_stats' %}" hx-target="#crew-count" hx-trigger="load once">
             <div class="flex flex-col-reverse">
               <dt class="text-base leading-7 text-gray-300">Crew Members</dt>
-              <dd id="crew-count" class="text-2xl font-bold leading-9 tracking-tight text-white"></dd>
+              <dd id="crew-count" class="text-2xl font-bold leading-9 tracking-tight text-white"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></dd>
             </div>
             <div class="flex flex-col-reverse">
               <dt class="text-base leading-7 text-gray-300">Part-Timers</dt>
-              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="part-timer-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" alt="Loading..." /></span></dd>
+              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="part-timer-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
             </div>
             <div class="flex flex-col-reverse">
               <dt class="text-base leading-7 text-gray-300">Guests</dt>
-              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="guest-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" alt="Loading..." /></span></dd>
+              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="guest-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
             </div>
             <div class="flex flex-col-reverse">
               <dt class="text-base leading-7 text-gray-300">Videos</dt>
-              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="video-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" alt="Loading..." /></span></dd>
+              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="video-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
             </div>
           </dl>
         </div>
