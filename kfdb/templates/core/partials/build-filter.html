@@ -1,7 +1,7 @@
 {% load static %}
 
 <label for="filter-drawer" aria-label="Close Side Navigation" class="drawer-overlay"></label>
-<div class="menu p-4 w-80 min-h-[calc(100vh-4rem)] bg-base-200 mt-16 md:mt-0">
+<div class="menu p-4 w-80 min-h-[calc((var(--vh,1vh)*100)-4rem)] bg-base-200 mt-16 md:mt-0">
   <label for="filter-drawer" aria-label="Close Side Navigation" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px] md:hidden">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 0 24 24">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />
@@ -100,9 +100,12 @@
       <div class="collapse-content mt-[-1rem]"></div>
     </div>
     <hr class="border-accent" />
-    <div class="form-control mt-4">
+    <div class="form-control my-4">
       <input type="text" id="search-input" name="search" placeholder="Search {{ channel.name }}..." class="input input-sm md:input:md input-bordered w-auto trigger" />
-      <script src="{% static 'js/searchHandler.js' %}"></script>
+      <script src="{% static 'js/searchHandler.js' %}?v={% now 'U' %}"></script>
+    </div>
+    <div class="form-control">
+      <input type="reset" value="Reset Filter" class="btn btn-warning btn-sm ml-auto" />
     </div>
   </form>
 </div>
