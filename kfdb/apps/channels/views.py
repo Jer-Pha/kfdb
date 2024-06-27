@@ -27,7 +27,7 @@ def channel_page(request, channel):
     filter_crew = dict(request.GET).get("crew", [])
     results_per_page = request.GET.get("results", 25)
 
-    channel = Channel.objects.values().get(slug=channel)
+    channel = Channel.objects.values("id", "name", "blurb").get(slug=channel)
     videos = Video.objects.select_related("show")
     filter_params = {"channel": channel["id"]}
 

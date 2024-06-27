@@ -21,8 +21,8 @@ def show_page(request, show):
     filter_crew = dict(request.GET).get("crew", [])
     results_per_page = request.GET.get("results", 25)
 
-    show = Show.objects.values().get(slug=show)
-    videos = Video.objects.select_related("channel")
+    show = Show.objects.values("id", "name", "blurb").get(slug=show)
+    videos = Video.objects.select_related("show")
     filter_params = {"show": show["id"]}
 
     if filter_channel:
@@ -72,11 +72,12 @@ def show_page(request, show):
     page_count = paginator.num_pages
     videos = paginator.get_page(page).object_list
 
-    print(page_count)
-
     context = {
         "videos": videos,
     }
+
+    for query in connection.queries:
+        print(query)
 
     # Standard page load
     if "Hx-Boosted" in request.headers or not "Hx-Request" in request.headers:
