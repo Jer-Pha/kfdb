@@ -37,10 +37,18 @@ def update_index_stats(request):
 
 @require_GET
 def build_filter(request):
-    context = Filter(int(request.GET.get("c", ""))).channel_filter()
+    if "c" in request.GET:
+        context = Filter(
+            channel_id=int(request.GET.get("c", 0))
+        ).channel_filter()
+    elif "s" in request.GET:
+        context = Filter(show_id=int(request.GET.get("s", 0))).show_filter()
+    elif "h" in request.GET:
+        context = Filter(host_id=int(request.GET.get("h", 0))).host_filter()
+
     context["curr_path"] = request.GET.get("u", "")
 
-    return render(request, "core/partials/build-filter-data.html", context)
+    return render(request, "core/partials/build-filter.html", context)
 
 
 @require_GET

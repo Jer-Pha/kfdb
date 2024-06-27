@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.db import connection
+from django.db.models import Q
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
@@ -16,43 +17,51 @@ def channels_home(request):
 
 @require_GET
 def channel_page(request, channel):
-    # paginator = Paginator(qs, results_per_page)
-    # page_count = paginator.num_pages
-    # page = request.GET.get("page", 1)
-
+    page = int(request.GET.get("page", 1))
     sort = request.GET.get("sort", "-release_date")
     search = request.GET.get("search", "")
     filter_show = request.GET.get("show", "")
-    filter_host = request.GET.get("host", "")
+    filter_guest = request.GET.get("guest", "")
+    filter_producer = request.GET.get("producer", "")
+    filter_part_timer = request.GET.get("part-timer", "")
     filter_crew = dict(request.GET).get("crew", [])
     results_per_page = request.GET.get("results", 25)
 
     channel = Channel.objects.values().get(slug=channel)
-
-    filter_params = {
-        "channel": channel["id"],
-    }
-
-    if search and not settings.DEBUG:
-        filter_params["blurb__search"] = search
-        filter_params["title__search"] = search
-    elif search:
-        filter_params["blurb__icontains"] = search
-        filter_params["title__icontains"] = search
+    videos = Video.objects.select_related("show")
+    filter_params = {"channel": channel["id"]}
 
     if filter_show:
         filter_params["show__slug"] = filter_show
 
-    if filter_crew and filter_host:
-        filter_crew.append(filter_host)
-        filter_params["hosts__slug__in"] = filter_crew
-    elif filter_crew:
-        filter_params["hosts__slug__in"] = filter_crew
-    elif filter_host:
-        filter_params["hosts__slug"] = filter_host
+    if filter_producer:
+        filter_params["producer__slug"] = filter_producer
+
+    if search and not settings.DEBUG:
+        videos = videos.filter(
+            Q(blurb__search=search) | Q(title__search=search)
+        )
+    elif search:
+        videos = videos.filter(
+            Q(blurb__icontains=search) | Q(title__icontains=search)
+        )
+
+    if filter_crew:
+        if filter_guest:
+            filter_crew.append(filter_guest)
+        if filter_part_timer:
+            filter_crew.append(filter_part_timer)
+
+        for host in filter_crew:
+            videos = videos.filter(hosts__slug=host)
+    else:
+        if filter_guest:
+            videos = videos.filter(hosts__slug=filter_guest)
+        if filter_part_timer:
+            videos = videos.filter(hosts__slug=filter_part_timer)
 
     videos = (
-        Video.objects.select_related("show")
+        videos.filter(**filter_params)
         .only(
             "title",
             "video_id",
@@ -61,11 +70,14 @@ def channel_page(request, channel):
             "show__name",
             "show__image",
         )
-        .filter(**filter_params)
-        .order_by(sort)[:results_per_page]
+        .order_by(sort)
     )
 
-    print(filter_params)
+    paginator = Paginator(videos, results_per_page)
+    page_count = paginator.num_pages
+    videos = paginator.get_page(page).object_list
+
+    print(page_count)
 
     context = {
         "videos": videos,

@@ -4,8 +4,10 @@ from apps.videos.models import Video
 
 
 class Filter:
-    def __init__(self, channel_id=None):
+    def __init__(self, channel_id=0, show_id=0, host_id=0):
         self.channel_id = channel_id
+        self.show_id = show_id
+        self.host_id = host_id
         self.context = {}
 
     def build_shows(self, channel, active):
@@ -19,6 +21,7 @@ class Filter:
             )
         return list(
             Show.objects.filter(active=active)
+            .exclude(id=self.show_id)
             .values_list("slug", "name")
             .order_by("name")
         )
@@ -26,14 +29,29 @@ class Filter:
     def build_hosts(self, crew, pt):
         return list(
             Host.objects.filter(kf_crew=crew, part_timer=pt)
+            .exclude(id=self.host_id)
             .values("slug", "name")
             .order_by("name")
+        )
+
+    def build_producers(self):
+        return list(
+            Video.objects.select_related("producer")
+            .filter(producer__isnull=False)
+            .exclude(producer__id=self.host_id)
+            .distinct()
+            .values_list("producer__slug", "producer__name")
+            .order_by("producer__name")
         )
 
     def add_channels(self):
         self.context.update(
             {
-                "channels": ("kf", "kfg"),
+                "channels": (
+                    ("prime", "Kinda Funny"),
+                    ("games", "Kinda Funny Games"),
+                    ("membership", "Kinda Funny Membership"),
+                ),
             }
         )
 
@@ -51,6 +69,7 @@ class Filter:
                 "hosts_crew": self.build_hosts(True, False),
                 "hosts_part_timers": self.build_hosts(False, True),
                 "hosts_guests": self.build_hosts(False, False),
+                "hosts_producers": self.build_producers(),
             }
         )
 
