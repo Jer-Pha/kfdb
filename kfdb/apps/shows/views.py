@@ -1,3 +1,5 @@
+from re import sub
+
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.db import connection
@@ -13,7 +15,7 @@ from apps.videos.models import Video
 def show_page(request, show):
     page = int(request.GET.get("page", 1))
     sort = request.GET.get("sort", "-release_date")
-    search = request.GET.get("search", "")
+    search = sub(" +", " ", request.GET.get("search", "").strip())
     filter_channel = request.GET.get("channel", "")
     filter_guest = request.GET.get("guest", "")
     filter_producer = request.GET.get("producer", "")
