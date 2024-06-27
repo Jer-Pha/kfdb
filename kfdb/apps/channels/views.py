@@ -1,3 +1,5 @@
+from re import sub
+
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.db import connection
@@ -19,7 +21,7 @@ def channels_home(request):
 def channel_page(request, channel):
     page = int(request.GET.get("page", 1))
     sort = request.GET.get("sort", "-release_date")
-    search = request.GET.get("search", "")
+    search = sub(" +", " ", request.GET.get("search", "").strip())
     filter_show = request.GET.get("show", "")
     filter_guest = request.GET.get("guest", "")
     filter_producer = request.GET.get("producer", "")
@@ -76,8 +78,6 @@ def channel_page(request, channel):
     paginator = Paginator(videos, results_per_page)
     page_count = paginator.num_pages
     videos = paginator.get_page(page).object_list
-
-    print(page_count)
 
     context = {
         "videos": videos,
