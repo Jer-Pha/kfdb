@@ -131,3 +131,11 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def embed_size(self):
+        if "youtube" in self.link and "shorts" not in self.link:
+            return "w-full aspect-[16/9]"
+        elif "youtube" in self.link:
+            return "w-[270px] aspect-[9/16]"
+        return ""

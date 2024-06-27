@@ -7,6 +7,10 @@ module.exports = {
     'border-primary',
     'border-secondary',
     'border-accent',
+    'aspect-[16/9]',
+    'aspect-[9/16]',
+    'w-full',
+    'w-[270px]'
   ],
   theme: {
     extend: {},

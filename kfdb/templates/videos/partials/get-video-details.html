@@ -1,29 +1,38 @@
-<div class="collapse-content bg-base-200 border-t-2 mt-[-2px] border-dotted border-base-content">
-  <p>Producer: {{ video.producer.name }}</p>
-  <p>Link: {{ video.link }}</p>
-
-  <div class="pl-3 pt-8">
-    {% for host in video.hosts.all %}
-      <a href="{% url 'host_detail' type=host.url_type name=host.slug %}">
-        {% if host.image %}
-          <img src="{{ host.image.url }}" alt="{{ host.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} aspect-square object-cover" />
-        {% else %}
-          <div class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} bg-neutral text-neutral-content">
-            <span class="flex flex-col h-full w-full justify-around items-center leading-none">{{ host.initials }}</span>
-          </div>
+<div class="flex flex-col 2xl:flex-row collapse-content bg-base-200 border-t-2 mt-[-2px] border-dotted border-base-content">
+  <div class="flex flex-col 2xl:flex-1">
+    {% if video.hosts.all or video.producer %}
+      <div class="pl-3 pt-8 mx-auto mb-4">
+        {% if video.producer %}
+          <a href="{% url 'host_detail' type=video.producer.url_type name=video.producer.slug %}" title="Producer: {{ video.producer.name }}">
+            {% if video.producer.image %}
+              <img src="{{ video.producer.image.url }}" alt="{{ video.producer.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-base-content aspect-square object-cover" />
+            {% else %}
+              <div class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-base-content bg-base-100 text-base-content">
+                <span class="flex flex-col h-full w-full justify-around items-center leading-none">{{ video.producer.initials }}</span>
+              </div>
+            {% endif %}
+          </a>
         {% endif %}
-      </a>
-    {% endfor %}
-    {% for guest in video.guests.all %}
-      <a href="{% url 'host_detail' type=guest.url_type name=guest.slug %}">
-        {% if host.image %}
-          <img src="{{ guest.image.url }}" alt="{{ guest.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ guest.border_color }} aspect-square object-cover" />
-        {% else %}
-          <div class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ guest.border_color }} bg-neutral text-neutral-content">
-            <span class="flex flex-col h-full w-full justify-around items-center leading-none">{{ guest.initials }}</span>
-          </div>
-        {% endif %}
-      </a>
-    {% endfor %}
+        {% for host in video.hosts.all %}
+          <a href="{% url 'host_detail' type=host.url_type name=host.slug %}" title="{{ host.name }}">
+            {% if host.image %}
+              <img src="{{ host.image.url }}" alt="{{ host.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} aspect-square object-cover" />
+            {% else %}
+              <div class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} bg-base-100 text-base-content">
+                <span class="flex flex-col h-full w-full justify-around items-center leading-none">{{ host.initials }}</span>
+              </div>
+            {% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if video.embed_size %}
+      <iframe class="mx-auto max-w-[min(100%,480px)] max-h-[480px] {{ video.embed_size }}" src="https://www.youtube-nocookie.com/embed/{{ video.video_id }}?html5=1" title="{{ video.title }}" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+    {% endif %}
   </div>
+  {% if video.blurb %}
+    <div class="2xl:max-w-[50%] 2xl:flex-1 max-h-[270px] 2xl:max-h-[354px] overflow-x-hidden overflow-y-scroll mt-4">
+      <p class="2xl:pl-4">{{ video.blurb|safe }}</p>
+    </div>
+  {% endif %}
 </div>
