@@ -78,9 +78,6 @@ def show_page(request, show):
         "videos": videos,
     }
 
-    for query in connection.queries:
-        print(query)
-
     # Standard page load
     if "Hx-Boosted" in request.headers or not "Hx-Request" in request.headers:
 
