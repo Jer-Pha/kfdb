@@ -1,4 +1,4 @@
-let searchBox = document.getElementById('search-input');
+var searchBox = document.getElementById('search-input');
 
 searchBox?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
