@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="h-[calc(var(--vh,1vh)*100)] drawer-side md:sticky md:h-[calc((var(--vh,1vh)*100)-3.5rem)] md:top-16 md:border-b-8 md:border-base-100 z-20 md:z-auto" hx-get="{% url 'build_filter' %}?u={{ curr_path }}&amp;c={{ channel.id }}" hx-trigger="intersect once" hx-target="this">
-      <div class="p-4 w-80">
+      <div class="menu p-4 w-80 min-h-[calc((var(--vh,1vh)*100)-4rem)] bg-base-200 mt-16 md:mt-0">
         <div class="bg-white rounded-[50%] max-w-6">
           <img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" alt="Loading..." />
         </div>
