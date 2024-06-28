@@ -17,8 +17,8 @@
           <div class="pt-2">
             {% for host in hosts_crew %}
               <label class="label cursor-pointer">
-                <span class="label-text">{{ host.name }}</span>
-                <input type="checkbox" class="checkbox trigger" name="crew" value="{{ host.slug }}" />
+                <span class="label-text">{{ host.1 }}</span>
+                <input type="checkbox" class="checkbox trigger" name="crew" value="{{ host.0 }}" />
               </label>
             {% endfor %}
           </div>
@@ -42,7 +42,7 @@
               <option value="" selected>- All -</option>
               <hr />
               {% for part_timer in hosts_part_timers %}
-                <option value="{{ part_timer.slug }}">{{ part_timer.name }}</option>
+                <option value="{{ part_timer.0 }}">{{ part_timer.1 }}</option>
               {% endfor %}
             </select>
           </label>
@@ -54,11 +54,11 @@
               <option value="" selected>- All -</option>
               <hr />
               {% for guest in hosts_guests %}
-                <option value="{{ guest.slug }}">{{ guest.name }}</option>
+                <option value="{{ guest.0 }}">{{ guest.1 }}</option>
               {% endfor %}
             </select>
           </label>
-          {% if shows_active %}
+          {% if shows_active or shows_inactive %}
             <label class="w-full max-w-xs">
               <div class="label">
                 <span class="label-text">Show</span>
@@ -101,7 +101,7 @@
     </div>
     <hr class="border-accent" />
     <div class="form-control my-4">
-      <input type="text" id="search-input" name="search" placeholder="Search {{ channel.name }}..." class="input input-sm md:input:md input-bordered w-auto trigger" />
+      <input type="text" id="search-input" name="search" placeholder="Search..." class="input input-sm md:input:md input-bordered w-auto trigger" />
       <script src="{% static 'js/searchHandler.js' %}?v={% now 'U' %}"></script>
     </div>
     <div class="form-control">
