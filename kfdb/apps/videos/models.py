@@ -42,7 +42,6 @@ SHOWS_GAMES = [
     "The Blessing Show",
     "Kinda Funny Wrestling",
     "Xcast",
-    "Reactions",
     "PS I Love You XOXO",
     "Gameplay",
     "Kinda Funny Games Daily",
