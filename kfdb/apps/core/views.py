@@ -45,6 +45,8 @@ def build_filter(request):
         context = Filter(show_id=int(request.GET.get("s", 0))).show_filter()
     elif "h" in request.GET:
         context = Filter(host_id=int(request.GET.get("h", 0))).host_filter()
+    else:
+        context = Filter().all_vids_filter()
 
     context["curr_path"] = request.GET.get("u", "")
 

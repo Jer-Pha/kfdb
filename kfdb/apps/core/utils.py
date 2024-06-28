@@ -50,7 +50,7 @@ class Filter:
                 "channels": (
                     ("prime", "Kinda Funny"),
                     ("games", "Kinda Funny Games"),
-                    ("membership", "Kinda Funny Membership"),
+                    ("members", "Kinda Funny Membership"),
                 ),
             }
         )
@@ -86,4 +86,10 @@ class Filter:
     def host_filter(self):
         self.add_channels()
         self.add_shows()
+        return self.context
+
+    def all_vids_filter(self):
+        self.add_channels()
+        self.add_shows()
+        self.add_hosts()
         return self.context
