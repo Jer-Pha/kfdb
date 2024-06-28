@@ -31,7 +31,7 @@
     {% endif %}
   </div>
   {% if video.blurb %}
-    <div class="2xl:max-w-[50%] 2xl:flex-1 max-h-[270px] 2xl:max-h-[354px] overflow-x-hidden overflow-y-scroll mt-4">
+    <div class="max-w-[min(100%,480px)] 2xl:max-w-[50%] 2xl:flex-1 max-h-[270px] 2xl:max-h-[354px] overflow-x-hidden overflow-y-scroll mt-4">
       <p class="2xl:pl-4">{{ video.blurb|safe }}</p>
     </div>
   {% endif %}
