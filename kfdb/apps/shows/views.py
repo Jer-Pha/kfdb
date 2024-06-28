@@ -65,7 +65,6 @@ def show_page(request, show):
             "show",
             "show__name",
             "show__image",
-            "channel",
         )
         .order_by(sort)
     )
