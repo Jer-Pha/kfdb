@@ -105,7 +105,7 @@
       <script src="{% static 'js/searchHandler.js' %}?v={% now 'U' %}"></script>
     </div>
     <div class="form-control">
-      <input type="reset" value="Reset Filter" class="btn btn-warning btn-sm ml-auto" />
+      <input type="reset" value="Reset Filter" class="btn btn-warning btn-sm ml-auto" hx-get="{{ curr_path }}" hx-trigger="click" hx-target="#results-body" />
     </div>
   </form>
 </div>
