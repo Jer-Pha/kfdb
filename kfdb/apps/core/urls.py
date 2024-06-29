@@ -12,12 +12,18 @@ from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
 from rest_framework.routers import DefaultRouter
 
-from .views import build_filter, homepage, update_index_stats, update_theme
+from .views import (
+    BuildFilterView,
+    HeroStatsView,
+    UpdateThemeView,
+    VideoDetailsView,
+)
 from apps.channels.viewsets import ChannelViewSet
 from apps.hosts.viewsets import HostViewSet
 from apps.shows.viewsets import ShowViewSet
 from apps.videos.viewsets import VideoViewSet
-from apps.videos.views import upload_view  # Temporary
+
+# from apps.videos.views import upload_view  # Temporary
 
 router = DefaultRouter()
 router.register("channels", ChannelViewSet, basename="channels")
@@ -30,12 +36,21 @@ urlpatterns = [
     path(
         "", TemplateView.as_view(template_name="core/hero.html"), name="hero"
     ),
-    path("home/", homepage, name="index"),
-    path("load-stats", update_index_stats, name="load_stats"),
-    path("change-theme", update_theme, name="update_theme"),
-    path("build-filter", build_filter, name="build_filter"),
+    path(
+        "home/",
+        TemplateView.as_view(template_name="core/index.html"),
+        name="index",
+    ),
+    path("load-stats", HeroStatsView.as_view(), name="load_stats"),
+    path("change-theme", UpdateThemeView.as_view(), name="update_theme"),
+    path("build-filter", BuildFilterView.as_view(), name="build_filter"),
+    path(
+        "get/video-details",
+        VideoDetailsView.as_view(),
+        name="get_video_details",
+    ),
     path("kfdb-admin/", admin.site.urls, name="admin"),
-    path("temp/upload/", upload_view),  # Temporary
+    # path("temp/upload/", upload_view),  # Temporary
 ]
 
 # Favicon urls

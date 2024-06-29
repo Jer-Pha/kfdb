@@ -2,9 +2,8 @@
 
 from django.urls import path
 
-from .views import get_video_details, videos_home
+from .views import ChannelPageView
 
 urlpatterns = [
-    path("videos/", videos_home, name="videos_home"),
-    path("video/details", get_video_details, name="load_video_details"),
+    path("videos/", ChannelPageView.as_view(), name="videos_home"),
 ]

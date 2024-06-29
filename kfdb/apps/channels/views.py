@@ -1,98 +1,30 @@
-from re import sub
-
-from django.conf import settings
-from django.core.paginator import Paginator
-from django.db import connection
-from django.db.models import Q
 from django.shortcuts import render
-from django.views.decorators.http import require_GET
 
 from .models import Channel
-from apps.videos.models import Video
+from apps.core.views import DefaultVideoView
 
 
-def channels_home(request):
-    context = {}
+class ChannelPageView(DefaultVideoView):
+    template_name = ""
 
-    return render(request, "channels/channels-home.html", context)
-
-
-@require_GET
-def channel_page(request, channel):
-    page = int(request.GET.get("page", 1))
-    sort = request.GET.get("sort", "-release_date")
-    search = sub(" +", " ", request.GET.get("search", "").strip())
-    filter_show = request.GET.get("show", "")
-    filter_guest = request.GET.get("guest", "")
-    filter_producer = request.GET.get("producer", "")
-    filter_part_timer = request.GET.get("part-timer", "")
-    filter_crew = dict(request.GET).get("crew", [])
-    results_per_page = request.GET.get("results", 25)
-
-    channel = Channel.objects.values("id", "name", "blurb").get(slug=channel)
-    videos = Video.objects.select_related("show")
-    filter_params = {"channel": channel["id"]}
-
-    if filter_show:
-        filter_params["show__slug"] = filter_show
-
-    if filter_producer:
-        filter_params["producer__slug"] = filter_producer
-
-    if search and not settings.DEBUG:
-        videos = videos.filter(
-            Q(blurb__search=search) | Q(title__search=search)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.template_name = (
+            "channels/channel-page.html"
+            if self.new_page
+            else "core/partials/get-video-results.html"
         )
-    elif search:
-        videos = videos.filter(
-            Q(blurb__icontains=search) | Q(title__icontains=search)
+        channel = Channel.objects.values("id", "name", "blurb").get(
+            slug=kwargs.get("channel", "")
         )
+        filter_params = {"channel": channel["id"]}
+        context["videos"] = self.get_videos(filter_params)
+        if self.new_page:
+            context.update(
+                {
+                    "channel": channel,
+                    "curr_path": self.curr_path,
+                }
+            )
 
-    if filter_crew:
-        if filter_guest:
-            filter_crew.append(filter_guest)
-        if filter_part_timer:
-            filter_crew.append(filter_part_timer)
-
-        for host in filter_crew:
-            videos = videos.filter(hosts__slug=host)
-    else:
-        if filter_guest:
-            videos = videos.filter(hosts__slug=filter_guest)
-        if filter_part_timer:
-            videos = videos.filter(hosts__slug=filter_part_timer)
-
-    videos = (
-        videos.filter(**filter_params)
-        .only(
-            "title",
-            "video_id",
-            "release_date",
-            "show",
-            "show__name",
-            "show__image",
-        )
-        .order_by(sort)
-    )
-
-    paginator = Paginator(videos, results_per_page)
-    page_count = paginator.num_pages
-    videos = paginator.get_page(page).object_list
-
-    context = {
-        "videos": videos,
-    }
-
-    # Standard page load
-    if "Hx-Boosted" in request.headers or not "Hx-Request" in request.headers:
-
-        context.update(
-            {
-                "channel": channel,
-                "curr_path": request.path,
-            }
-        )
-
-        return render(request, "channels/channel-page.html", context)
-
-    return render(request, "videos/partials/get-video-results.html", context)
+        return context

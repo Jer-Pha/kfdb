@@ -2,11 +2,15 @@
 
 from django.urls import path
 
-from .views import host_detail, host_home, host_page
+from .views import HostPageView, host_home, host_type
 
 
 urlpatterns = [
     path("hosts/", host_home, name="host_home"),
-    path("hosts/<slug:type>/", host_page, name="host_page"),
-    path("hosts/<slug:type>/<slug:name>/", host_detail, name="host_detail"),
+    path("h/<slug:type>/", host_type, name="host_type"),
+    path(
+        "h/<slug:type>/<slug:host>/",
+        HostPageView.as_view(),
+        name="host_page",
+    ),
 ]

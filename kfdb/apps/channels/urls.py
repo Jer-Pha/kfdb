@@ -1,10 +1,15 @@
 """URL configuration for KFDB channels."""
 
 from django.urls import path
+from django.views.generic import TemplateView
 
-from .views import channels_home, channel_page
+from .views import ChannelPageView
 
 urlpatterns = [
-    path("channels/", channels_home, name="channels_home"),
-    path("c/<slug:channel>/", channel_page, name="channel_page"),
+    path(
+        "channels/",
+        TemplateView.as_view(template_name="channels/channels-home.html"),
+        name="channels_home",
+    ),
+    path("c/<slug:channel>/", ChannelPageView.as_view(), name="channel_page"),
 ]
