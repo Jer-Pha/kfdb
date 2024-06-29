@@ -8,7 +8,7 @@
 {% block meta %}
   <meta name="author" content="{{ show.name }}" />
   <meta name="description"
-  content={% if show.blurb|safe %}
+  content={% if show.blurb %}
     "{{ show.blurb|safe }}"
   {% else %}
     "The original database for Kinda Funny content. Filter, sort and search by channel, show, host. Made for the community, by the community."
@@ -36,7 +36,7 @@
         </svg>
       </label>
       <div id="results-body" class="mb-2 pt-2">
-        {% include 'videos/partials/get-video-results.html' %}
+        {% include 'core/partials/get-video-results.html' %}
       </div>
     </div>
     <div class="h-[calc(var(--vh,1vh)*100)] drawer-side md:sticky md:h-[calc((var(--vh,1vh)*100)-3.5rem)] md:top-16 md:border-b-8 md:border-base-100 z-20 md:z-auto" hx-get="{% url 'build_filter' %}?u={{ curr_path }}&amp;s={{ show.id }}" hx-trigger="intersect once" hx-target="this">
