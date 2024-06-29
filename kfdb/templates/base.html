@@ -28,11 +28,11 @@
     <link href="{% static 'main.css' %}" rel="stylesheet" />
   </head>
 
-  <body hx-boost="true">
+  <body>
     <div class="drawer">
       <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
-        <div class="w-full navbar bg-gradient-to-r from-secondary to-primary z-50 sticky top-0">
+        <div class="w-full navbar bg-gradient-to-r from-secondary to-primary z-50 sticky top-0" hx-boost="true">
           <div class="flex-none md:hidden">
             <label tabindex="0" for="nav-drawer" aria-label="Open Side Navigation" class="btn btn-square btn-ghost">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-secondary-content">
@@ -229,13 +229,13 @@
                 <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Hosts</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
-                    <a href="{% url 'host_page' type='kf-crew' %}" class="text-nowrap rounded-none">KF Crew</a>
+                    <a href="{% url 'host_type' type='kf-crew' %}" class="text-nowrap rounded-none">KF Crew</a>
                   </li>
                   <li>
-                    <a href="{% url 'host_page' type='part-timers' %}" class="text-nowrap rounded-none">Part-Timers</a>
+                    <a href="{% url 'host_type' type='part-timers' %}" class="text-nowrap rounded-none">Part-Timers</a>
                   </li>
                   <li>
-                    <a href="{% url 'host_page' type='guests' %}" class="text-nowrap rounded-none">Guests</a>
+                    <a href="{% url 'host_type' type='guests' %}" class="text-nowrap rounded-none">Guests</a>
                   </li>
                   <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
                   <li>
@@ -292,7 +292,7 @@
       </div>
       <div class="h-[calc(var(--vh,1vh)*100)] drawer-side z-50">
         <label for="nav-drawer" aria-label="Close Side Navigation" class="drawer-overlay"></label>
-        <ul class="p-4 w-80 min-h-full bg-base-200">
+        <ul class="p-4 w-80 min-h-full bg-base-200" hx-boost="true">
           <label for="nav-drawer" aria-label="Close Side Navigation" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px]">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 0 24 24">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />
@@ -339,9 +339,9 @@
               <div class="collapse-title font-medium peer-checked/hosts:bg-base-100 peer-checked/hosts:text-sm peer-checked/hosts:text-primary">Hosts</div>
               <div class="collapse-content text-lg text-base-content bg-base-100">
                 <ul>
-                  <a href="{% url 'host_page' type='kf-crew' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">KF Crew</li></a>
-                  <a href="{% url 'host_page' type='part-timers' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Part-Timers</li></a>
-                  <a href="{% url 'host_page' type='guests' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Guests</li></a>
+                  <a href="{% url 'host_type' type='kf-crew' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">KF Crew</li></a>
+                  <a href="{% url 'host_type' type='part-timers' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Part-Timers</li></a>
+                  <a href="{% url 'host_type' type='guests' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Guests</li></a>
                   <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
                   <a href="{% url 'host_home' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Browse Hosts</li></a>
                 </ul>
@@ -378,7 +378,7 @@
       </div>
     </div>
 
-    <footer class="footer footer-center p-6 bg-base-100 text-base-content rounded-none gap-y-6">
+    <footer class="footer footer-center p-6 bg-base-100 text-base-content rounded-none gap-y-6" hx-boost="true">
       <nav class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-x-6 md:gap-x-4 gap-y-6">
         <a href="#" class="link link-hover min-w-28" tabindex="0">About</a>
         <a href="#" class="link link-hover min-w-28" tabindex="0">Contact</a>
