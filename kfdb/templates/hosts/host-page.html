@@ -28,16 +28,8 @@
           <path d="M455.39-180q-15.08 0-25.23-10.16Q420-200.31 420-215.39v-231.53L192.69-735.85q-11.12-13.64-3.14-28.89Q197.54-780 214.44-780h531.12q16.9 0 24.89 15.26 7.98 15.25-3.14 28.89L540-446.92v231.53q0 15.08-10.16 25.23Q519.69-180 504.61-180h-49.22ZM480-452.31l218.56-277.43H261.44L480-452.31Zm0 0Z" />
         </svg>
       </label>
-      <div id="results-body" class="mb-2 pt-2">
-        {% include 'core/partials/get-video-results.html' %}
-      </div>
+      {% include 'core/partials/get-video-results.html' %}
     </div>
-    <div class="h-[calc(var(--vh,1vh)*100)] drawer-side md:sticky md:h-[calc((var(--vh,1vh)*100)-3.5rem)] md:top-16 md:border-b-8 md:border-base-100 z-20 md:z-auto" hx-get="{% url 'build_filter' %}?u={{ curr_path }}&amp;h={{ host.id }}" hx-trigger="intersect once" hx-target="this">
-      <div class="menu p-4 w-80 min-h-[calc((var(--vh,1vh)*100)-4rem)] bg-base-200 mt-16 md:mt-0">
-        <div class="bg-white rounded-[50%] max-w-6">
-          <img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" alt="Loading..." />
-        </div>
-      </div>
-    </div>
+    {% include 'core/partials/build-sidebar.html' %}
   </div>
 {% endblock %}

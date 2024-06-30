@@ -1,0 +1,84 @@
+{% if hosts_crew %}
+  <div class="pt-2">
+    {% for host in hosts_crew %}
+      <label class="label cursor-pointer">
+        <span class="label-text">{{ host.1 }}</span>
+        <input type="checkbox" class="checkbox trigger" name="crew" value="{{ host.0 }}" />
+      </label>
+    {% endfor %}
+  </div>
+{% endif %}
+{% if hosts_producers %}
+  <label class="w-full max-w-xs">
+    <div class="label">
+      <span class="label-text">Producer</span>
+    </div>
+    <select name="producer" class="select select-bordered select-sm w-full max-w-xs trigger">
+      <option value="" selected>- All -</option>
+      <hr />
+      {% for producer in hosts_producers %}
+        <option value="{{ producer.0 }}">{{ producer.1 }}</option>
+      {% endfor %}
+    </select>
+  </label>
+{% endif %}
+{% if hosts_part_timers %}
+  <label class="w-full max-w-xs">
+    <div class="label">
+      <span class="label-text">Part-Timer</span>
+    </div>
+    <select name="part-timer" class="select select-bordered select-sm w-full max-w-xs trigger">
+      <option value="" selected>- All -</option>
+      <hr />
+      {% for part_timer in hosts_part_timers %}
+        <option value="{{ part_timer.0 }}">{{ part_timer.1 }}</option>
+      {% endfor %}
+    </select>
+  </label>
+{% endif %}
+{% if hosts_guests %}
+  <label class="w-full max-w-xs">
+    <div class="label">
+      <span class="label-text">Guests</span>
+    </div>
+    <select name="guest" class="select select-bordered select-sm w-full max-w-xs trigger">
+      <option value="" selected>- All -</option>
+      <hr />
+      {% for guest in hosts_guests %}
+        <option value="{{ guest.0 }}">{{ guest.1 }}</option>
+      {% endfor %}
+    </select>
+  </label>
+{% endif %}
+{% if shows_active or shows_inactive %}
+  <label class="w-full max-w-xs">
+    <div class="label">
+      <span class="label-text">Show</span>
+    </div>
+    <select name="show" class="select select-bordered select-sm w-full max-w-xs trigger">
+      <option value="" selected>- All -</option>
+      <hr />
+      {% for show in shows_active %}
+        <option value="{{ show.0 }}">{{ show.1 }}</option>
+      {% endfor %}
+      <hr />
+      {% for show in shows_inactive %}
+        <option value="{{ show.0 }}">{{ show.1 }}</option>
+      {% endfor %}
+    </select>
+  </label>
+{% endif %}
+{% if channels|length > 1 %}
+  <label class="w-full max-w-xs">
+    <div class="label">
+      <span class="label-text">Channel</span>
+    </div>
+    <select name="channel" class="select select-bordered select-sm w-full max-w-xs trigger">
+      <option value="" selected>- All -</option>
+      <hr />
+      {% for channel in channels %}
+        <option value="{{ channel.0 }}">{{ channel.1 }}</option>
+      {% endfor %}
+    </select>
+  </label>
+{% endif %}

@@ -1,22 +1,40 @@
 {% load static %}
 
-{% for video in videos %}
-  <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t bg-base-300 rounded-none" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
-    <input type="checkbox" />
-    <div class="collapse-title p-0 max-h-16">
-      <div class="flex flex-row">
-        <img src="{% if video.show.image %}
-            {{ video.show.image.url }}
-          {% else %}
-            {% static 'img/not-found.webp' %}
-          {% endif %}"
-          class="max-h-16 max-w-16 w-auto h-auto" />
-        <p class="pl-4 pr-10 py-0">
-          <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap">{{ video.release_date }} - {{ video.show.name }}</span>
-          <br />
-          <span class="inline-block leading-none font-semibold h-[35px] overflow-hidden">{{ video.title|safe }}</span>
-        </p>
+<div id="results-body" class="pt-2">
+  {% for video in videos %}
+    <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t bg-base-300 rounded-none" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
+      <input type="checkbox" />
+      <div class="collapse-title p-0 max-h-16">
+        <div class="flex flex-row">
+          <img src="{% if video.show.image %}
+              {{ video.show.image.url }}
+            {% else %}
+              {% static 'img/not-found.webp' %}
+            {% endif %}"
+            class="max-h-16 max-w-16 w-auto h-auto" />
+          <p class="pl-4 pr-10 py-0">
+            <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap">{{ video.release_date }} - {{ video.show.name }}</span>
+            <br />
+            <span class="inline-block leading-none font-semibold h-[35px] overflow-hidden">{{ video.title|safe }}</span>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-{% endfor %}
+  {% endfor %}
+
+  {% if view.page_range %}
+    <div class="flex flex-row mt-4 2xl:mt-2">
+      <div class="w-0 sm:w-full max-w-20"></div>
+      <form class="mr-auto sm:ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="change target:.page" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML">
+        <div id="pagination" class="join">
+          {% for page in view.page_range %}
+            <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page }}" aria-label="{{ page }}"{% if page == view.page %} checked{% endif %} />
+          {% endfor %}
+        </div>
+      </form>
+      <form hx-get="{{ view.curr_path }}" hx-trigger="change target:.page-input" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML">
+        <input type="number" name="page" class="input input-bordered input-sm 2xl:input-md w-full max-w-20 form-input page-input" min="1" max="{{ view.page_count }}" value="{{ view.page }}" />
+      </form>
+    </div>
+  {% endif %}
+</div>
