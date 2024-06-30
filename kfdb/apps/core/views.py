@@ -3,13 +3,11 @@ from re import sub
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.db.models import Count, Prefetch, Q
+from django.db.models.functions import Lower
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.views import View
-from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
 
-from apps.channels.models import Channel
 from apps.core.utils import Filter
 from apps.hosts.models import Host
 from apps.videos.models import Video
@@ -34,18 +32,16 @@ class DefaultVideoView(TemplateView):
         self.filter_part_timer = request.GET.get("part-timer", "")
         self.filter_crew = dict(request.GET).get("crew", [])
         self.results_per_page = request.GET.get("results", 25)
-        self.videos = Video.objects
+        self.videos = Video.objects.select_related("show")
         context = self.get_context_data(**kwargs)
 
         return self.render_to_response(context)
 
     def build_filter(self, filter_params):
         if self.filter_channel:
-            self.videos = self.videos.select_related("channel")
             filter_params["channel__slug"] = self.filter_channel
 
         if self.filter_show:
-            self.videos = self.videos.select_related("show")
             filter_params["show__slug"] = self.filter_show
 
         if self.filter_producer:
@@ -98,7 +94,11 @@ class DefaultVideoView(TemplateView):
 
     def get_videos(self, filter_params):
         filter_params = self.build_filter(filter_params)
-        print(filter_params)
+
+        if self.sort != "-release_date" and self.sort[0] == "-":
+            self.sort = Lower(self.sort[1:]).desc()
+        elif self.sort not in ("release_date", "-release_date"):
+            self.sort = Lower(self.sort)
 
         videos = (
             self.videos.filter(**filter_params)
@@ -115,10 +115,25 @@ class DefaultVideoView(TemplateView):
         )
 
         paginator = Paginator(videos, self.results_per_page)
-        page_count = paginator.num_pages
+        self.get_page_range(self.page, paginator.num_pages)
         videos = paginator.get_page(self.page).object_list
 
         return videos
+
+    def get_page_range(self, page, page_count):
+        if page < 3 and page_count > 5:
+            self.page_range = range(1, 6)
+        elif page_count > 1 and (page_count < 6 or page == 2):
+            self.page_range = range(1, page_count + 1)
+        elif page_count > 5 and page > 2 and page < page_count - 1:
+            self.page_range = range(page - 2, page + 3)
+        elif page_count > 5 and page_count > 5 and page == page_count - 1:
+            self.page_range = range(page - 3, page + 2)
+        elif page_count > 5 and page == page_count:
+            self.page_range = range(page - 4, page + 1)
+        else:
+            self.page_range = None
+        self.page_count = page_count
 
 
 class HeroStatsView(TemplateView):
@@ -159,7 +174,7 @@ class VideoDetailsView(TemplateView):
 
 class BuildFilterView(TemplateView):
     http_method_names = "get"
-    template_name = "core/partials/build-filter.html"
+    template_name = "core/partials/generate-filters.html"
 
     def get(self, request, **kwargs):
         context = self.get_context_data(**kwargs)
