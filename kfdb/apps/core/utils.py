@@ -1,5 +1,3 @@
-from django.db import connection
-
 from django.db.models import Prefetch, Q
 
 from apps.channels.models import Channel
@@ -90,6 +88,13 @@ class Filter:
             response = Host.objects.filter(
                 video_host__in=videos, kf_crew=crew, part_timer=pt
             )
+        elif self.host_id:
+            videos = Video.objects.filter(hosts=self.host_id).values_list(
+                "id", flat=True
+            )
+            response = Host.objects.filter(
+                video_host__in=videos, kf_crew=crew, part_timer=pt
+            )
         else:
             response = Host.objects.filter(kf_crew=crew, part_timer=pt)
         return list(
@@ -151,24 +156,15 @@ class Filter:
     def channel_filter(self):
         self.add_shows()
         self.add_hosts()
-
-        for query in connection.queries:
-            print(query)
         return self.context
 
     def show_filter(self):
         self.add_channels()
         self.add_hosts()
-
-        for query in connection.queries:
-            print(query)
         return self.context
 
     def host_filter(self):
         self.add_channels()
         self.add_shows()
         self.add_hosts()
-
-        for query in connection.queries:
-            print(query)
         return self.context
