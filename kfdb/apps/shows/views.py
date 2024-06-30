@@ -21,7 +21,7 @@ class ShowPageView(DefaultVideoView):
             context.update(
                 {
                     "show": show,
-                    "curr_path": self.curr_path,
+                    "filter_param": f"s={show['id']}",
                 }
             )
 

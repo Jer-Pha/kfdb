@@ -31,7 +31,7 @@ class HostPageView(DefaultVideoView):
             context.update(
                 {
                     "host": host,
-                    "curr_path": self.curr_path,
+                    "filter_param": f"h={host['id']}",
                 }
             )
 

@@ -13,11 +13,5 @@ class ChannelPageView(DefaultVideoView):
         )
         filter_params = {}
         context["videos"] = self.get_videos(filter_params)
-        if self.new_page:
-            context.update(
-                {
-                    "curr_path": self.curr_path,
-                }
-            )
 
         return context

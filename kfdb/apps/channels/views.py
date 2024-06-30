@@ -23,7 +23,7 @@ class ChannelPageView(DefaultVideoView):
             context.update(
                 {
                     "channel": channel,
-                    "curr_path": self.curr_path,
+                    "filter_param": f"c={channel['id']}",
                 }
             )
 
