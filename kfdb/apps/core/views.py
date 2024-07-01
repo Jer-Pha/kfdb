@@ -32,7 +32,7 @@ class DefaultVideoView(TemplateView):
         self.filter_part_timer = request.GET.get("part-timer", "")
         self.filter_crew = dict(request.GET).get("crew", [])
         self.results_per_page = request.GET.get("results", 25)
-        self.videos = Video.objects.select_related("show")
+        self.videos = Video.objects
         context = self.get_context_data(**kwargs)
 
         return self.render_to_response(context)
@@ -90,6 +90,12 @@ class DefaultVideoView(TemplateView):
                     hosts__slug=self.filter_part_timer
                 )
 
+        if "host" in filter_params:
+            host = filter_params.pop("host")
+            self.videos = self.videos.filter(
+                Q(hosts=host) | Q(producer=host)
+            ).distinct()
+
         return filter_params
 
     def get_videos(self, filter_params):
@@ -102,6 +108,7 @@ class DefaultVideoView(TemplateView):
 
         videos = (
             self.videos.filter(**filter_params)
+            .prefetch_related("show")
             .only(
                 "title",
                 "video_id",

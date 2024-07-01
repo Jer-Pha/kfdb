@@ -25,7 +25,7 @@ class HostPageView(DefaultVideoView):
         host = Host.objects.values("id", "name", "blurb").get(
             slug=kwargs.get("host", "")
         )
-        filter_params = {"hosts": host["id"]}
+        filter_params = {"host": host["id"]}
         context["videos"] = self.get_videos(filter_params)
         if self.new_page:
             context.update(
