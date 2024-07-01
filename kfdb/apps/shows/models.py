@@ -15,6 +15,7 @@ class Show(models.Model):
     )
     slug = models.SlugField(unique=True, db_index=False)
     image = models.ImageField(upload_to=slug_directory_path, blank=True)
+    image_xs = models.ImageField(upload_to=slug_directory_path, blank=True)
     active = models.BooleanField(
         default=False,
         verbose_name="Is Active",

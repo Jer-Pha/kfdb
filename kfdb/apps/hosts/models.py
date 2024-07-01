@@ -21,6 +21,7 @@ class Host(models.Model):
         help_text="Should be formatted as a list, not dict.",
     )
     image = models.ImageField(upload_to=slug_directory_path, blank=True)
+    image_xs = models.ImageField(upload_to=slug_directory_path, blank=True)
     kf_crew = models.BooleanField(
         default=False,
         verbose_name="Kinda Funny Employee",

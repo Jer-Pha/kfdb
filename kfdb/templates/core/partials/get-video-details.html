@@ -15,8 +15,8 @@
         {% endif %}
         {% for host in video.hosts.all %}
           <a href="{% url 'host_page' type=host.url_type host=host.slug %}" title="{{ host.name }}">
-            {% if host.image %}
-              <img src="{{ host.image.url }}" alt="{{ host.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} aspect-square object-cover" />
+            {% if host.image_xs %}
+              <img src="{{ host.image_xs.url }}" alt="{{ host.name }}" class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} aspect-square object-cover" />
             {% else %}
               <div class="inline-block align-middle w-[52px] h-[52px] rounded-full mt-[-1rem] ml-[-0.75rem] border-2 border-{{ host.border_color }} bg-base-100 text-base-content">
                 <span class="flex flex-col h-full w-full justify-around items-center leading-none">{{ host.initials }}</span>

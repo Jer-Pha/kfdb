@@ -6,8 +6,8 @@
       <input type="checkbox" />
       <div class="collapse-title p-0 max-h-16">
         <div class="flex flex-row">
-          <img src="{% if video.show.image %}
-              {{ video.show.image.url }}
+          <img src="{% if video.show.image_xs %}
+              {{ video.show.image_xs.url }}
             {% else %}
               {% static 'img/not-found.webp' %}
             {% endif %}"
