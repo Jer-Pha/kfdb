@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="kindafunny">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, shrink-to-fit=no" />
@@ -25,42 +25,238 @@
   </head>
 
   <body hx-boost="true">
-    <div id="hero-banner" class="hero min-h-[calc(var(--vh,1vh)*100)] py-24 sm:py-32 bg-cover bg-center">
-      <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:mx-0">
-          <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">Kinda Funny Database</h2>
-          <p class="mt-6 text-lg leading-8 text-gray-300">Four, sometimes five, best friends gather around this table.</p>
+    <div class="drawer">
+      <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <div class="w-full navbar bg-transparent z-50 absolute top-0 left-0">
+          <div class="flex-none md:hidden">
+            <label tabindex="0" for="nav-drawer" aria-label="Open Side Navigation" class="btn btn-square btn-ghost">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-gray-300">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </label>
+          </div>
+          <div class="flex-1"></div>
+          <div class="justify-end hidden md:flex text-gray-300">
+            <ul class="menu menu-horizontal px-1">
+              <li class="dropdown dropdown-hover">
+                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Kinda Funny Games</div>
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
+                  <li>
+                    <a href="{% url 'show_page' show='kfgd' %}" class="text-nowrap rounded-none">Games Daily</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='gamescast' %}" class="text-nowrap rounded-none">Gamescast</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='game-showdown' %}" class="text-nowrap rounded-none">Game Showdown</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='gameplay' %}" class="text-nowrap rounded-none">Gameplay</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='reactions' %}?channel=games" class="text-nowrap rounded-none">Reactions</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='highlights' %}?channel=games" class="text-nowrap rounded-none">Highlights</a>
+                  </li>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <li>
+                    <a href="{% url 'channel_page' channel='games' %}" class="text-nowrap rounded-t-none rounded-b-box pb-4 mb-[-0.5rem]">Browse Videos</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="flex-none dropdown dropdown-hover">
+                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Kinda Funny</div>
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
+                  <li>
+                    <a href="{% url 'show_page' show='kf-podcast' %}" class="text-nowrap rounded-none">KF Podcast</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='in-review' %}" class="text-nowrap rounded-none">In Review</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='screencast' %}" class="text-nowrap rounded-none">Screencast</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='reactions' %}?channel=prime" class="text-nowrap rounded-none">Reactions</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'show_page' show='highlights' %}?channel=prime" class="text-nowrap rounded-none">Highlights</a>
+                  </li>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <li>
+                    <a href="{% url 'channel_page' channel='prime' %}" class="text-nowrap rounded-t-none rounded-b-box pb-4 mb-[-0.5rem]">Browse Videos</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown dropdown-hover">
+                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Hosts</div>
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
+                  <li>
+                    <a href="{% url 'host_type' type='kf-crew' %}" class="text-nowrap rounded-none">KF Crew</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'host_type' type='part-timers' %}" class="text-nowrap rounded-none">Part-Timers</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'host_type' type='guests' %}" class="text-nowrap rounded-none">Guests</a>
+                  </li>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <li>
+                    <a href="{% url 'host_home' %}" class="text-nowrap rounded-t-none rounded-b-box pb-4 mb-[-0.5rem]">Browse Hosts</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown dropdown-hover">
+                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Membership</div>
+                <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
+                  <li>
+                    <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="flex flex-row rounded-none group/youtubelg">
+                      <span class="flex-1">YouTube</span><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent group-hover/youtubelg:fill-primary" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.patreon.com/kindafunny/membership" target="_blank" class="flex flex-row rounded-none group/patreonlg">
+                      <span class="flex-1">Patreon</span><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent group-hover/patreonlg:fill-primary" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <li>
+                    <a href="{% url 'channel_page' channel='members' %}" class="text-nowrap rounded-t-none rounded-b-box pb-4 mb-[-0.5rem]">Browse Videos</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="mx-auto mt-4 sm:mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
-          <dl class="grid grid-cols-1 gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-4" hx-get="{% url 'load_stats' %}" hx-target="#crew-count" hx-trigger="load once">
-            <div class="flex flex-col-reverse">
-              <dt class="text-base leading-7 text-gray-300">Crew Members</dt>
-              <dd id="crew-count" class="text-2xl font-bold leading-9 tracking-tight text-white"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></dd>
+        <div id="hero-banner" class="hero min-h-[calc(var(--vh,1vh)*100)] py-24 sm:py-32 bg-cover bg-center">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl lg:mx-0">
+              <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">Kinda Funny Database</h2>
+              <p class="mt-6 text-lg leading-8 text-gray-300">Four, sometimes five, best friends gather around this table.</p>
             </div>
-            <div class="flex flex-col-reverse">
-              <dt class="text-base leading-7 text-gray-300">Part-Timers</dt>
-              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="part-timer-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
+            <div class="mx-auto mt-4 sm:mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
+              <dl class="grid grid-cols-1 gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-4" hx-get="{% url 'load_stats' %}" hx-target="#crew-count" hx-trigger="load once">
+                <div class="flex flex-col-reverse">
+                  <dt class="text-base leading-7 text-gray-300">Crew Members</dt>
+                  <dd id="crew-count" class="text-2xl font-bold leading-9 tracking-tight text-white"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></dd>
+                </div>
+                <div class="flex flex-col-reverse">
+                  <dt class="text-base leading-7 text-gray-300">Part-Timers</dt>
+                  <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="part-timer-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
+                </div>
+                <div class="flex flex-col-reverse">
+                  <dt class="text-base leading-7 text-gray-300">Guests</dt>
+                  <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="guest-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
+                </div>
+                <div class="flex flex-col-reverse">
+                  <dt class="text-base leading-7 text-gray-300">Videos</dt>
+                  <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="video-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
+                </div>
+              </dl>
             </div>
-            <div class="flex flex-col-reverse">
-              <dt class="text-base leading-7 text-gray-300">Guests</dt>
-              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="guest-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
+            <div class="mx-auto mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
+              <a href="{% url 'index' %}" class="btn btn-primary btn-sm 2xl:btn-md">
+                Get Started<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
+                  <path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z" />
+                </svg>
+              </a>
             </div>
-            <div class="flex flex-col-reverse">
-              <dt class="text-base leading-7 text-gray-300">Videos</dt>
-              <dd class="text-2xl font-bold leading-9 tracking-tight text-white"><span id="video-count"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></span></dd>
-            </div>
-          </dl>
-        </div>
-        <div class="mx-auto mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
-          <a href="{% url 'index' %}" class="btn btn-primary btn-sm 2xl:btn-md">
-            Get Started<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
-              <path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z" />
-            </svg>
-          </a>
+          </div>
         </div>
       </div>
+      <div class="h-[calc(var(--vh,1vh)*100)] drawer-side z-50">
+        <label for="nav-drawer" aria-label="Close Side Navigation" class="drawer-overlay"></label>
+        <ul class="p-4 w-80 min-h-full bg-base-200">
+          <label for="nav-drawer" aria-label="Close Side Navigation" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />
+            </svg>
+          </label>
+          <li class="mt-12">
+            <div class="collapse collapse-arrow text-lg">
+              <input type="checkbox" class="peer/games" />
+              <div class="collapse-title font-medium peer-checked/games:bg-base-100 peer-checked/games:text-sm peer-checked/games:text-primary">Kinda Funny Games</div>
+              <div class="collapse-content text-lg text-base-content bg-base-100">
+                <ul>
+                  <a href="{% url 'show_page' show='kfgd' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Games Daily</li></a>
+                  <a href="{% url 'show_page' show='gamescast' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Gamescast</li></a>
+                  <a href="{% url 'show_page' show='game-showdown' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Game Showdown</li></a>
+                  <a href="{% url 'show_page' show='gameplay' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Gameplay</li></a>
+                  <a href="{% url 'show_page' show='reactions' %}?channel=games" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Reactions</li></a>
+                  <a href="{% url 'show_page' show='highlights' %}?channel=games" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Highlights</li></a>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <a href="{% url 'channel_page' channel='games' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Browse Videos</li></a>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapse collapse-arrow text-lg has-[input:checked]:mt-4">
+              <input type="checkbox" class="peer/prime" />
+              <div class="collapse-title font-medium peer-checked/prime:bg-base-100 peer-checked/prime:text-sm peer-checked/prime:text-primary">Kinda Funny</div>
+              <div class="collapse-content text-lg text-base-content bg-base-100">
+                <ul>
+                  <a href="{% url 'show_page' show='kf-podcast' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">KF Podcast</li></a>
+                  <a href="{% url 'show_page' show='in-review' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">In Review</li></a>
+                  <a href="{% url 'show_page' show='screencast' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Screencast</li></a>
+                  <a href="{% url 'show_page' show='reactions' %}?channel=prime" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Reactions</li></a>
+                  <a href="{% url 'show_page' show='highlights' %}?channel=prime" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Highlights</li></a>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <a href="{% url 'channel_page' channel='prime' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Browse Videos</li></a>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapse collapse-arrow text-lg has-[input:checked]:mt-4">
+              <input type="checkbox" class="peer/hosts" />
+              <div class="collapse-title font-medium peer-checked/hosts:bg-base-100 peer-checked/hosts:text-sm peer-checked/hosts:text-primary">Hosts</div>
+              <div class="collapse-content text-lg text-base-content bg-base-100">
+                <ul>
+                  <a href="{% url 'host_type' type='kf-crew' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">KF Crew</li></a>
+                  <a href="{% url 'host_type' type='part-timers' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Part-Timers</li></a>
+                  <a href="{% url 'host_type' type='guests' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Guests</li></a>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <a href="{% url 'host_home' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Browse Hosts</li></a>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapse collapse-arrow text-lg has-[input:checked]:mt-4">
+              <input type="checkbox" class="peer/members" />
+              <div class="collapse-title font-medium peer-checked/members:bg-base-100 peer-checked/members:text-sm peer-checked/members:text-primary">Membership</div>
+              <div class="collapse-content text-lg text-base-content bg-base-100">
+                <ul>
+                  <li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">
+                    <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="flex flex-row group/youtubesm">
+                      <span class="flex-1">YouTube</span><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent group-hover/youtubesm:fill-primary" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">
+                    <a href="https://www.patreon.com/kindafunny/membership" target="_blank" class="flex flex-row group/patreonsm">
+                      <span class="flex-1">Patreon</span><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent group-hover/patreonsm:fill-primary" viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
+                  <a href="{% url 'channel_page' channel='members' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Browse Videos</li></a>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div></div>
 
     <script src="{% static 'htmx.min.js' %}"></script>
   </body>
