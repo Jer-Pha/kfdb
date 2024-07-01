@@ -6,6 +6,8 @@ from .models import Host
 
 
 class HostSerializer(serializers.ModelSerializer):
+    birthday = serializers.DateField(format="%B %d")
+
     class Meta:
         model = Host
         fields = [
