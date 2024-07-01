@@ -1,7 +1,7 @@
 <div class="flex flex-col 2xl:flex-row collapse-content bg-base-200 border-t-2 mt-[-2px] border-dotted border-base-content">
   <div class="flex flex-col 2xl:flex-1">
     {% if video.hosts.all or video.producer %}
-      <div class="pl-3 pt-8 mx-auto mb-4">
+      <div class="pl-3 pt-8 mx-auto mb-4 min-w-16">
         {% if video.producer %}
           <a href="{% url 'host_page' type=video.producer.url_type host=video.producer.slug %}" title="Producer: {{ video.producer.name }}">
             {% if video.producer.image %}
@@ -28,6 +28,14 @@
     {% endif %}
     {% if video.embed_size %}
       <iframe class="mx-auto max-w-[min(100%,480px)] max-h-[480px] {{ video.embed_size }}" src="https://www.youtube-nocookie.com/embed/{{ video.video_id }}?html5=1" title="{{ video.title }}" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+    {% elif 'patreon' in video.link %}
+      <p class="mx-auto pt-4">
+        <a href="{{ video.link }}" target="_blank" class="flex flex-row min-w-[150px] rounded-none group/patreonpost">
+          <span class="flex-1 link-hover">View on Patreon</span>&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent group-hover/patreonpost:fill-primary" viewBox="0 -960 960 960">
+            <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
+          </svg>
+        </a>
+      </p>
     {% endif %}
   </div>
   {% if video.blurb %}
