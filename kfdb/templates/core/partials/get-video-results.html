@@ -1,6 +1,6 @@
 {% load static %}
 
-<div id="results-body" class="pt-2">
+<div id="results-body" class="pt-2" hx-boost="false">
   {% for video in videos %}
     <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t bg-base-300 rounded-none" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
       <input type="checkbox" />
