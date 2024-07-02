@@ -1,9 +1,9 @@
 {% if hosts_crew %}
   <div class="pt-2">
-    {% for host in hosts_crew %}
+    {% for h in hosts_crew %}
       <label class="label cursor-pointer">
-        <span class="label-text">{{ host.1 }}</span>
-        <input type="checkbox" class="checkbox checkbox-sm trigger" name="crew" value="{{ host.0 }}" />
+        <span class="label-text">{{ h.1 }}</span>
+        <input type="checkbox" class="checkbox checkbox-sm trigger" name="crew" value="{{ h.0 }}" />
       </label>
     {% endfor %}
   </div>
