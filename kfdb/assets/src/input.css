@@ -37,10 +37,7 @@ img.loading-logo {
 
 .fade-in {
   opacity: 1;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 0.65s;
+  animation: fadeInOpacity 0.65s ease-in 1;
 }
 
 @keyframes fadeInOpacity {
@@ -54,10 +51,7 @@ img.loading-logo {
 
 .fade-out {
   opacity: 0;
-  animation-name: fadeOutOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-out;
-  animation-duration: 0.3s;
+  animation: fadeOutOpacity 0.65s ease-in 1;
 }
 
 @keyframes fadeOutOpacity {
