@@ -3,7 +3,7 @@
     {% for host in hosts_crew %}
       <label class="label cursor-pointer">
         <span class="label-text">{{ host.1 }}</span>
-        <input type="checkbox" class="checkbox trigger" name="crew" value="{{ host.0 }}" />
+        <input type="checkbox" class="checkbox checkbox-sm trigger" name="crew" value="{{ host.0 }}" />
       </label>
     {% endfor %}
   </div>
@@ -82,3 +82,4 @@
     </select>
   </label>
 {% endif %}
+<div hx-get="{{ view.curr_path }}" hx-trigger="change from:.trigger" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();"></div>

@@ -8,13 +8,13 @@
         <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />
       </svg>
     </label>
-    <form id="filter-form" class="mt-8 md:mt-0" hx-get="{{ view.curr_path }}" hx-trigger="change target:.trigger" hx-target="#results-body" hx-swap="outerHTML">
+    <form id="filter-form" class="mt-8 md:mt-0">
       <div class="collapse collapse-arrow text-lg">
         <input type="checkbox" class="peer/filter" />
         <div class="collapse-title font-medium peer-checked/filter:text-sm peer-checked/filter:text-primary">Filter</div>
         <div class="collapse-content mt-[-1rem]">
           <div class="pb-2" hx-get="{% url 'build_filter' %}?u={{ view.curr_path }}&amp;{{ filter_param }}" hx-trigger="intersect once" hx-target="this">
-            <img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo" alt="Loading..." />
+            <img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo rounded-full bg-white" alt="Loading..." />
           </div>
         </div>
       </div>
@@ -26,26 +26,25 @@
           <div class="form-control">
             <label class="label cursor-pointer">
               <span class="label-text">Release Date &lpar;New&rpar;</span>
-              <input type="radio" name="sort" value="-release_date" class="radio trigger" checked="checked" />
+              <input type="radio" name="sort" value="-release_date" class="radio radio-sm trigger" checked="checked" />
             </label>
             <label class="label cursor-pointer">
               <span class="label-text">Release Date &lpar;Old&rpar;</span>
-              <input type="radio" name="sort" value="release_date" class="radio trigger" />
+              <input type="radio" name="sort" value="release_date" class="radio radio-sm trigger" />
             </label>
             <label class="label cursor-pointer">
               <span class="label-text">Title &lpar;A-Z&rpar;</span>
-              <input type="radio" name="sort" value="title" class="radio trigger" />
+              <input type="radio" name="sort" value="title" class="radio radio-sm trigger" />
             </label>
             <label class="label cursor-pointer">
               <span class="label-text">Title &lpar;Z-A&rpar;</span>
-              <input type="radio" name="sort" value="-title" class="radio trigger" />
+              <input type="radio" name="sort" value="-title" class="radio radio-sm trigger" />
             </div>
         </div>
       </div>
       <hr class="border-accent" />
       <div class="form-control my-4">
         <input type="text" name="search" placeholder="Search..." class="input input-sm md:input:md input-bordered w-auto trigger form-input" />
-        <script src="{% static 'js/searchHandler.js' %}?v={% now 'U' %}"></script>
       </div>
       <div class="flex flex-row">
         <select name="results" class="select select-sm select-bordered mr-auto trigger">
@@ -55,8 +54,12 @@
           <option value="50">50 / page</option>
           <option value="100">100 / page</option>
         </select>
-        <input type="reset" value="Reset" class="btn btn-warning btn-sm ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="click" hx-target="#results-body" hx-swap="outerHTML" />
+        <input type="reset" value="Reset" class="btn btn-warning btn-sm ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="click" hx-target="#results-body" hx-swap="outerHTML" hx-on::before-request="fadeOut();" />
       </div>
+    </div>
     </form>
   </div>
 </div>
+
+<script src="{% static 'js/searchHandler.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/resultsHandler.js' %}?v={% now 'U' %}"></script>
