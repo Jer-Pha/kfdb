@@ -269,10 +269,8 @@
             </ul>
           </div>
           <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-square btn-ghost" aria-label="Color Themes">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-primary-content">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
-              </svg>
+            <div tabindex="0" role="button" class="btn btn-square btn-ghost" aria-label="Themes" title="Themes">
+              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" class="inline-block w-5 h-5 fill-primary-content"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm40-83q119-15 199.5-104.5T800-480q0-123-80.5-212.5T520-797v634Z"/></svg>
             </div>
             <div tabindex="0" class="dropdown-content mt-14 md:mt-[58px] p-0 rounded-t-none rounded-b-box bg-base-200 text-base-content join join-vertical z-50">
               <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Dark" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
