@@ -1,3 +1,6 @@
+from datetime import datetime
+from random import choice
+
 from django.db import models
 from django.utils.text import slugify
 
@@ -81,3 +84,12 @@ class Host(models.Model):
         elif self.part_timer:
             return "secondary"
         return "accent"
+
+    @property
+    def nickname(self):
+        if self.slug == "joey":
+            nickname = choice(self.nicknames)
+            if nickname == "Christmas in >>Current Month<<":
+                nickname = f"Christmas in {datetime.now().strftime('%B')}"
+            return nickname
+        return choice(self.nicknames)

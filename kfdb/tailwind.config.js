@@ -7,10 +7,17 @@ module.exports = {
     'border-primary',
     'border-secondary',
     'border-accent',
+    'badge-primary',
+    'badge-secondary',
+    'badge-accent',
+    'tooltip-primary',
+    'tooltip-secondary',
+    'tooltip-accent',
     'aspect-[16/9]',
     'aspect-[9/16]',
     'w-full',
-    'w-[270px]'
+    'w-[270px]',
+    'sm:max-w-8',
   ],
   theme: {
     extend: {},

@@ -19,9 +19,34 @@
 {% block main %}
   <div class="drawer md:drawer-open min-h-[inherit]">
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col bg-base-100 px-2">
-      <div class="min-h-14 md:min-h-1">
-        <h1 class="text-lg md:text-3xl text-base-content">{{ host.name }}</h1>
+    <div class="drawer-content flex flex-col bg-base-100 px-2 sm:px-4">
+      <div class="flex flex-row pb-4 pt-2 sm:pt-4">
+        {% if host.socials %}
+        <div class="flex flex-wrap {% if host.socials.items|length > 4 %}max-w-16 sm:{% endif %}max-w-8 justify-around items-center">
+          {% for key, value in host.socials.items %}
+            <a href="{{ value }}" target="_blank" aria-label="{{ key|title }}" title="{{ key|title }}" tabindex="0">{% include 'core/partials/socials/'|add:key|add:'.html' %}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if host.image %}
+          <div class="indicator">
+            <div class="indicator-item indicator-bottom indicator-center badge badge-{{ host.border_color }}">
+            <div class="tooltip tooltip-{{ host.border_color }}" data-tip="{{ host.name }} has appeared in {{ appearances }} videos">
+              <button type="button" class="cursor-default">{{ appearances }}</span>
+            </div>
+          </div>
+            <div class="mx-2 sm:mx-4">
+              <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-28 h-28 sm:w-40 sm:h-40 lg:w-56 lg:h-56 rounded md:rounded-md border-2 border-{{ host.border_color }}  aspect-square object-cover" />
+            </div>
+          </div>
+        {% endif %}
+        <div class="flex flex-col max-h-28 sm:max-h-40 lg:max-h-56">
+            <h1 class="text-xl md:text-3xl text-base-content">{{ host.name }}</h1>
+            {% if host.nicknames %}
+              <h3 class="sm:flex sm:flex-row"><span class="font-semibold">AKA&nbsp;</span><span>&quot;{{ host.nickname }}&quot;</span></h3>
+            {% endif %}
+          {% comment %} <div class="text-sm space-y-2 hidden 2xl:block">{{ host.blurb|safe }}</div> {% endcomment %}
+        </div>
       </div>
       <label for="filter-drawer" class="btn btn-accent btn-square drawer-button fixed h-[3.25rem] w-[3.25rem] shadow top-[calc((var(--vh,1vh)*100)-5.25rem)] left-8 z-[19] rounded-full md:hidden" aria-label="Search, Sort, and Filter">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-accent-content" viewBox="0 -960 960 960">

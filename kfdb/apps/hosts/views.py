@@ -1,7 +1,9 @@
+from django.db.models import Q
 from django.http import HttpResponse
 
 from .models import Host
 from apps.core.views import DefaultVideoView
+from apps.videos.models import Video
 
 
 def host_home(request):
@@ -22,16 +24,21 @@ class HostPageView(DefaultVideoView):
             if self.new_page
             else "core/partials/get-video-results.html"
         )
-        host = Host.objects.values("id", "name", "blurb").get(
+        host = Host.objects.defer("image_xs", "kf_crew", "part_timer").get(
             slug=kwargs.get("host", "")
         )
-        filter_params = {"host": host["id"]}
+        filter_params = {"host": host.id}
         context["videos"] = self.get_videos(filter_params)
         if self.new_page:
             context.update(
                 {
                     "host": host,
-                    "filter_param": f"h={host['id']}",
+                    "filter_param": f"h={host.id}",
+                    "appearances": (
+                        Video.objects.only("id")
+                        .filter(Q(hosts=host) | Q(producer=host))
+                        .count()
+                    ),
                 }
             )
 
