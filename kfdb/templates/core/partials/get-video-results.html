@@ -25,15 +25,15 @@
   {% if view.page_range %}
     <div class="flex flex-row mt-4 2xl:mt-2">
       <div class="w-0 sm:w-full max-w-20"></div>
-      <form class="mr-auto sm:ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="change target:.page" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();">
+      <form class="mr-auto sm:ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="change target:.page" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();" hx-headers='{"HX-UpdateList": true}'>
         <div id="pagination" class="join">
           {% for page in view.page_range %}
             <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page }}" aria-label="{{ page }}"{% if page == view.page %} checked{% endif %} />
           {% endfor %}
         </div>
       </form>
-      <form hx-get="{{ view.curr_path }}" hx-trigger="change target:.page-input" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();">
-        <input type="number" name="page" class="input input-bordered input-sm 2xl:input-md w-full max-w-20 form-input page-input" min="1" max="{{ view.page_count }}" value="{{ view.page }}" />
+      <form hx-get="{{ view.curr_path }}" hx-trigger="change target:#page-input" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();" hx-headers='{"HX-UpdateList": true}'>
+        <input id="page-input" type="number" name="page" class="input input-bordered input-sm 2xl:input-md w-full max-w-20 form-input" min="1" max="{{ view.page_count }}" value="{{ view.page }}" />
       </form>
     </div>
   {% endif %}

@@ -54,12 +54,11 @@
           <option value="50">50 / page</option>
           <option value="100">100 / page</option>
         </select>
-        <input type="reset" value="Reset" class="btn btn-warning btn-sm ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="click" hx-target="#results-body" hx-swap="outerHTML" hx-on::before-request="fadeOut();" />
+        <input type="reset" value="Reset" class="btn btn-warning btn-sm ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="click" hx-target="#results-body" hx-swap="outerHTML" hx-on::before-request="fadeOut();" hx-headers='{"HX-UpdateList": true}' />
       </div>
     </div>
     </form>
   </div>
 </div>
 
-<script src="{% static 'js/searchHandler.js' %}?v={% now 'U' %}"></script>
 <script src="{% static 'js/resultsHandler.js' %}?v={% now 'U' %}"></script>

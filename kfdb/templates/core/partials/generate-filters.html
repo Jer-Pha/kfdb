@@ -82,4 +82,4 @@
     </select>
   </label>
 {% endif %}
-<div hx-get="{{ view.curr_path }}" hx-trigger="change from:.trigger" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();"></div>
+<div hx-get="{{ view.curr_path }}" hx-trigger="change from:.trigger" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();" hx-headers='{"HX-UpdateList": true}'></div>
