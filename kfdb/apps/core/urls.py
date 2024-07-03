@@ -16,6 +16,8 @@ from .views import (
     BuildFilterView,
     HeroStatsView,
     UpdateThemeView,
+    VideoBlurbView,
+    VideoEmbedView,
     VideoDetailsView,
 )
 from apps.channels.viewsets import ChannelViewSet
@@ -48,6 +50,16 @@ urlpatterns = [
         "get/video-details",
         VideoDetailsView.as_view(),
         name="get_video_details",
+    ),
+    path(
+        "get/video-blurb",
+        VideoBlurbView.as_view(),
+        name="get_video_blurb",
+    ),
+    path(
+        "get/video-embed",
+        VideoEmbedView.as_view(),
+        name="get_video_embed",
     ),
     path("kfdb-admin/", admin.site.urls, name="admin"),
     # path("temp/upload/", upload_view),  # Temporary
