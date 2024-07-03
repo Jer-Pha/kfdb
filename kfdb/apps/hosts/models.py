@@ -93,3 +93,7 @@ class Host(models.Model):
                 nickname = f"Christmas in {datetime.now().strftime('%B')}"
             return nickname
         return choice(self.nicknames)
+
+    @property
+    def birth_day(self):
+        return self.birthday.strftime("%B %d")
