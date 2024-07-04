@@ -28,7 +28,6 @@ function fadeOut() {
 // of using htmx.
 var inputs = document.querySelectorAll('.form-input');
 function stopSubmit(e) {
-    console.log(e.key);
     if (e.key === 'Enter') {
         e.currentTarget.blur();
         return false;
