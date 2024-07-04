@@ -62,3 +62,39 @@ img.loading-logo {
       opacity: 0;
   }
 }
+
+@media (max-width: 431px) {
+  .grid .card.image-full::before {
+    border-radius: 0;
+  }
+}
+
+.card.image-full {
+  display: grid;
+}
+
+.host-card:has(img):before {
+  opacity: 0.65 !important;
+}
+
+.host-card:has(img):hover:before {
+  opacity: 0 !important;
+}
+
+.host-card > img {
+  transform: scale(1);
+  transition: all .3s ease;
+}
+
+.host-card:hover img {
+  transform: scale(1.15);
+}
+
+.host-card:has(img):hover .card-body {
+  visibility: hidden;
+}
+
+.host-card:not(:has(img)):hover {
+  background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));
+  color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));
+}

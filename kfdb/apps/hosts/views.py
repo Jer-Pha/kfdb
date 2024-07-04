@@ -1,9 +1,9 @@
-from django.db.models import Q
+from django.db.models import Count, F
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 from .models import Host
 from apps.core.views import DefaultVideoView
-from apps.videos.models import Video
 
 
 def host_home(request):
@@ -34,12 +34,34 @@ class HostPageView(DefaultVideoView):
                 {
                     "host": host,
                     "filter_param": f"h={host.id}",
-                    "appearances": (
-                        Video.objects.only("id")
-                        .filter(Q(hosts=host) | Q(producer=host))
-                        .count()
-                    ),
                 }
             )
+
+        return context
+
+
+class HostHomeView(TemplateView):
+    template_name = "hosts/hosts-home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        hosts = (
+            Host.objects.all()
+            .defer("nicknames", "socials", "birthday", "blurb", "image_xs")
+            .annotate(
+                count_hosted=Count("video_host", distinct=True),
+                count_produced=Count("video_producer", distinct=True),
+                appearances=(F("count_hosted") + F("count_produced")),
+            )
+            .order_by("-kf_crew", "-part_timer", "name")
+        )
+
+        context.update(
+            {
+                "hosts": hosts,
+                "host_type": "All",
+            }
+        )
 
         return context
