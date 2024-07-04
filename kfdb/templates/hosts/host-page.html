@@ -18,10 +18,10 @@
 {% block main %}
   <div class="drawer md:drawer-open min-h-[inherit]">
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col bg-base-100 px-2 sm:px-4">
-      <div class="flex flex-row pb-4 pt-2 sm:pt-4">
+    <div class="drawer-content flex flex-col bg-base-100 px-2 xs:px-4">
+      <div class="flex flex-row pb-4 pt-2 xs:pt-4">
         {% if host.socials %}
-          <div class="flex flex-wrap {% if host.socials.items|length > 4 %}max-w-16 sm:{% endif %}max-w-8 justify-around items-center">
+          <div class="flex flex-wrap {% if host.socials.items|length > 4 %}max-w-16 xs:{% endif %}max-w-8 justify-around items-center">
             {% for key, value in host.socials.items %}
               <a href="{{ value }}" target="_blank" aria-label="{{ key|title }}" title="{{ key|title }}" tabindex="0">{% include 'core/partials/socials/'|add:key|add:'.html' %}</a>
             {% endfor %}
@@ -29,35 +29,35 @@
         {% endif %}
         <div class="indicator">
           <div class="indicator-item indicator-bottom indicator-center badge badge-outline bg-base-100 border-2 border-{{ host.border_color }}">
-            <div class="tooltip tooltip-{{ host.border_color }}" data-tip="{{ host.name }} has appeared in {{ appearances }} videos">
-              <span type="button" class="cursor-default">{{ appearances }}</span>
+            <div class="tooltip tooltip-{{ host.border_color }}" data-tip="{{ host.name }} has appeared in {{ host.appearance_count }} videos">
+              <span type="button" class="cursor-default">{{ host.appearance_count }}</span>
             </div>
           </div>
-          <div class="mx-2 sm:mx-4">
+          <div class="mx-2 xs:mx-4">
             {% if host.image %}
-              <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-28 h-28 sm:w-40 sm:h-40 xl:w-56 xl:h-56 rounded md:rounded-md border-2 border-{{ host.border_color }} aspect-square object-cover" />
+              <img src="{{ host.image.url }}" alt="{{ host.name }}" class="w-28 h-28 xs:w-40 xs:h-40 xl:w-56 xl:h-56 rounded md:rounded-md border-2 border-{{ host.border_color }} aspect-square object-cover" />
             {% else %}
-              <div class="align-bottom w-28 h-28 sm:w-40 sm:h-40 xl:w-56 xl:h-56 rounded md:rounded-md border-2 border-{{ host.border_color }} bg-base-100 overflow-hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-28 h-28 sm:w-40 sm:h-40 xl:w-56 xl:h-56 fill-gray-500" viewBox="0 -960 960 730">
+              <div class="align-bottom w-28 h-28 xs:w-40 xs:h-40 xl:w-56 xl:h-56 rounded md:rounded-md border-2 border-{{ host.border_color }} bg-base-100 overflow-hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-28 h-28 xs:w-40 xs:h-40 xl:w-56 xl:h-56 fill-gray-500" viewBox="0 -960 960 730">
                   <path d="M480-487q-71.46 0-116.23-44.77Q319-576.54 319-648q0-71.46 44.77-116.23Q408.54-809 480-809q71.46 0 116.23 44.77Q641-719.46 641-648q0 71.46-44.77 116.23Q551.46-487 480-487ZM145-130v-109q0-41 20.09-70.38Q185.19-338.75 217-354q69-32 133.45-47.5 64.46-15.5 129.5-15.5Q545-417 609-401q64 16 133 47 32.81 15.25 52.91 44.62Q815-280 815-239v109H145Z" />
                 </svg>
               </div>
             {% endif %}
           </div>
         </div>
-        <div class="flex flex-col max-h-28 sm:max-h-40 lg:max-h-56">
-          <h1 class="text-xl sm:text-3xl md:text-xl lg:text-3xl xl:text-4xl text-base-content self-center">{{ host.name }}</h1>
+        <div class="flex flex-col max-h-28 xs:max-h-40 lg:max-h-56">
+          <h1 class="text-xl xs:text-3xl md:text-xl lg:text-3xl xl:text-4xl text-base-content self-center">{{ host.name }}</h1>
           {% if host.nicknames %}
             <div class="flex flex-row">
               <hr class="flex-1 my-auto" />
-              <span class="text-sm sm:text-base font-bold self-center">&nbsp;&nbsp;AKA&nbsp;&nbsp;</span>
+              <span class="text-sm xs:text-base font-bold self-center">&nbsp;&nbsp;AKA&nbsp;&nbsp;</span>
               <hr class="flex-1 my-auto" />
             </div>
-            <h3 class="text-sm sm:text-base xl:text-xl italic self-center">&quot;{{ host.nickname }}&quot;</h3>
+            <h3 class="text-sm xs:text-base xl:text-xl italic self-center">&quot;{{ host.nickname }}&quot;</h3>
           {% endif %}
         </div>
         {% if host.blurb or host.birthday %}
-        <div class="absolute top-[6.5rem] sm:top-40 xl:top-[13.5rem] right-4">
+        <div class="absolute top-[6.5rem] xs:top-40 xl:top-[13.5rem] right-4">
           <div class="dropdown dropdown-bottom dropdown-end rounded-full bg-white">
             <div tabindex="0" role="button" class="m-1">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 xl:w-8 xl:h-8 fill-info -m-2" viewBox="0 -960 960 960">
