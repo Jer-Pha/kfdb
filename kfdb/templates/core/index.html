@@ -21,7 +21,7 @@
         <h1 class="text-4xl md:text-5xl font-bold">Welcome to KFDB!</h1>
         <p class="pt-6">Made for the community, by the community.</p>
         <p class="py-6">This database contains all Kinda Funny YouTube content, including host and guest appearances for each episode. All content can be filtered, sorted, and searched.</p>
-        <button class="btn btn-sm 2xl:btn-md btn-accent">All Hosts</button>
+        <a href="{% url 'hosts_home' %}" class="btn btn-sm 2xl:btn-md btn-accent mx-2">All Hosts</a>
         <a href="{% url 'videos_home' %}" class="btn btn-sm 2xl:btn-md btn-accent mx-2">All Videos</a>
       </div>
     </div>

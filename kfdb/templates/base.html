@@ -229,17 +229,17 @@
                 <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Hosts</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
-                    <a href="{% url 'host_type' type='kf-crew' %}" class="text-nowrap rounded-none">KF Crew</a>
+                    <a href="{% url 'hosts_crew' %}" class="text-nowrap rounded-none">KF Crew</a>
                   </li>
                   <li>
-                    <a href="{% url 'host_type' type='part-timers' %}" class="text-nowrap rounded-none">Part-Timers</a>
+                    <a href="{% url 'hosts_part_timers' %}" class="text-nowrap rounded-none">Part-Timers</a>
                   </li>
                   <li>
-                    <a href="{% url 'host_type' type='guests' %}" class="text-nowrap rounded-none">Guests</a>
+                    <a href="{% url 'hosts_guests' %}" class="text-nowrap rounded-none">Guests</a>
                   </li>
                   <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
                   <li>
-                    <a href="{% url 'host_home' %}" class="text-nowrap rounded-t-none rounded-b-box pb-4 mb-[-0.5rem]">Browse Hosts</a>
+                    <a href="{% url 'hosts_home' %}" class="text-nowrap rounded-t-none rounded-b-box pb-4 mb-[-0.5rem]">Browse Hosts</a>
                   </li>
                 </ul>
               </li>
@@ -337,11 +337,11 @@
               <div class="collapse-title font-medium peer-checked/hosts:bg-base-100 peer-checked/hosts:text-sm peer-checked/hosts:text-primary">Hosts</div>
               <div class="collapse-content text-lg text-base-content bg-base-100">
                 <ul>
-                  <a href="{% url 'host_type' type='kf-crew' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">KF Crew</li></a>
-                  <a href="{% url 'host_type' type='part-timers' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Part-Timers</li></a>
-                  <a href="{% url 'host_type' type='guests' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Guests</li></a>
+                  <a href="{% url 'hosts_crew' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">KF Crew</li></a>
+                  <a href="{% url 'hosts_part_timers' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Part-Timers</li></a>
+                  <a href="{% url 'hosts_guests' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Guests</li></a>
                   <hr class="w-[calc(100%-2rem)] mx-auto my-2 border-accent" />
-                  <a href="{% url 'host_home' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Browse Hosts</li></a>
+                  <a href="{% url 'hosts_home' %}" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Browse Hosts</li></a>
                 </ul>
               </div>
             </div>
