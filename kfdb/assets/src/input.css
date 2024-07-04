@@ -75,15 +75,19 @@ img.loading-logo {
 
 .host-card:has(img):before {
   opacity: 0.65 !important;
+  top: 0;
+  transition: top .3s linear;
 }
 
 .host-card:has(img):hover:before {
-  opacity: 0 !important;
+  /* opacity: 0 !important; */
+  border-radius: 0;
+  top: 100%;
 }
 
 .host-card > img {
   transform: scale(1);
-  transition: all .3s ease;
+  transition: all .3s ease-in;
 }
 
 .host-card:hover img {
