@@ -16,7 +16,7 @@
     <h1 class="font-semibold text-xl xs:text-2xl md:text-3xl lg:text-3xl xl:text-4xl mt-2 mx-auto sm:ml-1 lg:ml-2">{{ host_type }}</h1>
     <div class="flex flex-row mt-2 md:mt-4 mb-1 md:mb-2">
       <form id="host-form" hx-get="{{ view.curr_path }}" hx-trigger="change" hx-target="#host-grid" hx-swap="innerHTML">
-        <input id="host-search" type="text" name="search" placeholder="Search..." class="input input-sm input-bordered w-auto max-w-[calc(100vw-11.25rem)] mx-1 lg:mx-2 trigger" />
+        <input id="host-search" type="text" name="search" placeholder="Search..." class="input input-sm input-bordered w-auto max-w-[calc(100vw-11.75rem)] mx-1 lg:mx-2 trigger" />
         <select name="sort" class="select select-sm select-bordered ml-auto mr-1 lg:mr-2 trigger">
           <option value="-kf_crew,-part_timer,name" selected>- Default Sort -</option>
           <option value="-appearances">Appearances &lpar;Most&rpar;</option>
@@ -27,7 +27,7 @@
       </form>
     </div>
   </div>
-  <div id="host-grid" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6" hx-boost="true">
+  <div id="host-grid" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 mb-auto" hx-boost="true">
     {% include 'hosts/partials/get-hosts.html' %}
   </div>
   <script src="{% static 'js/hostsHandler.js' %}?v={% now 'U' %}"></script>
