@@ -1,23 +1,26 @@
-<div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6" hx-boost="true">
-  {% for host in hosts %}
-    <a href="{% url 'host_page' type=host.url_type host=host.slug %}" class="my-auto mx-0 xs:mx-1 lg:mx-2">
-      <div class="rounded-none xs:rounded-box card bg-base-100 image-full shadow-xl my-1 lg:my-2 host-card">
-        {% if host.image %}
-          <figure>
-            <img src="{{ host.image.url }}" class="aspect-square object-cover" alt="{{ host.name }}" />
-          </figure>
-        {% endif %}
-        <div class="card-body !py-4">
-          <div class="flex flex-col text-white mt-auto">
-            <h2 class="card-title text-white">{{ host.name }}</h2>
-            <div class="flex flex-row" aria-label="Appearances" title="Appearances">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-                <path d="M222.48-311.8h346.87v-23.72q0-46.73-46.8-74.6Q475.75-438 395.87-438q-80.67 0-127.03 27.88-46.36 27.87-46.36 74.6v23.72Zm173.34-179.16q36.33 0 59.95-23.53 23.62-23.53 23.62-59.86 0-36.32-23.53-59.82t-60.36-23.5q-36.83 0-59.95 23.41-23.12 23.41-23.12 59.74 0 36.32 23.15 59.94 23.15 23.62 60.24 23.62ZM135.78-143.33q-30.74 0-54.02-23.44-23.28-23.45-23.28-53.86v-518.74q0-30.51 23.28-54.03 23.28-23.51 54.02-23.51h518.5q30.85 0 54.2 23.51 23.35 23.52 23.35 54.03v208L901.76-701.3v442.6L731.83-428.63v208q0 30.41-23.35 53.86-23.35 23.44-54.2 23.44h-518.5Zm0-77.3h518.5v-518.74h-518.5v518.74Zm0 0v-518.74 518.74Z" />
-              </svg><span class="leading-6">&nbsp;&nbsp;{{ host.appearances }}</span>
-            </div>
+{% for host in hosts %}
+  <a href="{% url 'host_page' type=host.url_type host=host.slug %}" class="my-auto mx-0 xs:mx-1 lg:mx-2">
+    <div class="rounded-none xs:rounded-box card bg-base-100 image-full shadow-xl my-1 lg:my-2 host-card overflow-hidden">
+      {% if host.image %}
+        <figure>
+          <img src="{{ host.image.url }}" class="aspect-square object-cover" alt="{{ host.name }}" />
+        </figure>
+      {% endif %}
+      <div class="card-body !py-4">
+        <div class="flex flex-col text-white mt-auto">
+          <h2 class="card-title text-white">{{ host.name }}</h2>
+          <div class="flex flex-row" aria-label="Appearances" title="Appearances">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+              <path d="M222.48-311.8h346.87v-23.72q0-46.73-46.8-74.6Q475.75-438 395.87-438q-80.67 0-127.03 27.88-46.36 27.87-46.36 74.6v23.72Zm173.34-179.16q36.33 0 59.95-23.53 23.62-23.53 23.62-59.86 0-36.32-23.53-59.82t-60.36-23.5q-36.83 0-59.95 23.41-23.12 23.41-23.12 59.74 0 36.32 23.15 59.94 23.15 23.62 60.24 23.62ZM135.78-143.33q-30.74 0-54.02-23.44-23.28-23.45-23.28-53.86v-518.74q0-30.51 23.28-54.03 23.28-23.51 54.02-23.51h518.5q30.85 0 54.2 23.51 23.35 23.52 23.35 54.03v208L901.76-701.3v442.6L731.83-428.63v208q0 30.41-23.35 53.86-23.35 23.44-54.2 23.44h-518.5Zm0-77.3h518.5v-518.74h-518.5v518.74Zm0 0v-518.74 518.74Z" />
+            </svg><span class="leading-6">&nbsp;&nbsp;{{ host.appearances }}</span>
+            {% if forloop.first and not view.last_page %}
+              <form hx-get="{{ view.curr_path }}" hx-trigger="intersect once" hx-target="#host-grid" hx-include="#host-form" hx-swap="beforeend">
+                <input type="hidden" name="page" value="{{ view.page }}" />
+              </form>
+            {% endif %}
           </div>
         </div>
       </div>
-    </a>
-  {% endfor %}
-</div>
+    </div>
+  </a>
+{% endfor %}
