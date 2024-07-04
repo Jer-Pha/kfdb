@@ -2,6 +2,7 @@ from datetime import datetime
 from random import choice
 
 from django.db import models
+from django.db.models import Count, F
 from django.utils.text import slugify
 
 
@@ -97,3 +98,17 @@ class Host(models.Model):
     @property
     def birth_day(self):
         return self.birthday.strftime("%B %d")
+
+    @property
+    def appearance_count(self):
+        counts = (
+            Host.objects.filter(id=self.id)
+            .annotate(
+                hosted=Count("video_host", distinct=True),
+                produced=Count("video_producer", distinct=True),
+                appearances=(F("hosted") + F("produced")),
+            )
+            .values("appearances")
+            .first()
+        )
+        return counts["appearances"]
