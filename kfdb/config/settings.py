@@ -93,7 +93,6 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-    MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
