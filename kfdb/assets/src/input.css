@@ -80,7 +80,6 @@ img.loading-logo {
 }
 
 .host-card:has(img):hover:before {
-  /* opacity: 0 !important; */
   border-radius: 0;
   top: 100%;
 }
