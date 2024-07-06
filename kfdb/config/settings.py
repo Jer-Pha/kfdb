@@ -250,5 +250,6 @@ CSRF_COOKIE_NAME = "kfdb_csrf"
 # CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = True
 
-# Patreon
+# Video Update Keys
 PATREON_RSS_FEED = getenv("PATREON_RSS_FEED", "").strip()
+YOUTUBE_API_KEY = getenv("YOUTUBE_API_KEY", "").strip()

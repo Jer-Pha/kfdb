@@ -25,8 +25,6 @@ from apps.hosts.viewsets import HostViewSet
 from apps.shows.viewsets import ShowViewSet
 from apps.videos.viewsets import VideoViewSet
 
-from apps.videos.views import upload_view  # Temporary
-
 router = DefaultRouter()
 router.register("channels", ChannelViewSet, basename="channels")
 router.register("hosts", HostViewSet, basename="hosts")
@@ -62,7 +60,6 @@ urlpatterns = [
         name="get_video_embed",
     ),
     path("kfdb-admin/", admin.site.urls, name="admin"),
-    path("temp/upload/", upload_view),  # Temporary
 ]
 
 # Favicon urls
