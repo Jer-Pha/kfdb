@@ -129,15 +129,17 @@ class DefaultVideoView(TemplateView):
 
     def get_page_range(self, page, page_count):
         if page < 3 and page_count > 5:
-            self.page_range = range(1, 6)
-        elif page_count > 1 and (page_count < 6 or page == 2):
+            self.page_range = list(range(1, 4))
+            self.page_range.extend(("...", page_count))
+        elif page_count > 1 and page_count < 6:
             self.page_range = range(1, page_count + 1)
         elif page_count > 5 and page > 2 and page < page_count - 1:
-            self.page_range = range(page - 2, page + 3)
-        elif page_count > 5 and page_count > 5 and page == page_count - 1:
-            self.page_range = range(page - 3, page + 2)
-        elif page_count > 5 and page == page_count:
-            self.page_range = range(page - 4, page + 1)
+            self.page_range = [1, "..."]
+            self.page_range.extend(list(range(page - 1, page + 2)))
+            self.page_range.extend(("...", page_count))
+        elif page_count > 5 and page >= page_count - 1:
+            self.page_range = [1, "..."]
+            self.page_range.extend(list(range(page_count - 2, page_count + 1)))
         else:
             self.page_range = None
         self.page_count = page_count

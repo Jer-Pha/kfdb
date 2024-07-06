@@ -1,8 +1,8 @@
-{% load static %}
+{% load static l10n %}
 
 <div id="results-body" hx-boost="false">
   {% for video in videos %}
-    <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t bg-base-300 rounded-none" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
+    <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t rounded-none {% cycle 'bg-base-300' 'bg-base-200'%}" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
       <input type="checkbox" />
       <div class="collapse-title p-0 max-h-16 results-item fade-in">
         <div class="flex flex-row">
@@ -28,7 +28,11 @@
       <form class="mr-auto xs:ml-auto" hx-get="{{ view.curr_path }}" hx-trigger="change target:.page" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();" hx-headers='{"HX-UpdateList": true}'>
         <div id="pagination" class="join">
           {% for page in view.page_range %}
-            <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page }}" aria-label="{{ page }}"{% if page == view.page %} checked{% endif %} />
+            {% if page != '...' %}
+              <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page|unlocalize }}" aria-label="{{ page|unlocalize }}"{% if page == view.page %} checked{% endif %} />
+            {% else %}
+              <div class="join-item btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 page border-[1px] border-base-100 flex"><span class="m-auto">...</span></div>
+            {% endif %}
           {% endfor %}
         </div>
       </form>
