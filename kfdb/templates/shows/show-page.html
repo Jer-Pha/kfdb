@@ -19,8 +19,8 @@
   <div class="drawer md:drawer-open min-h-[inherit]">
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col bg-base-100 px-2">
-      <div class="min-h-14 md:min-h-1">
-        <h1 class="text-lg md:text-3xl text-base-content">
+      <div class="pb-1 sm:pb-2">
+        <h1 class="text-lg sm:text-3xl md:text-xl lg:text-3xl text-base-content">
           {{ show.name }}
           {% if 'reactions' in request.path or 'highlights' in request.path %}
             {% if 'channel=games' in request.get_full_path %}
