@@ -22,10 +22,12 @@
       <div class="min-h-14 md:min-h-1">
         <h1 class="text-lg md:text-3xl text-base-content">
           {{ show.name }}
-          {% if 'channel=games' in request.get_full_path %}
-            &lpar;Games&rpar;
-          {% elif 'channel=prime' in request.get_full_path %}
-            &lpar;Prime&rpar;
+          {% if 'reactions' in request.path or 'highlights' in request.path %}
+            {% if 'channel=games' in request.get_full_path %}
+              &lpar;Games&rpar;
+            {% elif 'channel=prime' in request.get_full_path %}
+              &lpar;Prime&rpar;
+            {% endif %}
           {% endif %}
         </h1>
       </div>
