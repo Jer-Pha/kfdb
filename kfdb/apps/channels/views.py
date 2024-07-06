@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from .models import Channel
 from apps.core.views import DefaultVideoView
 
