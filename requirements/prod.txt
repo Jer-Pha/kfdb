@@ -1,4 +1,4 @@
 -r base.txt
 
-django-storages[s3]>=1.14.3
-mysqlclient>=2.2.4
+django-storages[s3]==1.14.3
+mysqlclient==2.2.4

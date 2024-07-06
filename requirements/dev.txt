@@ -1,7 +1,7 @@
 -r base.txt
 
-black>=24.4.2
-coverage>=7.5
-django-debug-toolbar>=4.4.2
-pre-commit>=3.7.1
-tox>=4.0
+black==24.4.2
+coverage==7.5
+django-debug-toolbar==4.4.2
+pre-commit==3.7.1
+tox==4.0
