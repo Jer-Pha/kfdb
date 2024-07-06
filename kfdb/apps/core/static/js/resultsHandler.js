@@ -12,7 +12,7 @@ document.body.addEventListener('htmx:afterRequest', function (e) {
         e.detail.requestConfig.headers['HX-UpdateList'] && e.detail.successful
     ) {
         document.getElementById('page-input')
-            .addEventListener('keydown', stopSubmit);
+            ?.addEventListener('keydown', stopSubmit);
     }
 });
 
