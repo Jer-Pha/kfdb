@@ -58,10 +58,7 @@ class VideoSerializerTest(TestCase):
                 "title": "Test Video title",
                 "release_date": str(self.release_date),
                 "hosts": ["Test Host name"],
-                "guests": [],
                 "video_id": self.video_id,
                 "link": f"https://www.youtube.com/watch?v={self.video_id}",
-                "short": False,
-                "members_only": False,
             },
         )

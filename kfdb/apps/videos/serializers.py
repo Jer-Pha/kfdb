@@ -22,7 +22,6 @@ class StringResourceRelatedField(ResourceRelatedField):
 
 class VideoSerializer(serializers.ModelSerializer):
     channel = StringResourceRelatedField(queryset=Channel.objects)
-    guests = StringResourceRelatedField(queryset=Host.objects, many=True)
     hosts = StringResourceRelatedField(queryset=Host.objects, many=True)
     producer = StringResourceRelatedField(queryset=Host.objects)
     show = StringResourceRelatedField(queryset=Show.objects)
@@ -35,13 +34,10 @@ class VideoSerializer(serializers.ModelSerializer):
             "show",
             "channel",
             "hosts",
-            "guests",
             "producer",
             "video_id",
             "link",
             "blurb",
-            "short",
-            "members_only",
         ]
 
     def to_representation(self, instance):

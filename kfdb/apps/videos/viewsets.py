@@ -21,8 +21,5 @@ class VideoViewSet(ReadOnlyModelViewSet):
         "slug",
         "blurb",
         "hosts",
-        "guests",
         "producer",
-        "short",
-        "members_only",
     )
