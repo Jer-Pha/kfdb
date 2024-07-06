@@ -7,47 +7,6 @@ from apps.channels.models import Channel
 from apps.hosts.models import Host
 from apps.shows.models import Show
 
-SHOWS_PRIME = [
-    "Portillo",
-    "Follow the Liter",
-    "A Conversation With Colin",
-    "Colin Was Right",
-    "Vlog",
-    "Kinda Anime",
-    "The Spare Bedroom",
-    "We Have Cool Friends",
-    "Screencast",
-    "Kinda Funny Podcast",
-    "Debatable",
-    "KF/AF",
-    "Internet Explorerz",
-    "In Review",
-    "Kinda Funny Morning Show",
-    "Animated",
-    "Love & Sex Stuff",
-    "Kinda Funny Live",
-    "Nick Names",
-    "The GameOverGreggy Show",
-    "Cooking With Greggy",
-    "Oreo Oration",
-]
-
-SHOWS_GAMES = [
-    "Showcase",
-    "Kinda Funny Football League",
-    "First Impressions",
-    "The PSVR Show",
-    "Party Mode",
-    "Game Showdown",
-    "The Blessing Show",
-    "Kinda Funny Wrestling",
-    "Xcast",
-    "PS I Love You XOXO",
-    "Gameplay",
-    "Kinda Funny Games Daily",
-    "Gamescast",
-]
-
 
 @models.CharField.register_lookup
 @models.TextField.register_lookup
@@ -121,23 +80,6 @@ class Video(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
-
-        s = self.show
-        c = self.channel
-
-        if (
-            s
-            and s.name in SHOWS_PRIME
-            and (c and c.name != "Kinda Funny" or not c)
-        ):
-            self.channel = Channel.objects.get(name="Kinda Funny")
-        elif (
-            s
-            and s.name in SHOWS_GAMES
-            and (c and c.name != "Kinda Funny Games" or not c)
-        ):
-            self.channel = Channel.objects.get(name="Kinda Funny Games")
-
         super().save(*args, **kwargs)
 
     def __str__(self):
