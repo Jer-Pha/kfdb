@@ -68,7 +68,7 @@ class Video(models.Model):
         unique=True,
     )
     link = models.URLField(
-        max_length=43,
+        max_length=200,
         blank=True,
     )
     blurb = models.TextField(
