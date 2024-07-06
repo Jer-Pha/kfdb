@@ -1,0 +1,6 @@
+{% extends 'admin/base.html' %}
+
+{% block userlinks %}
+  <a href="{% url 'update_videos' %}" target="_blank">Update Videos</a> /
+  {{ block.super }}
+{% endblock %}
