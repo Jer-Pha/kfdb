@@ -204,6 +204,31 @@ class UpdateVideosView(LoginRequiredMixin, View):
         if "nextPageToken" in response:
             self.update_youtube(channel, response["nextPageToken"])
 
+    def update_blurbs(self):
+        videos = Video.objects.exclude(link__icontains="patreon").only(
+            "video_id", "blurb"
+        )
+        API_KEY = settings.YOUTUBE_API_KEY
+        batch = []
+
+        for video in videos:
+            url = (
+                "https://youtube.googleapis.com/youtube/v3/videos?part="
+                f"snippet&id={video.video_id}&key={API_KEY}"
+            )
+            response = get(url=url).json()
+            if "items" not in response:
+                continue
+            response = response["items"]
+            if not response:
+                continue
+            description = response[0]["snippet"]["description"]
+            if not description:
+                continue
+            video.blurb = description
+            batch.append(video)
+        Video.objects.bulk_update(batch, fields=["blurb"])
+
     def get(self, request, *args, **kwargs):
         try:
             self.new_video_ids = []
@@ -212,6 +237,7 @@ class UpdateVideosView(LoginRequiredMixin, View):
                 "UCb4G6Wao_DeFr1dm8-a9zjg", "", highlights=True
             )  # Highlights
             self.update_patreon()  # Patreon
+            self.update_blurbs()  # Temp
         except Exception as e:
             return HttpResponse(str(e), content_type="text/plain", status=500)
 
