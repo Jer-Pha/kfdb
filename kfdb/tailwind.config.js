@@ -17,7 +17,6 @@ module.exports = {
     'aspect-[9/16]',
     'w-full',
     'w-[270px]',
-    'sm:max-w-8',
     'bg-base-200',
     'bg-base-300',
   ],
