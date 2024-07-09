@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 
+from apps.channels.models import Channel
+
 
 def slug_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/uploads/img/shows/<slug>/<filename>
@@ -24,6 +26,12 @@ class Show(models.Model):
     blurb = models.TextField(
         blank=True,
         help_text="Optional description of the show.",
+    )
+    channels = models.ManyToManyField(
+        Channel,
+        blank=True,
+        related_name="channel_videos",
+        related_query_name="show_channel",
     )
 
     class Meta:
