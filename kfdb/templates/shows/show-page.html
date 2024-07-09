@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
   {{ show.name }}
@@ -12,24 +13,63 @@
   {% else %}
     "The original database for Kinda Funny content. Filter, sort and search by channel, show, host. Made for the community, by the community."
   {% endif %} />
-  <meta name="keywords" content="Kinda, Funny, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture, {{ show.name }}" />
+  <meta name="keywords" content="Kinda Funny, KF, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture, {{ show.name }}" />
 {% endblock %}
 
 {% block main %}
   <div class="drawer md:drawer-open min-h-[inherit]">
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col bg-base-100 px-2">
-      <div class="pb-1 sm:pb-2">
-        <h1 class="text-lg sm:text-3xl md:text-xl lg:text-3xl text-base-content">
-          {{ show.name }}
-          {% if 'reactions' in request.path or 'highlights' in request.path %}
-            {% if 'channel=games' in request.get_full_path %}
-              &lpar;Games&rpar;
-            {% elif 'channel=prime' in request.get_full_path %}
-              &lpar;Prime&rpar;
-            {% endif %}
+    <div class="drawer-content flex flex-col bg-base-100 xs:px-2">
+      <div class="flex flex-col xs:flex-row pb-2 xs:py-4">
+        <div class="xs:mx-4">
+          {% if show.image %}
+            <img src="{{ show.image.url }}" alt="{{ show.name }}" class="h-auto w-screen xs:min-w-40 xs:w-40 xs:h-40 xl:min-w-56 xl:w-56 xl:h-56 rounded-none xs:rounded md:rounded-md aspect-square object-cover" />
+          {% else %}
+            <img src="{% static 'img/not-found.webp' %}" class="h-auto w-screen xs:min-w-40 xs:w-40 xs:h-40 xl:min-w-56 xl:w-56 xl:h-56 rounded-none xs:rounded md:rounded-md aspect-square object-cover" alt="Show not found" />
           {% endif %}
-        </h1>
+        </div>
+        <div class="flex flex-col xs:max-h-40 lg:max-h-56 w-full">
+          <h1 class="text-xl xs:text-3xl md:text-xl lg:text-3xl xl:text-4xl text-base-content self-center">
+            {{ show.name }}
+          </h1>
+          <div class="flex flex-row">
+            <hr class="flex-1 my-auto" />
+            <span class="text-sm xs:text-base font-bold self-center">
+              {% for channel in show.channels.all %}
+                {% if 'channel=' not in request.get_full_path %}
+                  {% if not forloop.last %}
+                    &nbsp;&nbsp;<a href="{% url 'channel_page' channel=channel.slug %}" class="link link-hover">{{ channel.name }}</a>&nbsp;&nbsp;|
+                  {% elif forloop.counter0 == 0 %}
+                    &nbsp;&nbsp;<a href="{% url 'channel_page' channel=channel.slug %}" class="link link-hover">{{ channel.name }}</a>&nbsp;&nbsp;
+                  {% else %}
+                    &nbsp;<a href="{% url 'channel_page' channel=channel.slug %}" class="link link-hover">{{ channel.name }}</a>&nbsp;&nbsp;
+                  {% endif %}
+                {% elif 'channel='|add:channel.slug in request.get_full_path %}
+                  &nbsp;&nbsp;<a href="{% url 'channel_page' channel=channel.slug %}" class="link link-hover">{{ channel.name }}</a>&nbsp;&nbsp;
+                {% endif %}
+              {% empty %}
+                Kinda Funny
+              {% endfor %}
+            </span>
+            <hr class="flex-1 my-auto" />
+          </div>
+        </div>
+        {% comment %} {% if show.blurb %}
+          <div class="absolute top-[6.5rem] xs:top-40 xl:top-[13.5rem] right-4">
+            <div class="dropdown dropdown-bottom dropdown-end rounded-full bg-white">
+              <div tabindex="0" role="button" class="m-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 xl:w-8 xl:h-8 fill-info -m-2" viewBox="0 -960 960 960">
+                  <path d="M420-259h120v-261H420v261Zm59.82-327q27.68 0 45.93-18.07Q544-622.15 544-649.82q0-27.68-18.07-45.93Q507.85-714 480.18-714q-27.68 0-45.93 18.07Q416-677.85 416-650.18q0 27.68 18.07 45.93Q452.15-586 479.82-586ZM480-34q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z" />
+                </svg>
+              </div>
+              <div tabindex="0" class="dropdown-content card card-compact bg-primary text-primary-content z-10 w-64 max-w-[100vw] p-2 shadow">
+                <div class="card-body !p-2">
+                  <span class="text-justify space-y-2">{{ show.blurb|safe }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %} {% endcomment %}
       </div>
       <label for="filter-drawer" class="btn btn-accent btn-square drawer-button fixed h-[3.25rem] w-[3.25rem] shadow top-[calc((var(--vh,1vh)*100)-5.25rem)] left-8 z-[19] rounded-full md:hidden" aria-label="Search, Sort, and Filter">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-accent-content" viewBox="0 -960 960 960">
