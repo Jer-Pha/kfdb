@@ -9,7 +9,7 @@
 
     <meta name="author" content="Kinda Funny" />
     <meta name="description" content="The original database for Kinda Funny content. Filter by channel, show, host, or guest. This is a fan-run site, we are not associated with Kinda Funny." />
-    <meta name="keywords" content="Kinda, Funny, KindaFunny, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture" />
+    <meta name="keywords" content="Kinda Funny, KF, KindaFunny, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture" />
 
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}" />
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}" />
@@ -40,7 +40,7 @@
           <div class="justify-end hidden md:flex text-gray-300">
             <ul class="menu menu-horizontal px-1" hx-boost="true">
               <li class="dropdown dropdown-hover">
-                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Kinda Funny Games</div>
+                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">KF Games</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'show_page' show='kfgd' %}?channel=games" class="text-nowrap rounded-none">Games Daily</a>
@@ -67,7 +67,7 @@
                 </ul>
               </li>
               <li class="flex-none dropdown dropdown-hover">
-                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Kinda Funny</div>
+                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">KF Prime</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'show_page' show='kf-podcast' %}?channel=prime" class="text-nowrap rounded-none">KF Podcast</a>
@@ -182,7 +182,7 @@
           <li class="mt-12">
             <div class="collapse collapse-arrow text-lg">
               <input type="checkbox" class="peer/games" />
-              <div class="collapse-title font-medium peer-checked/games:bg-base-100 peer-checked/games:text-sm peer-checked/games:text-primary">Kinda Funny Games</div>
+              <div class="collapse-title font-medium peer-checked/games:bg-base-100 peer-checked/games:text-sm peer-checked/games:text-primary">KF Games</div>
               <div class="collapse-content text-lg text-base-content bg-base-100">
                 <ul>
                   <a href="{% url 'show_page' show='kfgd' %}?channel=games" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">Games Daily</li></a>
@@ -200,7 +200,7 @@
           <li>
             <div class="collapse collapse-arrow text-lg has-[input:checked]:mt-4">
               <input type="checkbox" class="peer/prime" />
-              <div class="collapse-title font-medium peer-checked/prime:bg-base-100 peer-checked/prime:text-sm peer-checked/prime:text-primary">Kinda Funny</div>
+              <div class="collapse-title font-medium peer-checked/prime:bg-base-100 peer-checked/prime:text-sm peer-checked/prime:text-primary">KF Prime</div>
               <div class="collapse-content text-lg text-base-content bg-base-100">
                 <ul>
                   <a href="{% url 'show_page' show='kf-podcast' %}?channel=prime" class="text-nowrap"><li class="px-4 py-2 rounded-[var(--tab-radius)] hover:bg-base-200">KF Podcast</li></a>
