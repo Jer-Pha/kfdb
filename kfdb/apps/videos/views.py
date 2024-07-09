@@ -15,7 +15,7 @@ from apps.core.views import DefaultVideoView
 from apps.shows.models import Show
 
 
-class ChannelPageView(DefaultVideoView):
+class AllVideosView(DefaultVideoView):
     template_name = ""
 
     def get_context_data(self, **kwargs):
