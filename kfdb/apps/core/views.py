@@ -115,7 +115,8 @@ class DefaultVideoView(TemplateView):
                 "release_date",
                 "show",
                 "show__name",
-                "show__image",
+                "show__slug",
+                "show__image_xs",
                 "channel",
             )
             .order_by(self.sort)
