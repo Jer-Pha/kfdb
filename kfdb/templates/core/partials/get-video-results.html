@@ -2,16 +2,23 @@
 
 <div id="results-body" hx-boost="false">
   {% for video in videos %}
-    <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t rounded-none {% cycle 'bg-base-300' 'bg-base-200'%}" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
+    <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t rounded-none {% cycle 'bg-base-300' 'bg-base-200' %}" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
       <input type="checkbox" />
       <div class="collapse-title p-0 max-h-16 results-item fade-in">
         <div class="flex flex-row">
-          <img src="{% if video.show.image_xs %}
-              {{ video.show.image_xs.url }}
-            {% else %}
-              {% static 'img/not-found.webp' %}
-            {% endif %}"
-            class="max-h-16 max-w-16 w-auto h-auto" />
+          {% if video.show and '/shows/' not in request.path %}
+            <a href="{% url 'show_page' show=video.show.slug %}" class="z-[1]" title="View {{ video.show.name }}">
+              <img src="{% if video.show.image_xs %}
+                  {{ video.show.image_xs.url }}
+                {% else %}
+                  {% static 'img/not-found.webp' %}
+                {% endif %}"
+                class="max-h-16 max-w-16 w-auto h-auto"
+                alt="{{ video.show.name }}" />
+            </a>
+          {% elif not video.show %}
+            <img src="{% static 'img/not-found.webp' %}" class="max-h-16 max-w-16 w-auto h-auto" alt="Show not found" />
+          {% endif %}
           <p class="pl-4 pr-10 py-0">
             <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap">{{ video.release_date }} - {{ video.show.name }}</span>
             <br />
@@ -20,6 +27,11 @@
         </div>
       </div>
     </div>
+  {% empty %}
+  <div class="flex flex-col items-center">
+    <p class="text-xl lg:text-3xl">No results found.</p>
+    <img src="{% static 'img/flabbergasted-640.webp' %}" class="h-auto w-screen xs:min-w-72 xs:w-72 xs:h-72 lg:min-w-96 lg:w-96 lg:h-96 rounded-none xs:rounded md:rounded-md aspect-square object-cover" />
+    <p class="text-sm italic">...flabbergasted...</p>
   {% endfor %}
 
   {% if view.page_range %}
