@@ -12,5 +12,5 @@ urlpatterns = [
         RedirectView.as_view(permanent=True, pattern_name="channel_page"),
         name="show_home",
     ),
-    path("s/<slug:show>/", ShowPageView.as_view(), name="show_page"),
+    path("shows/<slug:show>/", ShowPageView.as_view(), name="show_page"),
 ]

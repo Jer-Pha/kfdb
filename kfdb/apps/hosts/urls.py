@@ -13,13 +13,15 @@ from .views import (
 
 urlpatterns = [
     path("hosts/", HostHomeView.as_view(), name="hosts_home"),
-    path("h/kf-crew/", HostCrewView.as_view(), name="hosts_crew"),
+    path("hosts/kf-crew/", HostCrewView.as_view(), name="hosts_crew"),
     path(
-        "h/part-timers/", HostPartTimerView.as_view(), name="hosts_part_timers"
+        "hosts/part-timers/",
+        HostPartTimerView.as_view(),
+        name="hosts_part_timers",
     ),
-    path("h/guests/", HostGuestView.as_view(), name="hosts_guests"),
+    path("hosts/guests/", HostGuestView.as_view(), name="hosts_guests"),
     path(
-        "h/<slug:type>/<slug:host>/",
+        "hosts/<slug:type>/<slug:host>/",
         HostPageView.as_view(),
         name="host_page",
     ),

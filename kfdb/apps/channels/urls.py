@@ -11,5 +11,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="channels/channels-home.html"),
         name="channels_home",
     ),
-    path("c/<slug:channel>/", ChannelPageView.as_view(), name="channel_page"),
+    path(
+        "channels/<slug:channel>/",
+        ChannelPageView.as_view(),
+        name="channel_page",
+    ),
 ]
