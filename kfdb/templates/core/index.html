@@ -14,15 +14,18 @@
 {% endblock %}
 
 {% block main %}
-  <div class="hero">
+  <div class="hero -mt-16 md:mt-[-4.25rem]">
     <div class="hero-content p-0 xs:p-4 flex-col md:flex-row">
       <img src="{% static 'img/nick-cheers.webp' %}" class="w-screen xs:max-w-md lg:max-w-lg 2xl:max-w-xl rounded-none xs:rounded-lg shadow-2xl aspect-square object-cover" alt="Nick Scarpino looking good" />
       <div class="px-4 xs:p-0">
         <h1 class="text-4xl md:text-5xl font-bold">Welcome to KFDB!</h1>
         <p class="pt-6">Made for the community, by the community.</p>
         <p class="py-6">This database contains all Kinda Funny YouTube content, including host and guest appearances for each episode. All content can be filtered, sorted, and searched.</p>
-        <a href="{% url 'hosts_home' %}" class="btn btn-sm 2xl:btn-md btn-accent mx-2">All Hosts</a>
-        <a href="{% url 'videos_home' %}" class="btn btn-sm 2xl:btn-md btn-accent mx-2">All Videos</a>
+        <div class="flex flex-col max-w-32">
+          <a href="{% url 'hosts_home' %}" class="btn btn-sm 2xl:btn-md btn-accent">Browse Hosts</a>
+          <a href="{% url 'shows_home' %}" class="btn btn-sm 2xl:btn-md btn-accent my-4">Browse Shows</a>
+          <a href="{% url 'videos_home' %}" class="btn btn-sm 2xl:btn-md btn-accent">Browse Videos</a>
+        </div>
       </div>
     </div>
   </div>
