@@ -30,7 +30,7 @@ class Show(models.Model):
     channels = models.ManyToManyField(
         Channel,
         blank=True,
-        related_name="channel_videos",
+        related_name="channel_shows",
         related_query_name="show_channel",
     )
 
