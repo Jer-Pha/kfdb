@@ -29,7 +29,7 @@
         {% endif %}
         <div class="indicator mb-3 xs:mb-0 {% if not host.image %}hidden xs:flex{% endif %}">
           <div class="indicator-item indicator-bottom indicator-center badge badge-outline bg-base-100 border-2 border-{{ host.border_color }}">
-            <div class="tooltip tooltip-{{ host.border_color }}" data-tip="{{ host.name }} has appeared in {{ host.appearance_count }} videos">
+            <div class="tooltip tooltip-{{ host.border_color }}" data-tip="{{ host.name }} has appeared in {{ host.appearance_count }} video{% if host.appearance_count > 1%}s{% endif %}">
               <span type="button" class="cursor-default">{{ host.appearance_count }}</span>
             </div>
           </div>
