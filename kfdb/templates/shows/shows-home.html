@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Shows
+{% endblock %}
+
+{% block meta %}
+  <meta name="author" content="Kinda Funny" />
+  <meta name="description" content="The original database for Kinda Funny content. Filter, sort and search by channel, show, or host. Made for the community, by the community." />
+  <meta name="keywords" content="Kinda Funny, KF, KindaFunny, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture" />
+{% endblock %}
+
+{% block main %}
+  <div class="flex flex-row w-full py-4 xs:py-8 lg:py-12 snap-start">
+    <hr class="flex-1 my-auto" />
+    <h2 id="games" class="font-semibold text-xl xs:text-2xl md:text-3xl lg:text-3xl xl:text-4xl self-center">&nbsp;&nbsp;KF Games&nbsp;&nbsp;</h2>
+    <hr class="flex-1 my-auto" />
+  </div>
+  <div id="games-grid" class="w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7" hx-boost="true">
+    {% for show in games %}
+      {% if show.image %}
+        <div class="xs:m-1 lg:m-2 snap-start">
+          <a href="{% url 'show_page' show=show.slug %}?channel=games"><img src="{{ show.image.url }}" class="rounded-none xs:rounded-box shadow-xl aspect-square object-cover" alt="{{ show.name }}" /></a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="flex flex-row w-full py-4 xs:py-8 lg:py-12 snap-start">
+    <hr class="flex-1 my-auto" />
+    <h2 id="prime" class="font-semibold text-xl xs:text-2xl md:text-3xl lg:text-3xl xl:text-4xl self-center">&nbsp;&nbsp;KF Prime&nbsp;&nbsp;</h2>
+    <hr class="flex-1 my-auto" />
+  </div>
+  <div id="prime-grid" class="w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7" hx-boost="true">
+    {% for show in prime %}
+      {% if show.image %}
+        <div class="xs:m-1 lg:m-2 snap-start">
+          <a href="{% url 'show_page' show=show.slug %}?channel=prime"><img src="{{ show.image.url }}" class="rounded-none xs:rounded-box shadow-xl aspect-square object-cover" alt="{{ show.name }}" /></a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="flex flex-row w-full py-4 xs:py-8 lg:py-12 snap-start">
+    <hr class="flex-1 my-auto" />
+    <h2 id="members" class="font-semibold text-xl xs:text-2xl md:text-3xl lg:text-3xl xl:text-4xl self-center">&nbsp;&nbsp;Membership&nbsp;&nbsp;</h2>
+    <hr class="flex-1 my-auto" />
+  </div>
+  <div id="members-grid" class="w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7" hx-boost="true">
+    {% for show in members %}
+      {% if show.image %}
+        <div class="xs:m-1 lg:m-2 snap-start">
+          <a href="{% url 'show_page' show=show.slug %}?channel=members"><img src="{{ show.image.url }}" class="rounded-none xs:rounded-box shadow-xl aspect-square object-cover" alt="{{ show.name }}" /></a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}
