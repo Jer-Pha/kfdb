@@ -14,9 +14,9 @@
 {% endblock %}
 
 {% block main %}
-  <div class="hero -mt-16 md:mt-[-4.25rem]">
+  <div class="hero md:portrait:mt-[-4.25rem] lg:mt-[-4.25rem]">
     <div class="hero-content p-0 xs:p-4 flex-col md:flex-row">
-      <img src="{% static 'img/nick-cheers.webp' %}" class="w-screen xs:max-w-md lg:max-w-lg 2xl:max-w-xl rounded-none xs:rounded-lg shadow-2xl aspect-square object-cover" alt="Nick Scarpino looking good" />
+      <img src="{% static 'img/nick-cheers.webp' %}" class="w-screen md:landscape:max-h-[calc((var(--vh,1vh)*100)-4.25rem)] md:landscape:w-auto sm:max-w-[calc(50vw-1rem)] xs:w-md lg:w-lg 2xl:w-xl rounded-none xs:rounded-lg shadow-2xl aspect-square object-cover" alt="Nick Scarpino looking good" />
       <div class="px-4 xs:p-0">
         <h1 class="text-4xl md:text-5xl font-bold">Welcome to KFDB!</h1>
         <p class="pt-6">Made for the community, by the community.</p>
