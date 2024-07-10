@@ -1,6 +1,5 @@
 from re import sub
 
-from django.conf import settings
 from django.core.paginator import Paginator
 from django.db.models import Count, F, Q
 from django.http import HttpResponse
@@ -98,7 +97,7 @@ class BaseHostView(TemplateView):
         return hosts
 
 
-class HostHomeView(BaseHostView):
+class HostsHomeView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 

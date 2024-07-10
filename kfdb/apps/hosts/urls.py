@@ -5,14 +5,14 @@ from django.urls import path
 from .views import (
     HostCrewView,
     HostGuestView,
-    HostHomeView,
+    HostsHomeView,
     HostPageView,
     HostPartTimerView,
 )
 
 
 urlpatterns = [
-    path("hosts/", HostHomeView.as_view(), name="hosts_home"),
+    path("hosts/", HostsHomeView.as_view(), name="hosts_home"),
     path("hosts/kf-crew/", HostCrewView.as_view(), name="hosts_crew"),
     path(
         "hosts/part-timers/",
