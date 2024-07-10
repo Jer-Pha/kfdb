@@ -6,16 +6,6 @@
   --vh: 1vh;
 }
 
-@media (min-width: 1024px) {
-  main > *:not(footer) {
-    max-width: 80vw;
-  }
-}
-
-.hero {
-  min-height: calc(var(--vh,1vh) * 100);
-}
-
 #hero-banner {
   background-image: url(/static-files/img/kf-crew.webp);
   background-color: rgba(0,0,0,0.8);
