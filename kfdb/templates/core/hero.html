@@ -40,7 +40,7 @@
           <div class="justify-end hidden md:flex text-gray-300">
             <ul class="menu menu-horizontal px-1" hx-boost="true">
               <li class="dropdown dropdown-hover">
-                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">KF Games</div>
+                <div tabindex="0" class="py-6 -my-4 rounded-none">KF Games</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'show_page' show='kfgd' %}?channel=games" class="text-nowrap rounded-none">Games Daily</a>
@@ -67,7 +67,7 @@
                 </ul>
               </li>
               <li class="flex-none dropdown dropdown-hover">
-                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">KF Prime</div>
+                <div tabindex="0" class="py-6 -my-4 rounded-none">KF Prime</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'show_page' show='kf-podcast' %}?channel=prime" class="text-nowrap rounded-none">KF Podcast</a>
@@ -91,7 +91,7 @@
                 </ul>
               </li>
               <li class="dropdown dropdown-hover">
-                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Hosts</div>
+                <div tabindex="0" class="py-6 -my-4 rounded-none">Hosts</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="{% url 'hosts_crew' %}" class="text-nowrap rounded-none">KF Crew</a>
@@ -110,7 +110,7 @@
                 </ul>
               </li>
               <li class="dropdown dropdown-hover">
-                <div tabindex="0" class="py-6 my-[-1rem] rounded-none">Membership</div>
+                <div tabindex="0" class="py-6 -my-4 rounded-none">Membership</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
                   <li>
                     <a href="https://www.youtube.com/kindafunnygames/join" target="_blank" class="flex flex-row rounded-none group/youtubelg">
@@ -138,11 +138,11 @@
         <div id="hero-banner" class="hero min-h-[calc(var(--vh,1vh)*100)] py-24 xs:py-32 bg-cover bg-center">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl lg:mx-0">
-              <h2 class="text-4xl font-bold tracking-tight text-white xs:text-6xl">Kinda Funny Database</h2>
+              <h2 class="text-4xl md:text-6xl font-bold tracking-tight text-white">Kinda Funny Database</h2>
               <p class="mt-6 text-lg leading-8 text-gray-300">Four, sometimes five, best friends gather around this table.</p>
             </div>
             <div class="mx-auto mt-4 xs:mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
-              <dl class="grid grid-cols-1 gap-4 md:gap-8 xs:grid-cols-2 md:grid-cols-4" hx-get="{% url 'load_stats' %}" hx-target="#crew-count" hx-trigger="load once">
+              <dl class="grid grid-cols-1 gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-4" hx-get="{% url 'load_stats' %}" hx-target="#crew-count" hx-trigger="load once">
                 <div class="flex flex-col-reverse">
                   <dt class="text-base leading-7 text-gray-300">Crew Members</dt>
                   <dd id="crew-count" class="text-2xl font-bold leading-9 tracking-tight text-white"><img src="{% static 'img/kf-smiley.svg' %}" class="loading-logo invert" alt="Loading..." /></dd>
