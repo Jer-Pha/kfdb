@@ -1,6 +1,6 @@
 {% for host in hosts %}
   <a href="{% url 'host_page' type=host.url_type host=host.slug %}" class="my-auto mx-0 xs:mx-1 lg:mx-2">
-    <div class="rounded-none xs:rounded-box card bg-base-100 image-full shadow-xl my-1 lg:my-2 host-card overflow-hidden snap-start">
+    <div class="rounded-none xs:rounded-box card bg-base-100 image-full shadow-xl my-1 lg:my-2 host-card overflow-hidden">
       {% if host.image %}
         <figure>
           <img src="{{ host.image.url }}" class="aspect-square object-cover" alt="{{ host.name }}" />
