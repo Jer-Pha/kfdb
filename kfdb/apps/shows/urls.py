@@ -2,15 +2,10 @@
 
 from django.urls import path
 
-from .views import ShowPageView
-from django.views.generic.base import RedirectView
+from .views import ShowPageView, ShowsHomeView
 
 
 urlpatterns = [
-    path(
-        "shows/",
-        RedirectView.as_view(permanent=True, pattern_name="channel_page"),
-        name="show_home",
-    ),
+    path("shows/", ShowsHomeView.as_view(), name="shows_home"),
     path("shows/<slug:show>/", ShowPageView.as_view(), name="show_page"),
 ]
