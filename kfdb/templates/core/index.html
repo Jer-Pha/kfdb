@@ -14,19 +14,22 @@
 {% endblock %}
 
 {% block main %}
-  <div class="hero">
-    <div class="hero-content p-0 xs:p-4 flex-col md:flex-row">
-      <img src="{% static 'img/nick-cheers.webp' %}" class="w-screen xs:max-w-md lg:max-w-lg 2xl:max-w-xl rounded-none xs:rounded-lg shadow-2xl aspect-square object-cover" alt="Nick Scarpino looking good" />
-      <div class="px-4 xs:p-0">
-        <h1 class="text-4xl md:text-5xl font-bold">Welcome to KFDB!</h1>
+  <div id="welcome-hero" class="hero min-h-[calc((var(--vh,1vh)*100)-4rem)] lg:min-h-[calc((var(--vh,1vh)*100)-4.25rem)] bg-base-100 lg:w-screen lg:ml-[-10vw]">
+    <div class="!max-w-[max(67vw,80rem)] hero-content p-0 xs:p-4 flex-col md:flex-row">
+      <div class="h-[100vw] xs:h-0 xs:hidden"></div>
+      <img src="{% static 'img/nick-cheers.webp' %}" class="z-[-1] fixed xs:static top-16 md:-mt-48 lg:mt-0 xs:top-auto w-screen xs:max-w-md lg:max-w-lg 2xl:max-w-[calc(((var(--vh,1vh)*100)-4.25rem)*2/3)] rounded-none xs:rounded-box xs:shadow-sm md:shadow-2xl aspect-square object-cover" alt="Nick Scarpino looking good" />
+      <div class="min-h-[calc((var(--vh,1vh)*100)-4rem-50vw)] xs:min-h-auto mb-[-25vw] xs:mb-0 p-4 lg:p-8 md:max-w-[50vw] bg-base-100 xs:bg-primary xs:text-primary-content md:-ml-48 lg:-ml-16 xs:rounded-box md:mt-96 lg:mt-32 2xl:mt-36 xs:shadow-sm md:portrait:shadow-2xl lg:shadow-2xl">
+        <h1 class="text-4xl lg:text-5xl 2xl:text-6xl font-bold">Welcome to KFDB!</h1>
         <p class="pt-6">Made for the community, by the community.</p>
         <p class="py-6">This database contains all Kinda Funny YouTube content, including host and guest appearances for each episode. All content can be filtered, sorted, and searched.</p>
-        <div class="flex flex-col max-w-32">
-          <a href="{% url 'hosts_home' %}" class="btn btn-sm 2xl:btn-md btn-accent">Browse Hosts</a>
-          <a href="{% url 'shows_home' %}" class="btn btn-sm 2xl:btn-md btn-accent my-4">Browse Shows</a>
-          <a href="{% url 'videos_home' %}" class="btn btn-sm 2xl:btn-md btn-accent">Browse Videos</a>
+        <div class="flex flex-col lg:flex-row max-w-32 lg:max-w-full" hx-boost="true">
+          <a href="{% url 'hosts_home' %}" class="btn btn-sm 2xl:btn-md btn-info">Browse Hosts</a>
+          <a href="{% url 'shows_home' %}" class="btn btn-sm 2xl:btn-md btn-info my-4 lg:my-0 lg:mx-4">Browse Shows</a>
+          <a href="{% url 'videos_home' %}" class="btn btn-sm 2xl:btn-md btn-info">Browse Videos</a>
         </div>
       </div>
     </div>
   </div>
+
+  <a href="{% url 'shows_home' %}" aria-label="Browse Shows"><div id="scroller-hero" class="flex flex-col h-[calc(var(--vh,1vh)*100)] bg-base-100 lg:w-screen lg:ml-[-10vw] relative" hx-trigger="load" hx-get="{% url 'shows_home' %}" hx-boost="false" hx-target="this" hx-swap="innerHTML"></div></a>
 {% endblock %}

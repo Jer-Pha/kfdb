@@ -12,6 +12,45 @@
   background-blend-mode: darken;
 }
 
+#games-scroller > div {
+  animation: 60s scroll-games infinite linear;
+}
+
+#prime-scroller > div {
+  animation: 80s scroll-prime infinite linear;
+}
+
+#members-scroller > div {
+  animation: 20s scroll-members infinite linear;
+}
+
+@keyframes scroll-games {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll-prime {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scroll-members {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 #pagination > .btn:is(input[type="radio"]:checked) {
   --tw-border-opacity: 1;
   border-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));

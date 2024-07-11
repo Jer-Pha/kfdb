@@ -28,7 +28,7 @@
     <link href="{% static 'main.css' %}" rel="stylesheet" />
   </head>
 
-  <body>
+  <body class="lg:overflow-x-hidden">
     <div class="drawer">
       <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
@@ -374,7 +374,7 @@
       </div>
     </div>
 
-    <footer class="footer footer-center p-6 bg-base-100 text-base-content rounded-none gap-y-6" hx-boost="true">
+    <footer class="footer footer-center p-6 bg-base-100 text-base-content rounded-none gap-y-6 relative" hx-boost="true">
       <nav class="grid grid-cols-2 xs:grid-cols-4 md:grid-cols-6 gap-x-6 md:gap-x-4 gap-y-6">
         <a href="#" class="link link-hover min-w-28" tabindex="0">About</a>
         <a href="#" class="link link-hover min-w-28" tabindex="0">Contact</a>
@@ -407,7 +407,7 @@
         </a>
       </nav>
     </footer>
-    <footer class="footer footer-center py-4 px-6 bg-info text-info-content rounded-none">
+    <footer class="footer footer-center py-4 px-6 bg-info text-info-content rounded-none z-0 relative">
       <aside>
         <p>KFDB is not endorsed by Kinda Funny and does not reflect the views or opinions of Kinda Funny or anyone officially involved in producing or managing Kinda Funny content.</p>
         <p class="flex flex-row">From the creator of&nbsp;&nbsp;<a href="https://www.survayy.com/" target="_blank"  class="link link-hover" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" class="fill-info-content hover:fill-secondary" width="80%" height="24px" viewBox="0 0 1447 301">

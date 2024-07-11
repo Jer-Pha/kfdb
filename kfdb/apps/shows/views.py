@@ -7,10 +7,24 @@ from apps.core.views import DefaultVideoView
 
 
 class ShowsHomeView(TemplateView):
-    template_name = "shows/shows-home.html"
+    template_name = ""
+
+    def get(self, request, **kwargs):
+        self.new_page = (
+            "Hx-Boosted" in request.headers
+            or not "Hx-Request" in request.headers
+        )
+        context = self.get_context_data(**kwargs)
+
+        return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        self.template_name = (
+            "shows/shows-home.html"
+            if self.new_page
+            else "shows/partials/show-logo-scroller.html"
+        )
 
         games = (
             Show.objects.only("name", "slug", "image")
