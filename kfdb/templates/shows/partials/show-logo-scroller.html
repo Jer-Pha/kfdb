@@ -1,9 +1,8 @@
-<div class="pt-16 lg:pt-[4.25rem]"></div>
 <div id="games-scroller" class="h-[33.33%] overflow-x-hidden whitespace-nowrap relative flex flex-row">
   <div class="flex flex-row h-full">
     {% for show in games %}
       {% if show.image %}
-        <div class="min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
+        <div class="min-w-[calc(((var(--vh,1vh)*100)-14rem)/3)] xs:min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
           <img src="{{ show.image.url }}" class="h-full min-w-full rounded-none shadow-none aspect-square object-cover" alt="{{ show.name }}" />
         </div>
       {% endif %}
@@ -12,7 +11,7 @@
   <div class="flex flex-row h-full">
     {% for show in games %}
       {% if show.image %}
-        <div class="min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
+        <div class="min-w-[calc(((var(--vh,1vh)*100)-14rem)/3)] xs:min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
           <img src="{{ show.image.url }}" class="h-full min-w-full rounded-none shadow-none aspect-square object-cover" alt="{{ show.name }}" />
         </div>
       {% endif %}
@@ -24,7 +23,7 @@
   <div class="flex flex-row h-full">
     {% for show in prime reversed %}
       {% if show.image %}
-        <div class="min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
+        <div class="min-w-[calc(((var(--vh,1vh)*100)-14rem)/3)] xs:min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
           <img src="{{ show.image.url }}" class="h-full min-w-full rounded-none shadow-none aspect-square object-cover" alt="{{ show.name }}" />
         </div>
       {% endif %}
@@ -33,7 +32,7 @@
   <div class="flex flex-row h-full">
     {% for show in prime reversed %}
       {% if show.image %}
-        <div class="min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
+        <div class="min-w-[calc(((var(--vh,1vh)*100)-14rem)/3)] xs:min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
           <img src="{{ show.image.url }}" class="h-full min-w-full rounded-none shadow-none aspect-square object-cover" alt="{{ show.name }}" />
         </div>
       {% endif %}
@@ -45,7 +44,7 @@
   <div class="flex flex-row h-full">
     {% for show in members %}
       {% if show.image %}
-        <div class="min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
+        <div class="min-w-[calc(((var(--vh,1vh)*100)-14rem)/3)] xs:min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
           <img src="{{ show.image.url }}" class="h-full min-w-full rounded-none shadow-none aspect-square object-cover" alt="{{ show.name }}" />
         </div>
       {% endif %}
@@ -54,7 +53,7 @@
   <div class="flex flex-row h-full">
     {% for show in members %}
       {% if show.image %}
-        <div class="min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
+        <div class="min-w-[calc(((var(--vh,1vh)*100)-14rem)/3)] xs:min-w-[calc(((var(--vh,1vh)*100)-4rem)/3)] lg:min-w-[calc(((var(--vh,1vh)*100)-4.25rem)/3)]">
           <img src="{{ show.image.url }}" class="h-full min-w-full rounded-none shadow-none aspect-square object-cover" alt="{{ show.name }}" />
         </div>
       {% endif %}
