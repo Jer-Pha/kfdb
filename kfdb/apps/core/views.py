@@ -10,6 +10,7 @@ from django.views.generic import TemplateView
 
 from apps.core.utils import Filter
 from apps.hosts.models import Host
+from apps.shows.models import Show
 from apps.videos.models import Video
 
 
@@ -160,6 +161,13 @@ class HeroStatsView(TemplateView):
         count["video"] = Video.objects.all().count()
         context["count"] = count
         return context
+
+
+class ShowCountView(View):
+    http_method_names = "get"
+
+    def get(self, request):
+        return HttpResponse(Show.objects.only("pk").all().count(), status=200)
 
 
 class VideoDetailsView(TemplateView):

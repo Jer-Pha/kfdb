@@ -17,6 +17,7 @@ from .views import (
     HeroStatsView,
     UpdateThemeView,
     VideoBlurbView,
+    ShowCountView,
     VideoEmbedView,
     VideoDetailsView,
 )
@@ -42,6 +43,7 @@ urlpatterns = [
         name="index",
     ),
     path("load-stats", HeroStatsView.as_view(), name="load_stats"),
+    path("show-count", ShowCountView.as_view(), name="get_show_count"),
     path("change-theme", UpdateThemeView.as_view(), name="update_theme"),
     path("build-filter", BuildFilterView.as_view(), name="build_filter"),
     path(
