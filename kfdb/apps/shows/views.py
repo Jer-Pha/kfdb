@@ -7,6 +7,7 @@ from apps.core.views import DefaultVideoView
 
 
 class ShowsHomeView(TemplateView):
+    http_method_names = "get"
     template_name = ""
 
     def get(self, request, **kwargs):
