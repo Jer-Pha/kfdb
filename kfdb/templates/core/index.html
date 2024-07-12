@@ -22,21 +22,28 @@
         <h1 class="text-4xl lg:text-5xl 2xl:text-6xl font-bold">Welcome to KFDB!</h1>
         <p class="py-2 md:py-4">Made for the community, by the community.</p>
         <p class="pb-4">This database contains all Kinda Funny YouTube and Patreon content. Every YouTube episode includes host and guest appearances. All content can be filtered, sorted, and searched.</p>
-        <div class="flex flex-col lg:flex-row max-w-32 lg:max-w-full" hx-boost="true">
-          <a href="{% url 'hosts_home' %}" class="btn btn-sm 2xl:btn-md btn-primary xs:bg-primary-content xs:text-primary xs:!border-none mb-4 lg:mb-0 lg:mr-4">Browse Hosts</a>
+        <div hx-boost="true">
           <a href="{% url 'videos_home' %}" class="btn btn-sm 2xl:btn-md btn-primary xs:bg-primary-content xs:text-primary xs:!border-none">Browse Videos</a>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="h-20 bg-base-100 lg:w-screen lg:ml-[-10vw] relative"></div>
+
+  <div id="hosts-hero" class="flex flex-col h-[calc(var(--vh,1vh)*100)] bg-gray-950 text-gray-500 lg:w-screen lg:ml-[-10vw] relative overflow-hidden">
+    <div class="flex flex-col bg-gray-950 text-white rounded-box z-[1] p-4 w-44 h-60 absolute left-0 sm:left-[calc(33vw)] right-0 top-0 bottom-0 xs:bottom-[calc((var(--vh,1vh)*100/3)-1rem)] m-auto shadow-lg border-2 border-white">
+      <h2 class="text-2xl xs:text-3xl font-bold">Hosts</h2>
+      <span hx-trigger="intersect once" hx-get="{% url 'get_host_count' %}" hx-target="this" hx-swap="outerHTML"></span>
+      <a href="{% url 'hosts_home' %}" class="btn btn-sm bg-white text-gray-950 !border-none">Browse Hosts</a>
+    </div>
+    <div class="font-poppins w-[200vw] sm:w-[120vw] ml-[-5vw] select-none font-semibold text-3xl" hx-trigger="intersect once" hx-get="{% url 'get_random_hosts' %}" hx-boost="false" hx-target="this" hx-swap="innerHTML"></div>
+  </div>
+
   <div id="scroller-hero" class="flex flex-col h-[calc((var(--vh,1vh)*100)-4rem)] lg:h-[calc((var(--vh,1vh)*100)-4.25rem)] bg-base-100 lg:w-screen lg:ml-[-10vw] relative" hx-trigger="load" hx-get="{% url 'shows_home' %}" hx-boost="false" hx-target="this" hx-swap="beforeend">
-    <div class="flex flex-col bg-secondary text-white rounded-none xs:rounded-box z-[1] p-4 w-screen xs:w-96 h-40 xs:absolute xs:left-0 xs:right-0 lg:right-[calc(33vw+24rem)] xs:top-[calc((var(--vh,1vh)*100/3)-1rem)] xs:bottom-0 xs:m-auto xs:shadow-lg xs:border-2 xs:border-white">
-      <h1 class="text-2xl xs:text-3xl font-bold">Shows</h1>
-      <p class="py-4">
-        Videos are categorized into <span hx-trigger="load" hx-get="{% url 'get_show_count' %}" hx-target="this" hx-swap="innerHTML"></span> shows.
-      </p>
-      <a href="{% url 'shows_home' %}" class="btn btn-sm bg-white text-secondary !border-none max-w-32">Browse Shows</a>
+    <div class="flex flex-col bg-secondary text-white rounded-box z-[1] p-4 w-44 h-[7.25rem] absolute left-0 right-0 lg:right-[calc(33vw+24rem)] top-[calc((var(--vh,1vh)*100/3)-1rem)] bottom-0 m-auto shadow-lg border-2 border-white">
+      <h2 class="text-2xl xs:text-3xl font-bold">Shows</h2>
+      <a href="{% url 'shows_home' %}" class="btn btn-sm bg-white text-secondary !border-none mt-4">Browse&nbsp;<span hx-trigger="load" hx-get="{% url 'get_show_count' %}" hx-target="this" hx-swap="outerHTML"></span>&nbsp;Shows</a>
     </div>
   </div>
 {% endblock %}

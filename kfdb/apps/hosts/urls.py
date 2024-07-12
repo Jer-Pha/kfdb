@@ -8,6 +8,7 @@ from .views import (
     HostsHomeView,
     HostPageView,
     HostPartTimerView,
+    RandomHostsView,
 )
 
 
@@ -24,5 +25,8 @@ urlpatterns = [
         "hosts/<slug:type>/<slug:host>/",
         HostPageView.as_view(),
         name="host_page",
+    ),
+    path(
+        "randomize-hosts", RandomHostsView.as_view(), name="get_random_hosts"
     ),
 ]

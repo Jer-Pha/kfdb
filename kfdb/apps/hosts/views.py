@@ -2,15 +2,10 @@ from re import sub
 
 from django.core.paginator import Paginator
 from django.db.models import Count, F, Q
-from django.http import HttpResponse
 from django.views.generic import TemplateView
 
 from .models import Host
 from apps.core.views import DefaultVideoView
-
-
-def host_type(request, type):
-    return HttpResponse()
 
 
 class HostPageView(DefaultVideoView):
@@ -40,6 +35,7 @@ class HostPageView(DefaultVideoView):
 
 
 class BaseHostView(TemplateView):
+    http_method_names = "get"
     template_name = ""
 
     def get(self, request, **kwargs):
@@ -159,6 +155,28 @@ class HostGuestView(BaseHostView):
             {
                 "hosts": hosts,
                 "host_type": "Guests",
+            }
+        )
+
+        return context
+
+
+class RandomHostsView(TemplateView):
+    http_method_names = "get"
+    template_name = "core/partials/get-host-names.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        hosts = (
+            Host.objects.filter(kf_crew=False)
+            .order_by("?")
+            .values_list("name", flat=True)
+        )
+
+        context.update(
+            {
+                "hosts": hosts,
             }
         )
 
