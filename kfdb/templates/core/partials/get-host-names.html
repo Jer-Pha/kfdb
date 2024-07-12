@@ -1,0 +1,6 @@
+{% for host in hosts %}
+  {{ host }}&nbsp;
+  {% if forloop.last %}
+    <span hx-trigger="intersect once" hx-get="{% url 'get_random_hosts' %}" hx-target="this" hx-swap="outerHTML"></span>
+  {% endif %}
+{% endfor %}
