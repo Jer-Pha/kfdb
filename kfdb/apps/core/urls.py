@@ -15,6 +15,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     BuildFilterView,
     HeroStatsView,
+    HostCountView,
     UpdateThemeView,
     VideoBlurbView,
     ShowCountView,
@@ -43,6 +44,7 @@ urlpatterns = [
         name="index",
     ),
     path("load-stats", HeroStatsView.as_view(), name="load_stats"),
+    path("host-count", HostCountView.as_view(), name="get_host_count"),
     path("show-count", ShowCountView.as_view(), name="get_show_count"),
     path("change-theme", UpdateThemeView.as_view(), name="update_theme"),
     path("build-filter", BuildFilterView.as_view(), name="build_filter"),

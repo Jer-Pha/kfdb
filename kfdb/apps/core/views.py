@@ -163,6 +163,21 @@ class HeroStatsView(TemplateView):
         return context
 
 
+class HostCountView(TemplateView):
+    http_method_names = "get"
+    template_name = "core/partials/get-host-count.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        count = Host.objects.only("pk", "kf_crew", "part_timer").aggregate(
+            crew=Count("pk", filter=Q(kf_crew=True, part_timer=False)),
+            pt=Count("pk", filter=Q(kf_crew=False, part_timer=True)),
+            guest=Count("pk", filter=Q(kf_crew=False, part_timer=False)),
+        )
+        context["count"] = count
+        return context
+
+
 class ShowCountView(View):
     http_method_names = "get"
 
