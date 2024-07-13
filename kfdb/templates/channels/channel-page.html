@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
   {{ channel.name }}
@@ -18,9 +19,23 @@
 {% block main %}
   <div class="drawer md:drawer-open min-h-[inherit]">
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col bg-base-100 px-2">
-      <div class="pb-1 sm:pb-2">
-        <h1 class="text-lg sm:text-3xl md:text-xl lg:text-3xl text-base-content">{{ channel.name }}</h1>
+    <div class="drawer-content flex flex-col bg-base-100 xs:px-2">
+      <div class="flex flex-col xs:flex-row pb-2 xs:py-4">
+        <div class="xs:mx-4">
+          {% if channel.image %}
+            <img src="{{ channel.image.url }}" alt="{{ channel.name }}" class="h-auto w-screen xs:min-w-40 xs:w-40 xs:h-40 xl:min-w-56 xl:w-56 xl:h-56 rounded-none xs:rounded md:rounded-md aspect-square object-cover" />
+          {% else %}
+            <img src="{% static 'img/not-found.webp' %}" class="h-auto w-screen xs:min-w-40 xs:w-40 xs:h-40 xl:min-w-56 xl:w-56 xl:h-56 rounded-none xs:rounded md:rounded-md aspect-square object-cover" alt="Show not found" />
+          {% endif %}
+        </div>
+        <div class="flex flex-col xs:max-h-40 lg:max-h-56 w-full">
+          <h1 class="text-xl xs:text-3xl md:text-xl lg:text-3xl xl:text-4xl text-base-content self-center">{{ channel.name }}</h1>
+          <div class="flex flex-row">
+            <hr class="flex-1 my-auto" />
+            <span class="text-sm xs:text-base font-bold self-center">&nbsp;&nbsp;Channel&nbsp;&nbsp;</span>
+            <hr class="flex-1 my-auto" />
+          </div>
+        </div>
       </div>
       <label for="filter-drawer" class="btn btn-accent btn-square drawer-button fixed h-[3.25rem] w-[3.25rem] shadow top-[calc((var(--vh,1vh)*100)-5.25rem)] left-8 z-[19] rounded-full md:hidden" aria-label="Search, Sort, and Filter">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-accent-content" viewBox="0 -960 960 960">

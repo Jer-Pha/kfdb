@@ -12,16 +12,16 @@ class ChannelPageView(DefaultVideoView):
             if self.new_page
             else "core/partials/get-video-results.html"
         )
-        channel = Channel.objects.values("id", "name", "blurb").get(
+        channel = Channel.objects.only("name", "blurb", "image").get(
             slug=kwargs.get("channel", "")
         )
-        filter_params = {"channel": channel["id"]}
+        filter_params = {"channel": channel.id}
         context["videos"] = self.get_videos(filter_params)
         if self.new_page:
             context.update(
                 {
                     "channel": channel,
-                    "filter_param": f"c={channel['id']}",
+                    "filter_param": f"c={channel.id}",
                 }
             )
 
