@@ -24,7 +24,7 @@
     <link href="{% static 'main.css' %}" rel="stylesheet" />
   </head>
 
-  <body class="lg:overflow-x-hidden">
+  <body>
     <div class="drawer">
       <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
@@ -38,7 +38,7 @@
           </div>
           <div class="flex-1"></div>
           <div class="justify-end hidden md:flex text-gray-300">
-            <ul class="menu menu-horizontal px-1" hx-boost="true">
+            <ul class="menu menu-horizontal px-1">
               <li class="dropdown dropdown-hover">
                 <div tabindex="0" class="py-6 -my-4 rounded-none">KF Games</div>
                 <ul tabindex="0" class="menu dropdown-content mt-4 ml-0 px-0 py-2 rounded-b-box bg-base-200 text-base-content z-50">
@@ -161,7 +161,7 @@
                 </div>
               </dl>
             </div>
-            <div class="mx-auto mt-8 max-w-2xl lg:mx-0 lg:max-w-none" hx-boost="true">
+            <div class="mx-auto mt-8 max-w-2xl lg:mx-0 lg:max-w-none">
               <a href="{% url 'index' %}" class="btn btn-primary btn-sm 2xl:btn-md">
                 Get Started<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 -960 960 960">
                   <path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z" />
@@ -173,7 +173,7 @@
       </div>
       <div class="h-[calc(var(--vh,1vh)*100)] drawer-side z-50">
         <label for="nav-drawer" aria-label="Close Side Navigation" class="drawer-overlay"></label>
-        <ul class="p-4 w-80 min-h-full bg-base-200" hx-boost="true">
+        <ul class="p-4 w-80 min-h-full bg-base-200">
           <label for="nav-drawer" aria-label="Close Side Navigation" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px]">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 0 24 24">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />

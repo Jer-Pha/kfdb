@@ -11,10 +11,7 @@ class ShowsHomeView(TemplateView):
     template_name = ""
 
     def get(self, request, **kwargs):
-        self.new_page = (
-            "Hx-Boosted" in request.headers
-            or not "Hx-Request" in request.headers
-        )
+        self.new_page = "Hx-Request" not in request.headers
         context = self.get_context_data(**kwargs)
 
         return self.render_to_response(context)

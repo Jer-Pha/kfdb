@@ -1,6 +1,6 @@
 {% load static l10n %}
 
-<div id="results-body" hx-boost="false">
+<div id="results-body">
   {% for video in videos %}
     <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t rounded-none {% cycle 'bg-base-300' 'bg-base-200' %}" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
       <input type="checkbox" />

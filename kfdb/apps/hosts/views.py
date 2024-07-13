@@ -39,10 +39,7 @@ class BaseHostView(TemplateView):
     template_name = ""
 
     def get(self, request, **kwargs):
-        self.new_page = (
-            "Hx-Boosted" in request.headers
-            or not "Hx-Request" in request.headers
-        )
+        self.new_page = "Hx-Request" not in request.headers
         self.curr_path = request.path
         self.page = int(request.GET.get("page", 1))
         self.sort = request.GET.get("sort", "-kf_crew,-part_timer,name").split(
