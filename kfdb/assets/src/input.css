@@ -12,6 +12,60 @@
   background-blend-mode: darken;
 }
 
+#ch-games, #ch-prime {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-origin: content-box;
+  -webkit-filter: brightness(70%);
+}
+
+#ch-games:hover, #ch-prime:hover {
+  -webkit-filter: brightness(100%);
+  -webkit-transition: all 0.7s ease;
+  -moz-transition: all 0.7s ease;
+  -o-transition: all 0.7s ease;
+  -ms-transition: all 0.7s ease;
+  transition: all 0.7s ease;
+}
+
+#ch-games {
+  background-image: url(/static-files/img/kf-games.webp);
+  background-color: #012fca;
+}
+
+#ch-prime {
+  background-image: url(/static-files/img/kf-prime.webp);
+  background-color: #1abdfe;
+}
+
+@media (orientation: portrait) {
+  #ch-games, #ch-prime {
+    background-size: auto 60%;
+    --angle: 7rem;
+  }
+  #ch-games {
+    clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - var(--angle)));
+  }
+  #ch-prime {
+    clip-path:polygon(0 0,100% var(--angle),100% 100%,0 100%);
+    margin-top: calc(var(--angle) * -1);
+  }
+}
+
+@media (orientation: landscape) {
+  #ch-games, #ch-prime {
+    background-size: 40% auto;
+    --angle: 9rem;
+  }
+  #ch-games {
+    clip-path:polygon(0 0,calc(100% - var(--angle)) 0,100% 100%,0 100%);
+  }
+  #ch-prime {
+    clip-path:polygon(0 0,100% 0,100% 100%,var(--angle) 100%);
+    margin-left: calc(var(--angle) * -1);
+  }
+}
+
 #games-scroller > div {
   animation: 60s scroll-games infinite linear;
 }
