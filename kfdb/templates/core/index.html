@@ -40,7 +40,7 @@
 
   <div id="shows" class="flex flex-col h-[calc(var(--vh,1vh)*100)] bg-base-300 lg:w-screen lg:ml-[-10vw] relative snap-start" hx-trigger="load" hx-get="{% url 'shows_home' %}" hx-target="this" hx-swap="beforeend">
     <div class="h-16 lg:h-[4.25rem]"></div>
-    <div class="flex flex-col bg-secondary text-white rounded-box z-[1] p-4 w-44 h-[7.25rem] absolute left-0 right-0 lg:right-[calc(33vw+24rem)] top-[calc((var(--vh,1vh)*100/3)-1rem)] bottom-0 m-auto shadow-lg border-2 border-white">
+    <div class="flex flex-col bg-secondary text-white rounded-box z-[1] p-4 w-44 h-[7.25rem] absolute left-0 right-0 lg:right-[calc(33vw+24rem)] top-[calc((var(--vh,1vh)*100/3)+2.5rem)] bottom-0 m-auto shadow-lg border-2 border-white">
       <h2 class="text-2xl xs:text-3xl font-bold">Shows</h2>
       <a href="{% url 'shows_home' %}" class="btn btn-sm bg-white text-secondary !border-none mt-4">Browse&nbsp;<span hx-trigger="load" hx-get="{% url 'get_show_count' %}" hx-target="this" hx-swap="outerHTML"></span>&nbsp;Shows</a>
     </div>
