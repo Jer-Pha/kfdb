@@ -46,7 +46,7 @@ class DefaultVideoView(TemplateView):
             filter_params["producer__slug"] = self.filter_producer
 
         if self.search and not settings.DEBUG:
-            self.videos = self.videos.filter(
+            self.videos = self.videos.filter(  # pragma: no cover
                 Q(blurb__search=self.search) | Q(title__search=self.search)
             )
         elif self.search:

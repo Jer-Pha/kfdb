@@ -13,7 +13,7 @@ from apps.shows.models import Show
 class MySqlSearch(models.Lookup):
     lookup_name = "search"
 
-    def as_mysql(self, compiler, connection):
+    def as_mysql(self, compiler, connection):  # pragma: no cover
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
