@@ -1,11 +1,13 @@
 from datetime import datetime
 
 from django.utils.crypto import get_random_string
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 from rest_framework.test import APIRequestFactory
 
 from ..models import Video
 from ..serializers import VideoSerializer
+from ..views import AllVideosView
 from apps.hosts.models import Host
 
 
@@ -44,6 +46,34 @@ class VideoModelTest(TestCase):
         self.assertEqual(self.video.embed_size, "w-full aspect-[16/9]")
         self.assertEqual(self.short.embed_size, "w-[270px] aspect-[9/16]")
         self.assertEqual(self.patreon.embed_size, "")
+
+
+class VideoViewsTest(TestCase):
+    """Tests Video views."""
+
+    def test_new_page(self):
+        """Tests view when `self.new_page == True`."""
+        request = RequestFactory().get(reverse("videos_home"))
+        view = AllVideosView()
+        view.setup(request)
+        view.get(request)
+        context = view.get_context_data()
+        self.assertIn("videos", context)
+        self.assertEqual(view.template_name, "videos/videos-home.html")
+
+    def test_xhr_request(self):
+        """Tests view when `self.new_page == False`."""
+        request = RequestFactory(headers={"Hx-Request": True}).get(
+            reverse("videos_home"),
+        )
+        view = AllVideosView()
+        view.setup(request)
+        view.get(request)
+        context = view.get_context_data()
+        self.assertIn("videos", context)
+        self.assertEqual(
+            view.template_name, "core/partials/get-video-results.html"
+        )
 
 
 class VideoSerializerTest(TestCase):
