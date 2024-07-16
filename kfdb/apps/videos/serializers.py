@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-from django.db import connection
 from rest_framework_json_api import serializers
 from rest_framework_json_api.relations import ResourceRelatedField
 from rest_framework_json_api.utils import get_resource_type_from_instance
