@@ -52,12 +52,17 @@ class VideoSerializerTest(TestCase):
         request_factory = APIRequestFactory()
         request = request_factory.post("/api/videos/?title=Test+Video+title")
         data = VideoSerializer(self.video, context={"request": request}).data
+        from pprint import pprint
+
+        pprint(data)
         self.assertEqual(
             data,
             {
                 "title": "Test Video title",
                 "release_date": str(self.release_date),
-                "hosts": ["Test Host name"],
+                "hosts": [
+                    {"type": "Host", "id": "1", "name": "Test Host name"}
+                ],
                 "video_id": self.video_id,
                 "link": f"https://www.youtube.com/watch?v={self.video_id}",
             },
