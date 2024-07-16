@@ -139,12 +139,12 @@ class HostViewsTest(TestCase):
     def test_all_hosts_view(self):
         """Tests HostsHomeView()."""
         request = RequestFactory(headers={"Hx-Request": True}).get(
-            reverse("hosts_home")
+            reverse("hosts_home") + "?search=crew&sort=name&page=2"
         )
         view = HostsHomeView()
         view.setup(request)
-        view.get(request, page=2, sort="name", search="test")
-        context = view.get_context_data(page=2, sort="name", search="test")
+        view.get(request)
+        context = view.get_context_data()
         self.assertIn("hosts", context)
         self.assertEqual(context["host_type"], "All Hosts")
 
