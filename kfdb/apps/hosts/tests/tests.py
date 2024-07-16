@@ -41,6 +41,7 @@ class HostModelTest(TestCase):
         )
         self.fran = Host.objects.create(
             name="Fran Mirabella III",
+            nicknames=["The best hair in the biz"],
             part_timer=True,
             image=SimpleUploadedFile(
                 name="test.png",
@@ -78,7 +79,8 @@ class HostModelTest(TestCase):
         self.assertEqual(
             self.joey.nickname, f"Christmas in {datetime.now().strftime('%B')}"
         )
-        self.assertEqual(self.fran.nickname, "")
+        self.assertEqual(self.fran.nickname, "The best hair in the biz")
+        self.assertEqual(self.xalavier.nickname, "")
         self.assertEqual(self.joey.birth_day, "December 25")
         self.assertEqual(self.fran.appearance_count, 1)
         self.assertEqual(self.joey.appearance_count, 2)
