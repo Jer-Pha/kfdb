@@ -7,7 +7,14 @@ from rest_framework.test import APIRequestFactory
 
 from ..models import Host
 from ..serializers import HostSerializer
-from ..views import HostPageView
+from ..views import (
+    HostPageView,
+    HostCrewView,
+    HostGuestView,
+    HostsHomeView,
+    HostPartTimerView,
+    RandomHostsView,
+)
 
 # Bytes representing a valid 1-pixel PNG
 ONE_PIXEL_PNG_BYTES = (
@@ -128,6 +135,60 @@ class HostViewsTest(TestCase):
         context = view.get_context_data(host="test-crew")
         self.assertIn("videos", context)
         self.assertNotIn("filter_param", context)
+
+    def test_all_hosts_view(self):
+        """Tests HostsHomeView()."""
+        request = RequestFactory(headers={"Hx-Request": True}).get(
+            reverse("hosts_home")
+        )
+        view = HostsHomeView()
+        view.setup(request)
+        view.get(request, page=2, sort="name", search="test")
+        context = view.get_context_data(page=2, sort="name", search="test")
+        self.assertIn("hosts", context)
+        self.assertEqual(context["host_type"], "All Hosts")
+
+    def test_crew_view(self):
+        """Tests HostCrewView()."""
+        request = RequestFactory().get(reverse("hosts_crew"))
+        view = HostCrewView()
+        view.setup(request)
+        view.get(request)
+        context = view.get_context_data()
+        self.assertIn("hosts", context)
+        self.assertEqual(context["host_type"], "KF Crew")
+
+    def test_part_timers_view(self):
+        """Tests HostPartTimerView()."""
+        request = RequestFactory().get(reverse("hosts_part_timers"))
+        view = HostPartTimerView()
+        view.setup(request)
+        view.get(request)
+        context = view.get_context_data()
+        self.assertIn("hosts", context)
+        self.assertEqual(context["host_type"], "Part Timers")
+
+    def test_guests_view(self):
+        """Tests HostGuestView()."""
+        request = RequestFactory().get(reverse("hosts_part_timers"))
+        view = HostGuestView()
+        view.setup(request)
+        view.get(request)
+        context = view.get_context_data()
+        self.assertIn("hosts", context)
+        self.assertEqual(context["host_type"], "Guests")
+
+    def test_random_hosts_view(self):
+        """Tests RandomHostsView()."""
+        request = RequestFactory().get(reverse("get_random_hosts"))
+        view = RandomHostsView()
+        view.setup(request)
+        view.get(request)
+        context = view.get_context_data()
+        self.assertIn("hosts", context)
+        self.assertEqual(
+            len(context["hosts"]), (Host.objects.filter(kf_crew=False).count())
+        )
 
 
 class HostSerializerTest(TestCase):
