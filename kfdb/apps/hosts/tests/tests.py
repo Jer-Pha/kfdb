@@ -15,6 +15,7 @@ from ..views import (
     HostPartTimerView,
     RandomHostsView,
 )
+from apps.videos.models import Video
 
 # Bytes representing a valid 1-pixel PNG
 ONE_PIXEL_PNG_BYTES = (
@@ -30,18 +31,57 @@ class HostModelTest(TestCase):
 
     def setUp(self):
         """Sets up test data."""
-        self.host = Host.objects.create(
-            name="Test Host name",
+        self.joey = Host.objects.create(
+            name="Joey Noelle",
+            slug="joey",
+            nicknames=["Christmas in >>Current Month<<"],
+            kf_crew=True,
+            socials=["twitter.com/joeynoelle"],
+            birthday=datetime(month=12, day=25, year=2024),
+        )
+        self.fran = Host.objects.create(
+            name="Fran Mirabella III",
+            part_timer=True,
             image=SimpleUploadedFile(
                 name="test.png",
                 content=ONE_PIXEL_PNG_BYTES,
                 content_type="image/png",
             ),
         )
+        self.xalavier = Host.objects.create(
+            name="Xalavier Nelson Jr.",
+        )
+
+        video = Video.objects.create(
+            title="Test Video",
+            video_id="12345678901",
+            producer=self.joey,
+        )
+
+        video.hosts.add(self.joey, self.fran)
 
     def test_model_str(self):
         """Tests model __str__."""
-        self.assertEqual(str(self.host), self.host.name)
+        self.assertEqual(str(self.xalavier), self.xalavier.name)
+
+    def test_model_properties(self):
+        """Tests model properties."""
+        self.assertEqual(self.joey.url_type, "kf-crew")
+        self.assertEqual(self.fran.url_type, "part-timers")
+        self.assertEqual(self.xalavier.url_type, "guests")
+        self.assertEqual(self.joey.initials, "J")
+        self.assertEqual(self.fran.initials, "FM3")
+        self.assertEqual(self.xalavier.initials, "XN")
+        self.assertEqual(self.joey.border_color, "primary")
+        self.assertEqual(self.fran.border_color, "secondary")
+        self.assertEqual(self.xalavier.border_color, "accent")
+        self.assertEqual(
+            self.joey.nickname, f"Christmas in {datetime.now().strftime('%B')}"
+        )
+        self.assertEqual(self.fran.nickname, "")
+        self.assertEqual(self.joey.birth_day, "December 25")
+        self.assertEqual(self.fran.appearance_count, 1)
+        self.assertEqual(self.joey.appearance_count, 2)
 
 
 class HostViewsTest(TestCase):
