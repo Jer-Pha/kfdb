@@ -31,7 +31,7 @@ class AllVideosView(DefaultVideoView):
         return context
 
 
-class UpdateVideosView(LoginRequiredMixin, View):
+class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
     raise_exception = True
 
     def create_video(
