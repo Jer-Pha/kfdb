@@ -52,9 +52,6 @@ class VideoSerializerTest(TestCase):
         request_factory = APIRequestFactory()
         request = request_factory.post("/api/videos/?title=Test+Video+title")
         data = VideoSerializer(self.video, context={"request": request}).data
-        from pprint import pprint
-
-        pprint(data)
         self.assertEqual(
             data,
             {
