@@ -1,9 +1,12 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 from rest_framework.test import APIRequestFactory
 
 from ..models import Show
 from ..serializers import ShowSerializer
+from ..views import ShowPageView, ShowsHomeView
+from apps.channels.models import Channel
 
 # Bytes representing a valid 1-pixel PNG
 ONE_PIXEL_PNG_BYTES = (
@@ -31,6 +34,73 @@ class ShowModelTest(TestCase):
     def test_model_str(self):
         """Tests model __str__."""
         self.assertEqual(str(self.show), self.show.name)
+
+
+class ShowViewsTest(TestCase):
+    """Tests Show views."""
+
+    def setUp(self):
+        """Sets up test data."""
+        show = Show.objects.create(
+            name="Test Show",
+            slug="test",
+            image=SimpleUploadedFile(
+                name="test.png",
+                content=ONE_PIXEL_PNG_BYTES,
+                content_type="image/png",
+            ),
+            image_xs=SimpleUploadedFile(
+                name="test_xs.png",
+                content=ONE_PIXEL_PNG_BYTES,
+                content_type="image/png",
+            ),
+            active=True,
+            blurb="Test blurb.",
+        )
+
+        show.channels.add(
+            Channel.objects.create(name="KF Prime", slug="prime"),
+            Channel.objects.create(name="KF Games", slug="games"),
+            Channel.objects.create(name="KF Membership", slug="members"),
+        )
+
+    def test_new_page(self):
+        """Tests view when `self.new_page == True`."""
+        request = RequestFactory().get(
+            reverse("show_page", kwargs={"show": "test"})
+        )
+        view = ShowPageView()
+        view.setup(request)
+        view.get(request, show="test")
+        context = view.get_context_data(show="test")
+        self.assertIn("videos", context)
+        self.assertIn("filter_param", context)
+
+    def test_xhr_request(self):
+        """Tests view when `self.new_page == False`."""
+        request = RequestFactory(headers={"Hx-Request": True}).get(
+            reverse("show_page", kwargs={"show": "test"}),
+        )
+        view = ShowPageView()
+        view.setup(request)
+        view.get(request, show="test")
+        context = view.get_context_data(show="test")
+        self.assertIn("videos", context)
+        self.assertNotIn("filter_param", context)
+
+    def test_all_shows_view(self):
+        """Tests HostsHomeView()."""
+        request = RequestFactory().get(reverse("shows_home"))
+        view = ShowsHomeView()
+        view.setup(request)
+        view.get(request)
+        context = view.get_context_data()
+        self.assertIn("games", context)
+        self.assertIn("prime", context)
+        self.assertIn("members", context)
+        self.assertEqual(len(context["games"]), 1)
+        self.assertEqual(len(context["prime"]), 1)
+        self.assertEqual(len(context["members"]), 1)
 
 
 class ShowSerializerTest(TestCase):
