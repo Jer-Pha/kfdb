@@ -17,15 +17,33 @@ class VideoModelTest(TestCase):
         self.video_id = get_random_string(length=11)
 
         self.video = Video.objects.create(
-            title="Test Video title",
+            title="Test Video",
             release_date=datetime.now().date(),
             video_id=self.video_id,
             link=f"https://www.youtube.com/watch?v={self.video_id}",
+        )
+        self.short = Video.objects.create(
+            title="Test Short",
+            release_date=datetime.now().date(),
+            video_id="ABCDE-FGHIJ",
+            link=f"https://www.youtube.com/shorts/ABCDE-FGHIJ",
+        )
+        self.patreon = Video.objects.create(
+            title="Test Video title",
+            release_date=datetime.now().date(),
+            video_id="1234567890",
+            link=f"https://www.patreon.com/posts/1234567890",
         )
 
     def test_model_str(self):
         """Tests model __str__."""
         self.assertEqual(str(self.video), self.video.title)
+
+    def test_model_properties(self):
+        """Tests model properties."""
+        self.assertEqual(self.video.embed_size, "w-full aspect-[16/9]")
+        self.assertEqual(self.short.embed_size, "w-[270px] aspect-[9/16]")
+        self.assertEqual(self.patreon.embed_size, "")
 
 
 class VideoSerializerTest(TestCase):
