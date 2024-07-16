@@ -13,6 +13,7 @@ from apps.shows.models import Show
 
 class StringResourceRelatedField(ResourceRelatedField):
     def to_representation(self, value):
+        """Add `name` field to API `relationships` data"""
         pk = self.get_resource_id(value)
         resource_type = self.get_resource_type_from_included_serializer()
         if resource_type is None or not self._skip_polymorphic_optimization:
@@ -41,6 +42,7 @@ class VideoSerializer(serializers.ModelSerializer):
         ]
 
     def to_representation(self, instance):
+        """Remove falsey values from API results"""
         obj = super().to_representation(instance)
         non_null = deepcopy(obj)
         for key in obj.keys():
