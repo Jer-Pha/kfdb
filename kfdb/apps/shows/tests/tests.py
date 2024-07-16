@@ -75,6 +75,7 @@ class ShowViewsTest(TestCase):
         context = view.get_context_data(show="test")
         self.assertIn("videos", context)
         self.assertIn("filter_param", context)
+        self.assertEqual(view.template_name, "shows/show-page.html")
 
     def test_xhr_request(self):
         """Tests view when `self.new_page == False`."""
@@ -87,9 +88,12 @@ class ShowViewsTest(TestCase):
         context = view.get_context_data(show="test")
         self.assertIn("videos", context)
         self.assertNotIn("filter_param", context)
+        self.assertEqual(
+            view.template_name, "core/partials/get-video-results.html"
+        )
 
     def test_all_shows_view(self):
-        """Tests HostsHomeView()."""
+        """Tests ShowsHomeView()."""
         request = RequestFactory().get(reverse("shows_home"))
         view = ShowsHomeView()
         view.setup(request)

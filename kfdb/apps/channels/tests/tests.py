@@ -65,6 +65,7 @@ class ChannelViewsTest(TestCase):
         context = view.get_context_data(channel="games")
         self.assertIn("videos", context)
         self.assertIn("filter_param", context)
+        self.assertEqual(view.template_name, "channels/channel-page.html")
 
     def test_xhr_request(self):
         """Tests view when `self.new_page == False`."""
@@ -77,6 +78,9 @@ class ChannelViewsTest(TestCase):
         context = view.get_context_data(channel="prime")
         self.assertIn("videos", context)
         self.assertNotIn("filter_param", context)
+        self.assertEqual(
+            view.template_name, "core/partials/get-video-results.html"
+        )
 
 
 class ChannelSerializerTest(TestCase):
