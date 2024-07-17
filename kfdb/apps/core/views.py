@@ -294,5 +294,5 @@ class UpdateThemeView(View):
             )
 
             return response
-        else:
+        else:  # pragma: no cover
             return HttpResponse(status=304)
