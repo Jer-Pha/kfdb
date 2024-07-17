@@ -55,6 +55,15 @@ class CoreViewsTest(TestCase):
                 "count": 14,
             },
             {
+                "params": (
+                    "?page=1&sort=title&search=test%20video"
+                    "&channel=test-channel&show=test-show&guest=test-guest"
+                    "&producer=test-producer&part-timer=test-part-timer"
+                ),
+                "page_range": None,
+                "count": 14,
+            },
+            {
                 "params": "?page=1&sort=-title&results=10",
                 "page_range": [1, 2, 3, "...", 6],
                 "count": 10,
