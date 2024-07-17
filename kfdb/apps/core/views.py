@@ -3,7 +3,7 @@ from sys import argv
 
 from django.conf import settings
 from django.core.paginator import Paginator
-from django.db.models import Count, Q
+from django.db.models import Count, Prefetch, Q
 from django.db.models.functions import Lower
 from django.http import HttpResponse
 from django.views import View
@@ -62,9 +62,26 @@ class DefaultVideoView(TemplateView):
             if self.filter_part_timer:
                 self.filter_crew.append(self.filter_part_timer)
 
+            self.videos = self.videos.prefetch_related(
+                Prefetch(
+                    "hosts",
+                    queryset=Host.objects.only("slug").filter(
+                        slug__in=self.filter_crew
+                    ),
+                )
+            )
+
             for host in self.filter_crew:
                 self.videos = self.videos.filter(hosts__slug=host)
         else:
+            self.videos = self.videos.prefetch_related(
+                Prefetch(
+                    "hosts",
+                    queryset=Host.objects.only("slug").filter(
+                        slug__in=[self.filter_guest, self.filter_part_timer]
+                    ),
+                )
+            )
             if self.filter_guest:
                 self.videos = self.videos.filter(hosts__slug=self.filter_guest)
             if self.filter_part_timer:
