@@ -16,7 +16,7 @@ class ShowSerializer(serializers.ModelSerializer):
         ]
 
     def to_representation(self, instance):
-        """Remove falsey values from API results"""
+        """Remove falsey values from API results."""
         obj = super().to_representation(instance)
         non_null = deepcopy(obj)
         for key in obj.keys():

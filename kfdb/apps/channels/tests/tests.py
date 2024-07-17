@@ -1,9 +1,11 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 from rest_framework.test import APIRequestFactory
 
 from ..models import Channel
 from ..serializers import ChannelSerializer
+from ..views import ChannelPageView
 
 # Bytes representing a valid 1-pixel PNG
 ONE_PIXEL_PNG_BYTES = (
@@ -26,6 +28,58 @@ class ChannelModelTest(TestCase):
     def test_model_str(self):
         """Tests model __str__."""
         self.assertEqual(str(self.channel), self.channel.name)
+
+
+class ChannelViewsTest(TestCase):
+    """Tests Channel views."""
+
+    def setUp(self):
+        """Sets up test data."""
+        Channel.objects.create(
+            name="Prime",
+            slug="prime",
+            image=SimpleUploadedFile(
+                name="test.png",
+                content=ONE_PIXEL_PNG_BYTES,
+                content_type="image/png",
+            ),
+        )
+        Channel.objects.create(
+            name="Games",
+            slug="games",
+            image=SimpleUploadedFile(
+                name="test.png",
+                content=ONE_PIXEL_PNG_BYTES,
+                content_type="image/png",
+            ),
+        )
+
+    def test_new_page(self):
+        """Tests view when `self.new_page == True`."""
+        request = RequestFactory().get(
+            reverse("channel_page", kwargs={"channel": "games"})
+        )
+        view = ChannelPageView.as_view()(request, channel="games")
+        context = view.context_data
+        self.assertIn("videos", context)
+        self.assertIn("filter_param", context)
+        self.assertEqual(
+            context["view"].template_name, "channels/channel-page.html"
+        )
+
+    def test_xhr_request(self):
+        """Tests view when `self.new_page == False`."""
+        request = RequestFactory(headers={"Hx-Request": True}).get(
+            reverse("channel_page", kwargs={"channel": "prime"}),
+        )
+        view = ChannelPageView.as_view()(request, channel="prime")
+        context = view.context_data
+        self.assertIn("videos", context)
+        self.assertNotIn("filter_param", context)
+        self.assertEqual(
+            context["view"].template_name,
+            "core/partials/get-video-results.html",
+        )
 
 
 class ChannelSerializerTest(TestCase):

@@ -88,7 +88,9 @@ class Host(models.Model):
 
     @property
     def nickname(self):
-        if self.slug == "joey":
+        if not self.nicknames:
+            return ""
+        elif self.slug == "joey":
             nickname = choice(self.nicknames)
             if nickname == "Christmas in >>Current Month<<":
                 nickname = f"Christmas in {datetime.now().strftime('%B')}"
