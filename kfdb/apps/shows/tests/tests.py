@@ -69,36 +69,31 @@ class ShowViewsTest(TestCase):
         request = RequestFactory().get(
             reverse("show_page", kwargs={"show": "test"})
         )
-        view = ShowPageView()
-        view.setup(request)
-        view.get(request, show="test")
-        context = view.get_context_data(show="test")
+        view = ShowPageView.as_view()(request, show="test")
+        context = view.context_data
         self.assertIn("videos", context)
         self.assertIn("filter_param", context)
-        self.assertEqual(view.template_name, "shows/show-page.html")
+        self.assertEqual(context["view"].template_name, "shows/show-page.html")
 
     def test_xhr_request(self):
         """Tests view when `self.new_page == False`."""
         request = RequestFactory(headers={"Hx-Request": True}).get(
             reverse("show_page", kwargs={"show": "test"}),
         )
-        view = ShowPageView()
-        view.setup(request)
-        view.get(request, show="test")
-        context = view.get_context_data(show="test")
+        view = ShowPageView.as_view()(request, show="test")
+        context = view.context_data
         self.assertIn("videos", context)
         self.assertNotIn("filter_param", context)
         self.assertEqual(
-            view.template_name, "core/partials/get-video-results.html"
+            context["view"].template_name,
+            "core/partials/get-video-results.html",
         )
 
     def test_all_shows_view(self):
         """Tests ShowsHomeView()."""
         request = RequestFactory().get(reverse("shows_home"))
-        view = ShowsHomeView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = ShowsHomeView.as_view()(request)
+        context = view.context_data
         self.assertIn("games", context)
         self.assertIn("prime", context)
         self.assertIn("members", context)

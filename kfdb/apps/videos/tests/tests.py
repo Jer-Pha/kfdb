@@ -54,25 +54,24 @@ class VideoViewsTest(TestCase):
     def test_new_page(self):
         """Tests view when `self.new_page == True`."""
         request = RequestFactory().get(reverse("videos_home"))
-        view = AllVideosView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = AllVideosView.as_view()(request)
+        context = view.context_data
         self.assertIn("videos", context)
-        self.assertEqual(view.template_name, "videos/videos-home.html")
+        self.assertEqual(
+            context["view"].template_name, "videos/videos-home.html"
+        )
 
     def test_xhr_request(self):
         """Tests view when `self.new_page == False`."""
         request = RequestFactory(headers={"Hx-Request": True}).get(
             reverse("videos_home"),
         )
-        view = AllVideosView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = AllVideosView.as_view()(request)
+        context = view.context_data
         self.assertIn("videos", context)
         self.assertEqual(
-            view.template_name, "core/partials/get-video-results.html"
+            context["view"].template_name,
+            "core/partials/get-video-results.html",
         )
 
 

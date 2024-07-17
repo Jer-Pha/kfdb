@@ -59,27 +59,26 @@ class ChannelViewsTest(TestCase):
         request = RequestFactory().get(
             reverse("channel_page", kwargs={"channel": "games"})
         )
-        view = ChannelPageView()
-        view.setup(request)
-        view.get(request, channel="games")
-        context = view.get_context_data(channel="games")
+        view = ChannelPageView.as_view()(request, channel="games")
+        context = view.context_data
         self.assertIn("videos", context)
         self.assertIn("filter_param", context)
-        self.assertEqual(view.template_name, "channels/channel-page.html")
+        self.assertEqual(
+            context["view"].template_name, "channels/channel-page.html"
+        )
 
     def test_xhr_request(self):
         """Tests view when `self.new_page == False`."""
         request = RequestFactory(headers={"Hx-Request": True}).get(
             reverse("channel_page", kwargs={"channel": "prime"}),
         )
-        view = ChannelPageView()
-        view.setup(request)
-        view.get(request, channel="prime")
-        context = view.get_context_data(channel="prime")
+        view = ChannelPageView.as_view()(request, channel="prime")
+        context = view.context_data
         self.assertIn("videos", context)
         self.assertNotIn("filter_param", context)
         self.assertEqual(
-            view.template_name, "core/partials/get-video-results.html"
+            context["view"].template_name,
+            "core/partials/get-video-results.html",
         )
 
 

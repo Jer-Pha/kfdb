@@ -157,13 +157,11 @@ class HostViewsTest(TestCase):
         request = RequestFactory().get(
             reverse("host_page", kwargs={"type": "guest", "host": "test-crew"})
         )
-        view = HostPageView()
-        view.setup(request)
-        view.get(request, host="test-crew")
-        context = view.get_context_data(host="test-crew")
+        view = HostPageView.as_view()(request, host="test-crew")
+        context = view.context_data
         self.assertIn("videos", context)
         self.assertIn("filter_param", context)
-        self.assertEqual(view.template_name, "hosts/host-page.html")
+        self.assertEqual(context["view"].template_name, "hosts/host-page.html")
 
     def test_xhr_request(self):
         """Tests view when `self.new_page == False`."""
@@ -172,14 +170,13 @@ class HostViewsTest(TestCase):
                 "host_page", kwargs={"type": "guest", "host": "test-guest"}
             ),
         )
-        view = HostPageView()
-        view.setup(request)
-        view.get(request, host="test-crew")
-        context = view.get_context_data(host="test-crew")
+        view = HostPageView.as_view()(request, host="test-crew")
+        context = view.context_data
         self.assertIn("videos", context)
         self.assertNotIn("filter_param", context)
         self.assertEqual(
-            view.template_name, "core/partials/get-video-results.html"
+            context["view"].template_name,
+            "core/partials/get-video-results.html",
         )
 
     def test_all_hosts_view(self):
@@ -187,50 +184,40 @@ class HostViewsTest(TestCase):
         request = RequestFactory(headers={"Hx-Request": True}).get(
             reverse("hosts_home") + "?search=crew&sort=name&page=2"
         )
-        view = HostsHomeView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = HostsHomeView.as_view()(request)
+        context = view.context_data
         self.assertIn("hosts", context)
         self.assertEqual(context["host_type"], "All Hosts")
 
     def test_crew_view(self):
         """Tests HostCrewView()."""
         request = RequestFactory().get(reverse("hosts_crew"))
-        view = HostCrewView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = HostCrewView.as_view()(request)
+        context = view.context_data
         self.assertIn("hosts", context)
         self.assertEqual(context["host_type"], "KF Crew")
 
     def test_part_timers_view(self):
         """Tests HostPartTimerView()."""
         request = RequestFactory().get(reverse("hosts_part_timers"))
-        view = HostPartTimerView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = HostPartTimerView.as_view()(request)
+        context = view.context_data
         self.assertIn("hosts", context)
         self.assertEqual(context["host_type"], "Part Timers")
 
     def test_guests_view(self):
         """Tests HostGuestView()."""
         request = RequestFactory().get(reverse("hosts_part_timers"))
-        view = HostGuestView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = HostGuestView.as_view()(request)
+        context = view.context_data
         self.assertIn("hosts", context)
         self.assertEqual(context["host_type"], "Guests")
 
     def test_random_hosts_view(self):
         """Tests RandomHostsView()."""
         request = RequestFactory().get(reverse("get_random_hosts"))
-        view = RandomHostsView()
-        view.setup(request)
-        view.get(request)
-        context = view.get_context_data()
+        view = RandomHostsView.as_view()(request)
+        context = view.context_data
         self.assertIn("hosts", context)
         self.assertEqual(
             len(context["hosts"]), (Host.objects.filter(kf_crew=False).count())
