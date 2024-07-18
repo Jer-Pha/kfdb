@@ -12,6 +12,7 @@ class ChannelSerializer(serializers.ModelSerializer):
             "name",
             "slug",
             "blurb",
+            "image",
         ]
 
     def to_representation(self, instance):

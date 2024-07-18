@@ -250,5 +250,6 @@ class HostSerializerTest(TestCase):
                 "name": "Test Host name",
                 "slug": "test-host-name",
                 "part_timer": True,
+                "image_xs": f"http://testserver{self.host.image_xs.url}",
             },
         )

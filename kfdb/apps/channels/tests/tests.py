@@ -105,5 +105,9 @@ class ChannelSerializerTest(TestCase):
         ).data
         self.assertEqual(
             data,
-            {"name": "Test Channel name", "slug": "test-channel-name"},
+            {
+                "name": "Test Channel name",
+                "slug": "test-channel-name",
+                "image": f"http://testserver{self.channel.image.url}",
+            },
         )

@@ -19,6 +19,8 @@ class HostSerializer(serializers.ModelSerializer):
             "socials",
             "birthday",
             "blurb",
+            "image",
+            "image_xs",
         ]
 
     def to_representation(self, instance):

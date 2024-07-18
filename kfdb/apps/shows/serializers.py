@@ -13,6 +13,8 @@ class ShowSerializer(serializers.ModelSerializer):
             "slug",
             "active",
             "blurb",
+            "image",
+            "image_xs",
         ]
 
     def to_representation(self, instance):
