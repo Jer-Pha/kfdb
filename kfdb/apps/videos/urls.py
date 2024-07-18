@@ -4,6 +4,7 @@ from django.urls import path
 
 from .views import (
     AllVideosView,
+    EditVideoView,
     UpdateVideosView,
     VideoBlurbView,
     VideoEmbedView,
@@ -27,5 +28,10 @@ urlpatterns = [
         "get/video-embed",
         VideoEmbedView.as_view(),
         name="get_video_embed",
+    ),
+    path(
+        "edit/video",
+        EditVideoView.as_view(),
+        name="edit_video",
     ),
 ]
