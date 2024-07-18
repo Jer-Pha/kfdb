@@ -5,8 +5,6 @@ from requests import get
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.template.defaultfilters import slugify
-from django.utils.crypto import get_random_string
 from django.views import View
 
 from .models import Video
@@ -45,12 +43,8 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
         short=False,
         highlights=False,
     ):
-        slug = slugify(title)[:51]
-
         if Video.objects.filter(video_id=video_id).exists():
             return
-        elif Video.objects.filter(slug=slug).exists():
-            slug = f"{slug}-{get_random_string(length=2)}"
 
         show_slug = ""
         channel_slug = ""
@@ -115,7 +109,6 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
         Video.objects.create(
             video_id=video_id,
             title=title,
-            slug=slug,
             release_date=release_date,
             link=link,
             blurb=blurb,
