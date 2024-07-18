@@ -7,8 +7,15 @@ from rest_framework.test import APIRequestFactory
 
 from ..models import Video
 from ..serializers import VideoSerializer
-from ..views import AllVideosView
+from ..views import (
+    AllVideosView,
+    VideoBlurbView,
+    VideoDetailsView,
+    VideoEmbedView,
+)
+from apps.channels.models import Channel
 from apps.hosts.models import Host
+from apps.shows.models import Show
 
 
 class VideoModelTest(TestCase):
@@ -51,6 +58,37 @@ class VideoModelTest(TestCase):
 class VideoViewsTest(TestCase):
     """Tests Video views."""
 
+    def setUp(self):
+        """Sets up test data."""
+
+        channel = Channel.objects.create(name="Test Channel")
+        crew = Host.objects.create(name="Test Crew", kf_crew=True)
+        part_timer = Host.objects.create(
+            name="Test Part-Timer",
+            part_timer=True,
+        )
+        guest = Host.objects.create(name="Test Guest")
+        producer = Host.objects.create(name="Test Producer", kf_crew=True)
+        show = Show.objects.create(name="Test Show")
+
+        for i in range(5):
+            video_id = get_random_string(length=11)
+            video = Video.objects.create(
+                title=f"Test Video ({video_id})",
+                release_date=datetime.now().date(),
+                show=show,
+                channel=channel,
+                producer=producer,
+                video_id=video_id,
+                blurb=get_random_string(length=32),
+                link=f"https://www.youtube.com/watch?v={video_id}",
+            )
+            video.hosts.add(crew)
+            if not i % 2:
+                video.hosts.add(guest)
+            if not i % 3 or not i % 5:
+                video.hosts.add(part_timer)
+
     def test_new_page(self):
         """Tests view when `self.new_page == True`."""
         request = RequestFactory().get(reverse("videos_home"))
@@ -71,7 +109,63 @@ class VideoViewsTest(TestCase):
         self.assertIn("videos", context)
         self.assertEqual(
             context["view"].template_name,
-            "core/partials/get-video-results.html",
+            "videos/partials/get-video-results.html",
+        )
+
+    def test_video_details_view(self):
+        """Tests VideoDetailsView()."""
+        video_id = (
+            Video.objects.values_list("video_id", flat=True).all().first()
+        )
+        request = RequestFactory().get(
+            reverse("get_video_details") + f"?video_id={video_id}"
+        )
+        view = VideoDetailsView.as_view()(request)
+        context = view.context_data
+        self.assertIn("video", context)
+        self.assertEqual(
+            context["video"],
+            (
+                Video.objects.select_related("show", "producer", "channel")
+                .prefetch_related("hosts")
+                .get(video_id=video_id)
+            ),
+        )
+
+    def test_video_blurb_view(self):
+        """Tests VideoBlurbView()."""
+        video_id = (
+            Video.objects.values_list("video_id", flat=True).all().first()
+        )
+        request = RequestFactory().get(
+            reverse("get_video_blurb") + f"?video_id={video_id}"
+        )
+        view = VideoBlurbView.as_view()(request)
+        context = view.context_data
+        self.assertIn("blurb", context)
+        self.assertEqual(
+            context["blurb"],
+            Video.objects.values_list("blurb", flat=True).get(
+                video_id=video_id
+            ),
+        )
+
+    def test_video_embed_view(self):
+        """Tests VideoEmbedView()."""
+        video_id = (
+            Video.objects.values_list("video_id", flat=True).all().first()
+        )
+        request = RequestFactory().get(
+            reverse("get_video_embed") + f"?video_id={video_id}"
+        )
+        view = VideoEmbedView.as_view()(request)
+        context = view.context_data
+        self.assertIn("video", context)
+        self.assertEqual(
+            context["video"],
+            Video.objects.only("link", "title", "video_id").get(
+                video_id=video_id
+            ),
         )
 
 

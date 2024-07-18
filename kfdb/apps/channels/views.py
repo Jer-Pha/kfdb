@@ -10,7 +10,7 @@ class ChannelPageView(DefaultVideoView):
         self.template_name = (
             "channels/channel-page.html"
             if self.new_page
-            else "core/partials/get-video-results.html"
+            else "videos/partials/get-video-results.html"
         )
         channel = Channel.objects.only("name", "blurb", "image").get(
             slug=kwargs.get("channel", "")

@@ -61,7 +61,7 @@ class ShowPageView(DefaultVideoView):
         self.template_name = (
             "shows/show-page.html"
             if self.new_page
-            else "core/partials/get-video-results.html"
+            else "videos/partials/get-video-results.html"
         )
         show = (
             Show.objects.prefetch_related(

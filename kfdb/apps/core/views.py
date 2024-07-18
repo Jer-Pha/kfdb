@@ -183,62 +183,6 @@ class ShowCountView(View):
         return HttpResponse(Show.objects.only("pk").all().count(), status=200)
 
 
-class VideoDetailsView(TemplateView):
-    http_method_names = "get"
-    template_name = "core/partials/get-video-details.html"
-
-    def get(self, request, **kwargs):
-        self.video_id = request.GET.get("video_id", "")
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        video = (
-            Video.objects.select_related("show", "producer", "channel")
-            .prefetch_related("hosts")
-            .get(video_id=self.video_id)
-        )
-        context["video"] = video
-        return context
-
-
-class VideoBlurbView(TemplateView):
-    http_method_names = "get"
-    template_name = "core/partials/get-video-blurb.html"
-
-    def get(self, request, **kwargs):
-        self.video_id = request.GET.get("video_id", "")
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        blurb = Video.objects.values_list("blurb", flat=True).get(
-            video_id=self.video_id
-        )
-        context["blurb"] = blurb
-        return context
-
-
-class VideoEmbedView(TemplateView):
-    http_method_names = "get"
-    template_name = "core/partials/get-video-embed.html"
-
-    def get(self, request, **kwargs):
-        self.video_id = request.GET.get("video_id", "")
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        video = Video.objects.only("link", "title", "video_id").get(
-            video_id=self.video_id
-        )
-        context["video"] = video
-        return context
-
-
 class BuildFilterView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/generate-filters.html"

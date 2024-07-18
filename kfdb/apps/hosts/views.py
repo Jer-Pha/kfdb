@@ -16,7 +16,7 @@ class HostPageView(DefaultVideoView):
         self.template_name = (
             "hosts/host-page.html"
             if self.new_page
-            else "core/partials/get-video-results.html"
+            else "videos/partials/get-video-results.html"
         )
         host = Host.objects.defer("image_xs", "kf_crew", "part_timer").get(
             slug=kwargs.get("host", "")
