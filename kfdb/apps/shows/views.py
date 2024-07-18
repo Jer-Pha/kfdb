@@ -10,17 +10,11 @@ class ShowsHomeView(TemplateView):
     http_method_names = "get"
     template_name = ""
 
-    def get(self, request, **kwargs):
-        self.new_page = "Hx-Request" not in request.headers
-        context = self.get_context_data(**kwargs)
-
-        return self.render_to_response(context)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.template_name = (
             "shows/shows-home.html"
-            if self.new_page
+            if "Hx-Request" not in self.request.headers
             else "shows/partials/show-logo-scroller.html"
         )
 

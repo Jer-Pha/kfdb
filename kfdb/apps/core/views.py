@@ -22,72 +22,65 @@ class DefaultVideoView(TemplateView):
         self.new_page = "Hx-Request" not in request.headers
         self.curr_path = request.path
         self.page = int(request.GET.get("page", 1))
-        self.sort = request.GET.get("sort", "-release_date")
-        self.search = sub(" +", " ", request.GET.get("search", "").strip())
-        self.filter_channel = request.GET.get("channel", "")
-        self.filter_show = request.GET.get("show", "")
-        self.filter_guest = request.GET.get("guest", "")
-        self.filter_producer = request.GET.get("producer", "")
-        self.filter_part_timer = request.GET.get("part-timer", "")
-        self.filter_crew = dict(request.GET).get("crew", [])
-        self.results_per_page = request.GET.get("results", 25)
         self.videos = Video.objects
         context = self.get_context_data(**kwargs)
-
         return self.render_to_response(context)
 
     def build_filter(self, filter_params):
-        if self.filter_channel:
-            filter_params["channel__slug"] = self.filter_channel
+        filter_channel = self.request.GET.get("channel", "")
+        filter_show = self.request.GET.get("show", "")
+        filter_producer = self.request.GET.get("producer", "")
+        search = sub(" +", " ", self.request.GET.get("search", "").strip())
+        filter_crew = dict(self.request.GET).get("crew", [])
+        filter_part_timer = self.request.GET.get("part-timer", "")
+        filter_guest = self.request.GET.get("guest", "")
 
-        if self.filter_show:
-            filter_params["show__slug"] = self.filter_show
+        if filter_channel:
+            filter_params["channel__slug"] = filter_channel
+        if filter_show:
+            filter_params["show__slug"] = filter_show
+        if filter_producer:
+            filter_params["producer__slug"] = filter_producer
 
-        if self.filter_producer:
-            filter_params["producer__slug"] = self.filter_producer
-
-        if self.search and not settings.DEBUG and "test" not in argv:
+        if search and not settings.DEBUG and "test" not in argv:
             self.videos = self.videos.filter(  # pragma: no cover
-                Q(blurb__search=self.search) | Q(title__search=self.search)
+                Q(blurb__search=search) | Q(title__search=search)
             )
-        elif self.search:
+        elif search:
             self.videos = self.videos.filter(
-                Q(blurb__icontains=self.search)
-                | Q(title__icontains=self.search)
+                Q(blurb__icontains=search) | Q(title__icontains=search)
             )
 
-        if self.filter_crew:
-            if self.filter_guest:
-                self.filter_crew.append(self.filter_guest)
-            if self.filter_part_timer:
-                self.filter_crew.append(self.filter_part_timer)
+        if filter_crew:
+            if filter_guest:
+                filter_crew.append(filter_guest)
+            if filter_part_timer:
+                filter_crew.append(filter_part_timer)
 
             self.videos = self.videos.prefetch_related(
                 Prefetch(
                     "hosts",
                     queryset=Host.objects.only("slug").filter(
-                        slug__in=self.filter_crew
+                        slug__in=filter_crew
                     ),
                 )
             )
 
-            for host in self.filter_crew:
+            for host in filter_crew:
                 self.videos = self.videos.filter(hosts__slug=host)
         else:
             self.videos = self.videos.prefetch_related(
                 Prefetch(
                     "hosts",
                     queryset=Host.objects.only("slug").filter(
-                        slug__in=[self.filter_guest, self.filter_part_timer]
+                        slug__in=[filter_guest, filter_part_timer]
                     ),
                 )
             )
-            if self.filter_guest:
-                self.videos = self.videos.filter(hosts__slug=self.filter_guest)
-            if self.filter_part_timer:
-                self.videos = self.videos.filter(
-                    hosts__slug=self.filter_part_timer
-                )
+            if filter_guest:
+                self.videos = self.videos.filter(hosts__slug=filter_guest)
+            if filter_part_timer:
+                self.videos = self.videos.filter(hosts__slug=filter_part_timer)
 
         if "host" in filter_params:
             host = filter_params.pop("host")
@@ -99,11 +92,12 @@ class DefaultVideoView(TemplateView):
 
     def get_videos(self, filter_params):
         filter_params = self.build_filter(filter_params)
+        sort = self.request.GET.get("sort", "-release_date")
 
-        if self.sort != "-release_date" and self.sort[0] == "-":
-            self.sort = Lower(self.sort[1:]).desc()
-        elif self.sort not in ("release_date", "-release_date"):
-            self.sort = Lower(self.sort)
+        if sort != "-release_date" and sort[0] == "-":
+            sort = Lower(sort[1:]).desc()
+        elif sort not in ("release_date", "-release_date"):
+            sort = Lower(sort)
 
         videos = (
             self.videos.filter(**filter_params)
@@ -118,10 +112,10 @@ class DefaultVideoView(TemplateView):
                 "show__image_xs",
                 "channel",
             )
-            .order_by(self.sort)
+            .order_by(sort)
         )
 
-        paginator = Paginator(videos, self.results_per_page)
+        paginator = Paginator(videos, self.request.GET.get("results", 25))
         self.get_page_range(self.page, paginator.num_pages)
         videos = paginator.get_page(self.page).object_list
 
