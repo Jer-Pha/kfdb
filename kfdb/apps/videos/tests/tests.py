@@ -171,18 +171,16 @@ class VideoViewsTest(TestCase):
 
     def test_edit_video_view(self):
         """Tests EditVideoView()."""
-        video_id = (
-            Video.objects.values_list("video_id", flat=True).all().first()
-        )
+        video_id = Video.objects.values_list("id", flat=True).all().first()
         request = RequestFactory().get(
-            reverse("get_video_embed") + f"?video_id={video_id}"
+            reverse("get_video_embed") + f"?video={video_id}"
         )
         view = EditVideoView.as_view()(request)
         context = view.context_data
         self.assertIn("video", context)
         self.assertEqual(
             context["video"],
-            Video.objects.only("title").get(video_id=video_id),
+            Video.objects.only("title").get(id=video_id),
         )
 
 
