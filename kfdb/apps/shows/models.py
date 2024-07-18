@@ -15,9 +15,21 @@ class Show(models.Model):
         blank=False,
         unique=True,
     )
-    slug = models.SlugField(unique=True, db_index=False)
-    image = models.ImageField(upload_to=slug_directory_path, blank=True)
-    image_xs = models.ImageField(upload_to=slug_directory_path, blank=True)
+    slug = models.SlugField(
+        unique=True,
+        db_index=False,
+        help_text="URL-compatible show name.",
+    )
+    image = models.ImageField(
+        upload_to=slug_directory_path,
+        blank=True,
+        help_text="640x640 webp",
+    )
+    image_xs = models.ImageField(
+        upload_to=slug_directory_path,
+        blank=True,
+        help_text="128x128 webp",
+    )
     active = models.BooleanField(
         default=False,
         verbose_name="Is Active",
@@ -32,6 +44,7 @@ class Show(models.Model):
         blank=True,
         related_name="channel_shows",
         related_query_name="show_channel",
+        help_text="Channels this show might appear on.",
     )
 
     class Meta:
@@ -40,6 +53,7 @@ class Show(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+        """Ensure new shows have a slug."""
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
