@@ -97,6 +97,6 @@ urlpatterns += [
     path(
         "api/docs/",
         SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc",
+        name="api_docs",
     ),
 ]
