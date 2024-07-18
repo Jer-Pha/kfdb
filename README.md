@@ -8,4 +8,4 @@ Version 2's current state can be found [here](http://kfdb.us-east-2.elasticbeans
 
 ## API
 
-Version 2 will include an API. The work-in-progress API can be found [here](http://kfdb.us-east-2.elasticbeanstalk.com/api/).
+Version 2 will include an API. The work-in-progress API can be found [here](http://kfdb.us-east-2.elasticbeanstalk.com/api/docs/).
