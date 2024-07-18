@@ -1,5 +1,3 @@
-from autoslug import AutoSlugField
-
 from django.db import models
 from django.utils.text import slugify
 
@@ -11,6 +9,8 @@ from apps.shows.models import Show
 @models.CharField.register_lookup
 @models.TextField.register_lookup
 class MySqlSearch(models.Lookup):
+    """This is a custom lookup that adds MySQL full-text search."""
+
     lookup_name = "search"
 
     def as_mysql(self, compiler, connection):  # pragma: no cover
@@ -25,10 +25,10 @@ class Video(models.Model):
         max_length=255,
         blank=False,
     )
-    slug = AutoSlugField(unique=True)
     release_date = models.DateField(
         null=True,
         blank=True,
+        db_index=True,
     )
     show = models.ForeignKey(
         Show,
@@ -74,19 +74,17 @@ class Video(models.Model):
     blurb = models.TextField(
         blank=True,
         verbose_name="Blurb",
-        help_text="Video description",
+        help_text=(
+            "Video description pulled from the YouTube API. Empty if Patreon."
+        ),
     )
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
 
     @property
     def embed_size(self):
+        """Determine display dimensions when embedding the video."""
         if "youtube" in self.link and "shorts" not in self.link:
             return "w-full aspect-[16/9]"
         elif "youtube" in self.link:

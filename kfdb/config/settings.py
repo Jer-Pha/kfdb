@@ -191,7 +191,7 @@ REST_FRAMEWORK = {
         # own queries. If performance testing, enable:
         # 'example.utils.BrowsableAPIRendererWithoutForms',
         # Otherwise, to play around with the browseable API, enable:
-        "rest_framework_json_api.renderers.BrowsableAPIRenderer",
+        # "rest_framework_json_api.renderers.BrowsableAPIRenderer",
     ),
     "DEFAULT_METADATA_CLASS": (
         "rest_framework_json_api.metadata.JSONAPIMetadata"
@@ -225,7 +225,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": (
         "Four, sometimes five, best friends gather around this table."
     ),
-    "VERSION": "0.2.2",
+    "VERSION": "1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # Added
     "COMPONENT_SPLIT_REQUEST": True,

@@ -104,9 +104,7 @@ class VideoSerializerTest(TestCase):
             {
                 "title": "Test Video title",
                 "release_date": str(self.release_date),
-                "hosts": [
-                    {"type": "Host", "id": "1", "name": "Test Host name"}
-                ],
+                "hosts": [{"id": "1", "name": "Test Host name"}],
                 "video_id": self.video_id,
                 "link": f"https://www.youtube.com/watch?v={self.video_id}",
             },

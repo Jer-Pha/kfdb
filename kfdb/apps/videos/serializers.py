@@ -17,7 +17,7 @@ class StringResourceRelatedField(ResourceRelatedField):
         resource_type = self.get_resource_type_from_included_serializer()
         if resource_type is None or not self._skip_polymorphic_optimization:
             resource_type = get_resource_type_from_instance(value)
-        return {"type": resource_type, "id": str(pk), "name": str(value)}
+        return {"id": str(pk), "name": str(value)}
 
 
 class VideoSerializer(serializers.ModelSerializer):

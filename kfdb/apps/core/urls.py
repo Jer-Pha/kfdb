@@ -27,7 +27,7 @@ from apps.hosts.viewsets import HostViewSet
 from apps.shows.viewsets import ShowViewSet
 from apps.videos.viewsets import VideoViewSet
 
-router = DefaultRouter()
+router = DefaultRouter(trailing_slash=False)
 router.register("channels", ChannelViewSet, basename="channels")
 router.register("hosts", HostViewSet, basename="hosts")
 router.register("shows", ShowViewSet, basename="shows")
@@ -92,18 +92,10 @@ urlpatterns += [
 
 # API urls
 urlpatterns += [
-    path("api-auth/", include("rest_framework.urls")),
     path("api/", include(router.urls)),
-    # YOUR PATTERNS
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    # Optional UI:
+    path("api/schema/download", SpectacularAPIView.as_view(), name="schema"),
     path(
-        "api/schema/swagger-ui/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
-    ),
-    path(
-        "api/schema/redoc/",
+        "api/docs/",
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),

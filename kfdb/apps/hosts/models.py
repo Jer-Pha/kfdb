@@ -17,15 +17,26 @@ class Host(models.Model):
         blank=False,
         unique=True,
     )
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(
+        unique=True,
+        help_text="URL-compatible host name.",
+    )
     nicknames = models.JSONField(
         null=True,
         blank=True,
         verbose_name="Nickname(s)",
-        help_text="Should be formatted as a list, not dict.",
+        help_text="Should be formatted as a list.",
     )
-    image = models.ImageField(upload_to=slug_directory_path, blank=True)
-    image_xs = models.ImageField(upload_to=slug_directory_path, blank=True)
+    image = models.ImageField(
+        upload_to=slug_directory_path,
+        blank=True,
+        help_text="640x640 webp",
+    )
+    image_xs = models.ImageField(
+        upload_to=slug_directory_path,
+        blank=True,
+        help_text="96x96 webp",
+    )
     kf_crew = models.BooleanField(
         default=False,
         verbose_name="Kinda Funny Employee",
@@ -36,7 +47,7 @@ class Host(models.Model):
     socials = models.JSONField(
         null=True,
         blank=True,
-        help_text="Should be formatted as a dict.",
+        help_text="Should be formatted as a dictionary.",
     )
     birthday = models.DateField(
         null=True,
@@ -54,6 +65,7 @@ class Host(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+        """Ensure new hosts have a slug."""
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
@@ -63,6 +75,7 @@ class Host(models.Model):
 
     @property
     def url_type(self):
+        """Used in template when creating link to host's page."""
         if self.kf_crew:
             return "kf-crew"
         elif self.part_timer:
@@ -71,6 +84,7 @@ class Host(models.Model):
 
     @property
     def initials(self):
+        """Used in template when host does not have an image."""
         if self.slug == "fran-mirabella-iii":
             return "FM3"
         elif self.slug[-3:] == "-jr":
@@ -80,6 +94,11 @@ class Host(models.Model):
 
     @property
     def border_color(self):
+        """
+        Used in template as ``image`` or ``image_xs`` border color.
+
+        Does not apply to "producer" images.
+        """
         if self.kf_crew:
             return "primary"
         elif self.part_timer:
@@ -88,6 +107,7 @@ class Host(models.Model):
 
     @property
     def nickname(self):
+        """Get a random nickname to display on the host's page."""
         if not self.nicknames:
             return ""
         elif self.slug == "joey":
@@ -99,10 +119,12 @@ class Host(models.Model):
 
     @property
     def birth_day(self):
+        """Birthday with the year removed for the host's page."""
         return self.birthday.strftime("%B %d")
 
     @property
     def appearance_count(self):
+        """Count of episodes hosted, produced, and total appearances."""
         counts = (
             Host.objects.filter(id=self.id)
             .annotate(
