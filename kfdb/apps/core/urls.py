@@ -1,10 +1,6 @@
 """URL configuration for core KFDB features."""
 
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView
 
 from django.contrib import admin
 from django.templatetags.static import static
@@ -17,10 +13,7 @@ from .views import (
     HeroStatsView,
     HostCountView,
     UpdateThemeView,
-    VideoBlurbView,
     ShowCountView,
-    VideoEmbedView,
-    VideoDetailsView,
 )
 from apps.channels.viewsets import ChannelViewSet
 from apps.hosts.viewsets import HostViewSet
@@ -48,21 +41,6 @@ urlpatterns = [
     path("show-count", ShowCountView.as_view(), name="get_show_count"),
     path("change-theme", UpdateThemeView.as_view(), name="update_theme"),
     path("build-filter", BuildFilterView.as_view(), name="build_filter"),
-    path(
-        "get/video-details",
-        VideoDetailsView.as_view(),
-        name="get_video_details",
-    ),
-    path(
-        "get/video-blurb",
-        VideoBlurbView.as_view(),
-        name="get_video_blurb",
-    ),
-    path(
-        "get/video-embed",
-        VideoEmbedView.as_view(),
-        name="get_video_embed",
-    ),
     path("kfdb-admin/", admin.site.urls, name="admin"),
 ]
 

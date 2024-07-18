@@ -12,9 +12,6 @@ from ..views import (
     HostCountView,
     ShowCountView,
     UpdateThemeView,
-    VideoBlurbView,
-    VideoDetailsView,
-    VideoEmbedView,
 )
 from apps.channels.models import Channel
 from apps.hosts.models import Host
@@ -140,62 +137,6 @@ class CoreViewsTest(TestCase):
         response = view.get(request)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"1")
-
-    def test_video_details_view(self):
-        """Tests VideoDetailsView()."""
-        video_id = (
-            Video.objects.values_list("video_id", flat=True).all().first()
-        )
-        request = RequestFactory().get(
-            reverse("get_video_details") + f"?video_id={video_id}"
-        )
-        view = VideoDetailsView.as_view()(request)
-        context = view.context_data
-        self.assertIn("video", context)
-        self.assertEqual(
-            context["video"],
-            (
-                Video.objects.select_related("show", "producer", "channel")
-                .prefetch_related("hosts")
-                .get(video_id=video_id)
-            ),
-        )
-
-    def test_video_blurb_view(self):
-        """Tests VideoBlurbView()."""
-        video_id = (
-            Video.objects.values_list("video_id", flat=True).all().first()
-        )
-        request = RequestFactory().get(
-            reverse("get_video_blurb") + f"?video_id={video_id}"
-        )
-        view = VideoBlurbView.as_view()(request)
-        context = view.context_data
-        self.assertIn("blurb", context)
-        self.assertEqual(
-            context["blurb"],
-            Video.objects.values_list("blurb", flat=True).get(
-                video_id=video_id
-            ),
-        )
-
-    def test_video_embed_view(self):
-        """Tests VideoEmbedView()."""
-        video_id = (
-            Video.objects.values_list("video_id", flat=True).all().first()
-        )
-        request = RequestFactory().get(
-            reverse("get_video_embed") + f"?video_id={video_id}"
-        )
-        view = VideoEmbedView.as_view()(request)
-        context = view.context_data
-        self.assertIn("video", context)
-        self.assertEqual(
-            context["video"],
-            Video.objects.only("link", "title", "video_id").get(
-                video_id=video_id
-            ),
-        )
 
     def test_build_filter_view(self):
         """Tests BuildFilterView()."""

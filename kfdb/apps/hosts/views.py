@@ -16,7 +16,7 @@ class HostPageView(DefaultVideoView):
         self.template_name = (
             "hosts/host-page.html"
             if self.new_page
-            else "core/partials/get-video-results.html"
+            else "videos/partials/get-video-results.html"
         )
         host = Host.objects.defer("image_xs", "kf_crew", "part_timer").get(
             slug=kwargs.get("host", "")
@@ -39,19 +39,13 @@ class BaseHostView(TemplateView):
     template_name = ""
 
     def get(self, request, **kwargs):
-        self.new_page = "Hx-Request" not in request.headers
         self.curr_path = request.path
-        self.page = int(request.GET.get("page", 1))
-        self.sort = request.GET.get("sort", "-kf_crew,-part_timer,name").split(
-            ","
-        )
-        self.search = sub(" +", " ", request.GET.get("search", "").strip())
-
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
 
     def get_hosts(self, hosts):
-        if self.new_page:
+        new_page = "Hx-Request" not in self.request.headers
+        if new_page:
             self.template_name = "hosts/hosts-home.html"
             results_per_page = 30
         else:
@@ -67,25 +61,34 @@ class BaseHostView(TemplateView):
                 count_produced=Count("video_producer", distinct=True),
                 appearances=(F("count_hosted") + F("count_produced")),
             )
-            .order_by(*self.sort)
+            .order_by(
+                *(
+                    self.request.GET.get(
+                        "sort", "-kf_crew,-part_timer,name"
+                    ).split(",")
+                )
+            )
         )
 
-        if self.search:
+        search = sub(" +", " ", self.request.GET.get("search", "").strip())
+
+        if search:
             hosts = hosts.filter(
-                Q(name__icontains=self.search)
-                | Q(slug__icontains=self.search.replace(" ", "-"))
+                Q(name__icontains=search)
+                | Q(slug__icontains=search.replace(" ", "-"))
             )
         else:
             hosts = hosts.all()
 
+        page = int(self.request.GET.get("page", 1))
         paginator = Paginator(hosts, results_per_page)
-        self.last_page = paginator.num_pages <= self.page
-        hosts = paginator.get_page(self.page).object_list
+        self.last_page = paginator.num_pages <= page
+        hosts = paginator.get_page(page).object_list
 
-        if self.new_page:
-            self.page = 6
+        if new_page:
+            page = 6
         else:
-            self.page += 1
+            page += 1
 
         return hosts
 

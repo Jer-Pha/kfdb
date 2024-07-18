@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views import View
+from django.views.generic import TemplateView
 
 from .models import Video
 from apps.channels.models import Channel
@@ -21,11 +22,65 @@ class AllVideosView(DefaultVideoView):
         self.template_name = (
             "videos/videos-home.html"
             if self.new_page
-            else "core/partials/get-video-results.html"
+            else "videos/partials/get-video-results.html"
         )
         filter_params = {}
         context["videos"] = self.get_videos(filter_params)
 
+        return context
+
+
+class VideoDetailsView(TemplateView):
+    http_method_names = "get"
+    template_name = "videos/partials/get-video-details.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        video = (
+            Video.objects.select_related("show", "producer", "channel")
+            .prefetch_related("hosts")
+            .get(video_id=self.request.GET.get("video_id", ""))
+        )
+        context["video"] = video
+        return context
+
+
+class VideoBlurbView(TemplateView):
+    http_method_names = "get"
+    template_name = "videos/partials/get-video-blurb.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        blurb = Video.objects.values_list("blurb", flat=True).get(
+            video_id=self.request.GET.get("video_id", "")
+        )
+        context["blurb"] = blurb
+        return context
+
+
+class VideoEmbedView(TemplateView):
+    http_method_names = "get"
+    template_name = "videos/partials/get-video-embed.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        video = Video.objects.only("link", "title", "video_id").get(
+            video_id=self.request.GET.get("video_id", "")
+        )
+        context["video"] = video
+        return context
+
+
+class EditVideoView(TemplateView):
+    http_method_names = ["get", "post"]
+    template_name = "videos/partials/edit-video-modal.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        video = Video.objects.only("title").get(
+            id=self.request.GET.get("video", "")
+        )
+        context["video"] = video
         return context
 
 

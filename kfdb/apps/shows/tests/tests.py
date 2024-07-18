@@ -86,7 +86,7 @@ class ShowViewsTest(TestCase):
         self.assertNotIn("filter_param", context)
         self.assertEqual(
             context["view"].template_name,
-            "core/partials/get-video-results.html",
+            "videos/partials/get-video-results.html",
         )
 
     def test_all_shows_view(self):
