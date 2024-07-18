@@ -12,7 +12,6 @@ class Channel(models.Model):
         max_length=255,
         blank=False,
         unique=True,
-        help_text="Channel name.",
     )
     slug = models.SlugField(
         unique=True,
@@ -21,10 +20,11 @@ class Channel(models.Model):
     image = models.ImageField(upload_to=slug_directory_path, blank=True)
     blurb = models.TextField(
         blank=True,
-        help_text="Description of the channel.",
+        help_text="Optional description of the channel.",
     )
 
     def save(self, *args, **kwargs):
+        """Ensure new channels have a slug."""
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
