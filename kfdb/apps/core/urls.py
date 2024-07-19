@@ -36,6 +36,11 @@ urlpatterns = [
         TemplateView.as_view(template_name="core/index.html"),
         name="index",
     ),
+    path(
+        "privacy-policy",
+        TemplateView.as_view(template_name="core/privacy-policy.html"),
+        name="privacy_policy",
+    ),
     path("load-stats", HeroStatsView.as_view(), name="load_stats"),
     path("host-count", HostCountView.as_view(), name="get_host_count"),
     path("show-count", ShowCountView.as_view(), name="get_show_count"),
