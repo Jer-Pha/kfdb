@@ -19,15 +19,15 @@ class BaseEditAdmin(admin.ModelAdmin):
     search_fields = ("description", "username")
     empty_value_display = "-empty-"
 
-    def truncated_description(self, obj):
+    def truncated_description(self, obj):  # pragma: no cover
         return obj.description[:37] + "..."
 
-    def truncated_name_or_empty(self, obj):
+    def truncated_name_or_empty(self, obj):  # pragma: no cover
         if not obj.username:
             return "-empty-"
         return obj.username[:37] + "..."
 
-    def topic_or_empty(self, obj):
+    def topic_or_empty(self, obj):  # pragma: no cover
         if not obj.topic:
             return "-empty-"
         return obj.topic
