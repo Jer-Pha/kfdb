@@ -5,14 +5,14 @@ from apps.hosts.models import Host
 from apps.shows.models import Show
 from apps.videos.models import Video
 
-STATUS_OPTIONS = {
-    "NEW": "New",
-    "VWD": "Viewed",
-    "WIP": "In Progress",
-    "CPL": "Complete",
-    "CNC": "Cancelled",
-    "SPM": "Spam",
-}
+STATUS_OPTIONS = (
+    ("NEW", "New"),
+    ("VWD", "Viewed"),
+    ("WIP", "In Progress"),
+    ("CPL", "Complete"),
+    ("CNC", "Cancelled"),
+    ("SPM", "Spam"),
+)
 
 
 class BaseEdit(models.Model):
