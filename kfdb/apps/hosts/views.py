@@ -90,6 +90,8 @@ class BaseHostView(TemplateView):
         else:
             page += 1
 
+        self.page = page
+
         return hosts
 
 
