@@ -71,19 +71,6 @@ class VideoEmbedView(TemplateView):
         return context
 
 
-class EditVideoView(TemplateView):
-    http_method_names = ["get", "post"]
-    template_name = "videos/partials/edit-video-modal.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        video = Video.objects.only("title").get(
-            id=self.request.GET.get("video", "")
-        )
-        context["video"] = video
-        return context
-
-
 class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
     raise_exception = True
 
