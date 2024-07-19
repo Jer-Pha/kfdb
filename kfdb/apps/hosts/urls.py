@@ -27,6 +27,8 @@ urlpatterns = [
         name="host_page",
     ),
     path(
-        "randomize-hosts", RandomHostsView.as_view(), name="get_random_hosts"
+        "randomize-hosts",
+        RandomHostsView.as_view(),
+        name="get_random_hosts",
     ),
 ]

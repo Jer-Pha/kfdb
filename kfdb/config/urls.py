@@ -8,9 +8,10 @@ from django.urls import include, path
 urlpatterns = [
     path("", include("apps.core.urls")),
     path("", include("apps.channels.urls")),
-    path("", include("apps.videos.urls")),
+    path("", include("apps.edits.urls")),
     path("", include("apps.hosts.urls")),
     path("", include("apps.shows.urls")),
+    path("", include("apps.videos.urls")),
 ]
 
 if settings.DEBUG:  # pragma: no cover

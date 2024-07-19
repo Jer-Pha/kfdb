@@ -1,0 +1,33 @@
+{% load l10n %}
+
+<dialog id="edit-channel-modal" class="modal" open>
+  <div class="modal-box max-w-xs border-[2px] border-base-content">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
+    </form>
+    <h4 class="text-lg font-bold">Suggest Edit</h4>
+    <p class="text-sm font-semibold italic">
+      {{ obj.1|safe }}
+    </p>
+    <form hx-post="{% url 'edit_channel' %}" hx-trigger="submit" hx-target="#edit-channel-modal" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+      <input type="hidden" name="id" value="{{ obj.0|unlocalize }}" />
+      <div class="flex flex-col gap-4 mt-4">
+        <select name="topic" class="select select-sm lg:select-md select-bordered">
+          <option value="" disabled selected>- Topic -</option>
+          <option>Name</option>
+          <option>Picture</option>
+          <option>Description</option>
+          <option>Other</option>
+        </select>
+        <textarea class="textarea textarea-bordered" placeholder="Suggestion..." minlength="10" maxlength="1000" name="description" required></textarea>
+        <label class="form-control">
+          <input type="text" name="username" placeholder="Username" class="input input-sm lg:input-md input-bordered text-sm" />
+          <div class="label">
+            <span class="label-text-alt text-error font-bold -mt-1">Optional</span>
+          </div>
+        </label>
+        <button type="submit" class="btn btn-sm lg:btn-md btn-outline btn-primary mx-auto -mt-7">Submit</button>
+      </div>
+    </form>
+  </div>
+</dialog>

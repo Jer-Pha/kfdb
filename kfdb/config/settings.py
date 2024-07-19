@@ -15,6 +15,7 @@ DEBUG = getenv("DEBUG", "TRUE").strip() == "TRUE"
 PROJECT_APPS = [
     "apps.channels",
     "apps.core",
+    "apps.edits",
     "apps.hosts",
     "apps.shows",
     "apps.videos",
