@@ -249,6 +249,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 CSRF_COOKIE_NAME = "kfdb_csrf"
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = True
+CSRF_TRUSTED_ORIGINS = ["https://*.kfdb.app/"]
 
 # Video Update Keys
 PATREON_RSS_FEED = getenv("PATREON_RSS_FEED", "").strip()
