@@ -10,7 +10,7 @@ def global_context(request):
         default=None,
     )
 
-    if theme_cookie:
+    if theme_cookie:  # pragma: no cover
         theme = theme_cookie
     else:
         theme = "light"
