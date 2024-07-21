@@ -1,4 +1,6 @@
 from drf_spectacular.utils import extend_schema
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
@@ -14,3 +16,7 @@ class HostViewSet(ReadOnlyModelViewSet):
     serializer_class = HostSerializer
     search_fields = ("name", "slug")
     filterset_fields = ("id", "name", "slug", "kf_crew", "part_timer")
+
+    @method_decorator(cache_page(60 * 5))  # 5 minutes
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)

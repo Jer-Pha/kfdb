@@ -77,6 +77,12 @@ if not DEBUG:
             ),
         },
     }
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": getenv("REDIS_LOC", "").strip(),
+        }
+    }
     AWS_S3_ACCESS_KEY_ID = getenv("AMZ_S3_ACCESS_KEY_ID").strip()
     AWS_S3_SECRET_ACCESS_KEY = getenv("AMZ_S3_SECRET_ACCESS_KEY").strip()
     AWS_STORAGE_BUCKET_NAME = getenv("AMZ_STORAGE_BUCKET_NAME").strip()
