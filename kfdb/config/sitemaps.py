@@ -28,8 +28,7 @@ class StaticViewSitemap(Sitemap):
     priority = 0.2
 
     def items(self):
-        return ("privacy_policy",)
-        # return ("privacy_policy", "about", "support")
+        return ("privacy_policy", "about", "support")
 
     def location(self, item):
         return reverse(item)

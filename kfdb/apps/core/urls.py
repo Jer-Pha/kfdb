@@ -37,7 +37,17 @@ urlpatterns = [
         name="index",
     ),
     path(
-        "privacy-policy",
+        "about/",
+        TemplateView.as_view(template_name="core/about.html"),
+        name="about",
+    ),
+    path(
+        "support/",
+        TemplateView.as_view(template_name="core/support.html"),
+        name="support",
+    ),
+    path(
+        "privacy-policy/",
         TemplateView.as_view(template_name="core/privacy-policy.html"),
         name="privacy_policy",
     ),
