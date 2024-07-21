@@ -14,14 +14,21 @@
 {% endblock %}
 
 {% block main %}
-  <div class="flex flex-col mb-auto">
-    <div class="flex flex-col p-4 gap-y-4">
-      <h1 class="text-2xl">Support KFDB</h1>
-      <p>...text...</p>
-    </div>
-    <div class="flex flex-row w-80 mx-auto gap-x-4 justify-center">
-      <a href="https://www.paypal.com/paypalme/supportKFDB" class="btn btn-sm xl:btn-md btn-primary w-36" target="_blank">PayPal</a>
-      <a href="https://www.buymeacoffee.com/kfdb" class="btn btn-sm xl:btn-md btn-secondary w-36" target="_blank">Buy Us a Coffee</a>
+  <div class="hero min-h-[calc((var(--vh,1vh)*100)-4rem)] lg:min-h-[calc((var(--vh,1vh)*100)-4.25rem)]">
+    <div class="!max-w-[max(67vw,80rem)] hero-content p-0 xs:p-4 flex-col md:flex-row">
+      <img src="{% static 'img/milk-mommy.webp' %}" class="z-[-1] w-screen xs:max-w-md lg:max-w-lg 2xl:max-w-[calc(((var(--vh,1vh)*100)-4.25rem)*2/3)] rounded-none xs:rounded-box xs:shadow-sm md:shadow-2xl aspect-square object-cover" alt="Nick Scarpino looking good" />
+      <div class="min-h-[calc((var(--vh,1vh)*100)-4rem-50vw)] xs:min-h-0 p-4 lg:p-8 md:max-w-[50vw] bg-base-100 xs:bg-primary xs:text-primary-content xs:border-2 xs:border-primary-content md:-ml-24 lg:-ml-16 xs:rounded-box md:mt-8 lg:mt-16 2xl:mt-20 xs:shadow-md md:shadow-lg lg:shadow-2xl">
+        <h1 class="text-4xl lg:text-5xl font-bold">Support KFDB</h1>
+        <p class="py-2 md:py-4">KFDB is a fan-made passion project made by a long-time KFBF who has invested hundreds of hours into maintaining the database.</p>
+        <p>
+          This site is not associated with Kinda Funny and all development costs are covered independently. If you have found KFDB to be a useful tool for the community, think it's <span class="italic">worth the dollar</span>, and have the financial means to do so, please consider donating via PayPal or BuyMeACoffee to help cover our monthly hosting costs.
+        </p>
+        <p class="py-4">KFDB will always be ad-free.</p>
+        <div class="flex flex-col xs:flex-row w-full xs:w-80 mx-auto gap-4 justify-center">
+          <a href="https://www.paypal.com/paypalme/supportKFDB" class="btn btn-sm btn-outline border-base-content text-base-content xs:border-primary-content xs:text-primary-content w-36 mx-auto" target="_blank">PayPal</a>
+          <a href="https://www.buymeacoffee.com/kfdb" class="btn btn-sm btn-outline border-base-content text-base-content xs:border-primary-content xs:text-primary-content w-36 mx-auto" target="_blank">Buy&nbsp;Me&nbsp;a&nbsp;Coffee</a>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
