@@ -228,14 +228,38 @@ class CoreViewsTest(TestCase):
 class SitemapsTest(TestCase):
     """Tests all sitemaps."""
 
-    def test_sitemaps(self):
+    def setUp(self):
+        """Sets up test data."""
+
+        self.channel = Channel.objects.create(name="Test Channel")
+        self.host = Host.objects.create(name="Test Crew", kf_crew=True)
+        self.show = Show.objects.create(name="Test Show")
+
+    def test_static_sitemaps(self):
+        """Tests static sitemaps."""
         sitemaps = (
             self.client.get("/sitemap.xml"),
             self.client.get("/sitemap-core.xml"),
-            self.client.get("/sitemap-hosts.xml"),
-            self.client.get("/sitemap-shows.xml"),
-            self.client.get("/sitemap-channels.xml"),
             self.client.get("/sitemap-static.xml"),
         )
         for response in sitemaps:
             self.assertEqual(response.status_code, 200)
+
+    def test_model_sitemaps(self):
+        """Tests model-driven sitemaps."""
+
+        sitemap_hosts = self.client.get("/sitemap-hosts.xml")
+        sitemap_shows = self.client.get("/sitemap-shows.xml")
+        sitemap_channels = self.client.get("/sitemap-channels.xml")
+
+        self.assertIn(
+            f"/hosts/{self.host.url_type}/{self.host.slug}/".encode(),
+            sitemap_hosts.content,
+        )
+        self.assertIn(
+            f"/shows/{self.show.slug}/".encode(), sitemap_shows.content
+        )
+        self.assertIn(
+            f"/channels/{self.channel.slug}/".encode(),
+            sitemap_channels.content,
+        )

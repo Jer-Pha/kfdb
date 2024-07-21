@@ -59,7 +59,7 @@ class ShowSitemap(Sitemap):
         return f"/shows/{show['slug']}/"
 
 
-class HostSitemap(Sitemap):  # pragma: no cover
+class HostSitemap(Sitemap):
     changefreq = "weekly"
     protocol = "https"
     priority = 0.8
