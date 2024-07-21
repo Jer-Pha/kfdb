@@ -223,3 +223,19 @@ class CoreViewsTest(TestCase):
         view.setup(request)
         response = view.get(request)
         self.assertEqual(response.status_code, 200)
+
+
+class SitemapsTest(TestCase):
+    """Tests all sitemaps."""
+
+    def test_sitemaps(self):
+        sitemaps = (
+            self.client.get("/sitemap.xml"),
+            self.client.get("/sitemap-core.xml"),
+            self.client.get("/sitemap-hosts.xml"),
+            self.client.get("/sitemap-shows.xml"),
+            self.client.get("/sitemap-channels.xml"),
+            self.client.get("/sitemap-static.xml"),
+        )
+        for response in sitemaps:
+            self.assertEqual(response.status_code, 200)
