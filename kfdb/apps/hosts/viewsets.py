@@ -8,6 +8,7 @@ from .models import Host
 from .serializers import HostSerializer
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 @extend_schema(
     description="Hosts include the KF Crew, Part-Timers, and Guests."
 )
@@ -16,7 +17,3 @@ class HostViewSet(ReadOnlyModelViewSet):
     serializer_class = HostSerializer
     search_fields = ("name", "slug")
     filterset_fields = ("id", "name", "slug", "kf_crew", "part_timer")
-
-    @method_decorator(cache_page(60 * 5))  # 5 minutes
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)

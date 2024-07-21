@@ -8,6 +8,7 @@ from .models import Channel
 from .serializers import ChannelSerializer
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 @extend_schema(
     description=(
         "Channels are the most basic way to filter Kinda Funny"
@@ -18,7 +19,3 @@ class ChannelViewSet(ReadOnlyModelViewSet):
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
     filterset_fields = ("id", "name", "slug")
-
-    @method_decorator(cache_page(60 * 5))  # 5 minutes
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
