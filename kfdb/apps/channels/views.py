@@ -5,7 +5,6 @@ from .models import Channel
 from apps.core.views import DefaultVideoView
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class ChannelPageView(DefaultVideoView):
     template_name = ""
 

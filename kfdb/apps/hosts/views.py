@@ -10,7 +10,6 @@ from .models import Host
 from apps.core.views import DefaultVideoView
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostPageView(DefaultVideoView):
     template_name = ""
 
@@ -116,7 +115,7 @@ class HostsHomeView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(cache_page(60 * 60 * 24), name="dispatch")
 class HostCrewView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,7 +133,7 @@ class HostCrewView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
+@method_decorator(cache_page(60 * 60 * 24), name="dispatch")
 class HostPartTimerView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -152,7 +151,7 @@ class HostPartTimerView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostGuestView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -170,7 +169,7 @@ class HostGuestView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class RandomHostsView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-host-names.html"
