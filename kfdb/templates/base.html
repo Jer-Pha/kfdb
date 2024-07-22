@@ -40,7 +40,7 @@
       <div class="drawer-content">
         <div class="w-full navbar bg-gradient-to-r from-secondary to-primary z-50 sticky top-0">
           <div class="flex-none md:hidden">
-            <label tabindex="0" for="nav-drawer" aria-label="Open Side Navigation" class="btn btn-square btn-ghost">
+            <label tabindex="0" for="nav-drawer" aria-label="navigation menu" class="btn btn-square btn-ghost">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-secondary-content">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
@@ -53,7 +53,7 @@
               {% else %}
                 #
               {% endif %}"
-              tabindex="0" aria-label="KFDB Home">
+              tabindex="0" aria-label="K F D B home">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 524" class="w-12 h-12 fill-secondary-content stroke-none hover:fill-info">
                 <path id="Selection #2"
                   d="M 237.00,416.00
@@ -273,15 +273,15 @@
             </ul>
           </div>
           <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-square btn-ghost" aria-label="Themes" title="Themes">
+            <div tabindex="0" role="button" class="btn btn-square btn-ghost" aria-label="themes" title="Themes">
               <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" class="inline-block w-5 h-5 fill-primary-content"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm40-83q119-15 199.5-104.5T800-480q0-123-80.5-212.5T520-797v634Z"/></svg>
             </div>
             <div tabindex="0" class="dropdown-content mt-14 md:mt-[58px] p-0 rounded-t-none rounded-b-box bg-base-200 text-base-content join join-vertical z-50">
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Dark" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Light" value="light" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'light' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Slick" value="black" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'black' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Clean" value="lofi" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'lofi' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Kinda Funny" value="kindafunny" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'kindafunny' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="dark theme" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="light theme" value="light" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'light' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="slick theme" value="black" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'black' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="clean theme" value="lofi" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'lofi' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="kinda funny theme" value="kindafunny" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'kindafunny' %}checked{% endif %} />
             </div>
           </div>
         </div>
@@ -293,9 +293,9 @@
         </main>
       </div>
       <div class="h-[calc(var(--vh,1vh)*100)] drawer-side z-50">
-        <label for="nav-drawer" aria-label="Close Side Navigation" class="drawer-overlay"></label>
+        <label for="nav-drawer" aria-label="navigation menu overlay, click to close menu" class="drawer-overlay"></label>
         <ul class="p-4 w-80 min-h-full bg-base-200">
-          <label for="nav-drawer" aria-label="Close Side Navigation" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px]">
+          <label for="nav-drawer" aria-label="close navigation menu" class="btn btn-square btn-ghost right-0 absolute mr-2 mt-[-8px]">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current fill-current" viewBox="0 0 24 24">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" />
             </svg>
@@ -391,22 +391,22 @@
         <a href="https://kindafunny.shop/" class="link link-hover min-w-28" tabindex="0">KF&nbsp;Merch</a>
       </nav>
       <nav class="grid grid-cols-3 xs:grid-cols-6 gap-x-12 xs:gap-x-8 md:gap-x-12 gap-y-6">
-        <a href="https://www.twitter.com/kindafunnyvids" target="_blank" aria-label="Twitter" title="Twitter" tabindex="0">
+        <a href="https://www.twitter.com/kindafunnyvids" target="_blank" aria-label="twitter" title="Twitter" tabindex="0">
           {% include 'core/partials/socials/twitter.html' %}
         </a>
-        <a href="https://www.instagram.com/kindafunnyvids" target="_blank" aria-label="Instagram" title="Instagram" tabindex="0">
+        <a href="https://www.instagram.com/kindafunnyvids" target="_blank" aria-label="instagram" title="Instagram" tabindex="0">
           {% include 'core/partials/socials/instagram.html' %}
         </a>
-        <a href="https://www.tiktok.com/@kindafunnygames" target="_blank" aria-label="TikTok" title="TikTok" tabindex="0">
+        <a href="https://www.tiktok.com/@kindafunnygames" target="_blank" aria-label="tiktok" title="TikTok" tabindex="0">
           {% include 'core/partials/socials/tiktok.html' %}
         </a>
-        <a href="https://www.youtube.com/kindafunnygames" target="_blank" aria-label="YouTube" title="YouTube" tabindex="0">
+        <a href="https://www.youtube.com/kindafunnygames" target="_blank" aria-label="youtube" title="YouTube" tabindex="0">
           {% include 'core/partials/socials/youtube.html' %}
         </a>
-        <a href="https://www.twitch.com/kindafunnygames" target="_blank" aria-label="Twitch" title="Twitch" tabindex="0">
+        <a href="https://www.twitch.com/kindafunnygames" target="_blank" aria-label="twitch" title="Twitch" tabindex="0">
           {% include 'core/partials/socials/twitch.html' %}
         </a>
-        <a href="https://www.patreon.com/kindafunny" target="_blank" aria-label="Patreon" title="Patreon" tabindex="0">
+        <a href="https://www.patreon.com/kindafunny" target="_blank" aria-label="patreon" title="Patreon" tabindex="0">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" class="w-6 h-6 fill-base-content hover:fill-info">
             <path d="M489.7 153.8c-.1-65.4-51-119-110.7-138.3C304.8-8.5 207-5 136.1 28.4C50.3 68.9 23.3 157.7 22.3 246.2C21.5 319 28.7 510.6 136.9 512c80.3 1 92.3-102.5 129.5-152.3c26.4-35.5 60.5-45.5 102.4-55.9c72-17.8 121.1-74.7 121-150z" />
           </svg>
@@ -416,7 +416,7 @@
     <footer class="footer footer-center py-4 px-6 bg-info text-info-content rounded-none z-0 relative{% if request.path == '/home/' %} snap-end{% endif %}">
       <aside>
         <p>KFDB is not endorsed by Kinda Funny and does not reflect the views or opinions of Kinda Funny or anyone officially involved in producing or managing Kinda Funny content.</p>
-        <p class="flex flex-row">From the creator of&nbsp;&nbsp;<a href="https://www.survayy.com/" target="_blank"  class="link link-hover" tabindex="0" aria-label="Survayy.com"><svg xmlns="http://www.w3.org/2000/svg" class="fill-info-content hover:fill-secondary" width="80%" height="24px" viewBox="0 0 1447 301">
+        <p class="flex flex-row">From the creator of&nbsp;&nbsp;<a href="https://www.survayy.com/" target="_blank"  class="link link-hover" tabindex="0" aria-label="survayy dot com"><svg xmlns="http://www.w3.org/2000/svg" class="fill-info-content hover:fill-secondary" width="80%" height="24px" viewBox="0 0 1447 301">
           <path
             d="M 1240.00,64.00
               C 1240.00,64.00 1240.00,259.00 1240.00,259.00
