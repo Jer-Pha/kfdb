@@ -11,5 +11,10 @@
 {% endblock %}
 
 {% block main %}
-  Channels home.
+  <div id="channels" class="flex flex-col h-[calc(var(--vh,1vh)*100)] w-screen lg:ml-[-10vw] relative overflow-hidden">
+    <div class="join portrait:join-vertical w-full h-[calc(100%-4rem)] lg:h-[calc(100%-4.25rem)] rounded-none">
+      <a id="ch-games" href="{% url 'channel_page' channel='games' %}" class="h-full w-full join-item"></a>
+      <a id="ch-prime" href="{% url 'channel_page' channel='prime' %}" class="h-full w-full join-item"></a>
+    </div>
+  </div>
 {% endblock %}
