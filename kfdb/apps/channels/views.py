@@ -1,7 +1,11 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from .models import Channel
 from apps.core.views import DefaultVideoView
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ChannelPageView(DefaultVideoView):
     template_name = ""
 

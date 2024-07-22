@@ -6,7 +6,9 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Prefetch, Q
 from django.db.models.functions import Lower
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
 from apps.core.utils import Filter
@@ -139,6 +141,7 @@ class DefaultVideoView(TemplateView):
         self.page_count = page_count
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HeroStatsView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/update-index-stats.html"
@@ -155,6 +158,7 @@ class HeroStatsView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostCountView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-host-count.html"
@@ -170,6 +174,7 @@ class HostCountView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ShowCountView(View):
     http_method_names = "get"
 
@@ -177,6 +182,7 @@ class ShowCountView(View):
         return HttpResponse(Show.objects.only("pk").all().count(), status=200)
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class BuildFilterView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/generate-filters.html"
