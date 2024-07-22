@@ -16,7 +16,6 @@ from apps.core.views import DefaultVideoView
 from apps.shows.models import Show
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class AllVideosView(DefaultVideoView):
     template_name = ""
 
@@ -33,7 +32,7 @@ class AllVideosView(DefaultVideoView):
         return context
 
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class VideoDetailsView(TemplateView):
     http_method_names = "get"
     template_name = "videos/partials/get-video-details.html"
@@ -49,6 +48,7 @@ class VideoDetailsView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class VideoBlurbView(TemplateView):
     http_method_names = "get"
     template_name = "videos/partials/get-video-blurb.html"
@@ -62,6 +62,7 @@ class VideoBlurbView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class VideoEmbedView(TemplateView):
     http_method_names = "get"
     template_name = "videos/partials/get-video-embed.html"

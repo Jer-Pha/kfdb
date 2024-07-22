@@ -8,7 +8,7 @@ from .models import Video
 from .serializers import VideoSerializer
 
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
+@method_decorator(cache_page(60 * 15), name="dispatch")
 @extend_schema(description="Videos are the core item of the database.")
 class VideoViewSet(ReadOnlyModelViewSet):
     queryset = (
