@@ -10,7 +10,7 @@
     </label>
     <form id="filter-form" class="mt-8 md:mt-0">
       <div class="collapse collapse-arrow text-lg">
-        <input type="checkbox" class="peer/filter" />
+        <input id="filter-options" type="checkbox" class="peer/filter" aria-label="filter options" />
         <div class="collapse-title font-medium peer-checked/filter:text-sm peer-checked/filter:text-primary">Filter</div>
         <div class="collapse-content mt-[-1rem]">
           <div class="pb-2" hx-get="{% url 'build_filter' %}?u={{ view.curr_path }}&amp;{{ filter_param }}" hx-trigger="intersect once" hx-target="this">
@@ -20,7 +20,7 @@
       </div>
       <hr class="border-accent" />
       <div class="collapse collapse-arrow text-lg">
-        <input type="checkbox" class="peer/sort" />
+        <input id="sort-options" type="checkbox" class="peer/sort" aria-label="sort options" />
         <div class="collapse-title font-medium peer-checked/sort:text-sm peer-checked/sort:text-primary">Sort</div>
         <div class="collapse-content mt-[-1rem]">
           <div class="form-control">
