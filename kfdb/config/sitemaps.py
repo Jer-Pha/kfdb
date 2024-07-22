@@ -28,7 +28,31 @@ class StaticViewSitemap(Sitemap):
     priority = 0.2
 
     def items(self):
-        return ("privacy_policy", "about", "support")
+        return (
+            "about",
+            "support",
+            "hosts_crew",
+            "hosts_part_timers",
+            "hosts_guests",
+            "channels_home",
+            "privacy_policy",
+        )
+
+    def location(self, item):
+        return reverse(item)
+
+
+class PriorityStaticViewSitemap(Sitemap):
+    changefreq = "weekly"
+    protocol = "https"
+    priority = 0.9
+
+    def items(self):
+        return (
+            "videos_home",
+            "hosts_home",
+            "shows_home",
+        )
 
     def location(self, item):
         return reverse(item)
