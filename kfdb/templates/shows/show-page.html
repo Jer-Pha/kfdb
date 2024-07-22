@@ -53,7 +53,7 @@
         <div class="absolute flex top-[calc(100vw-3.25rem)] xs:top-[8.75rem] xl:top-[12.75rem] right-4">
           {% if show.blurb %}
             <div class="dropdown dropdown-bottom dropdown-end rounded-full bg-primary-content my-auto">
-              <div tabindex="0" role="button" class="m-1">
+              <div tabindex="0" role="button" class="m-1" aria-label="show description" title="Show description">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 fill-primary -m-2" viewBox="0 -960 960 960">
                   <path d="M420-259h120v-261H420v261Zm59.82-327q27.68 0 45.93-18.07Q544-622.15 544-649.82q0-27.68-18.07-45.93Q507.85-714 480.18-714q-27.68 0-45.93 18.07Q416-677.85 416-650.18q0 27.68 18.07 45.93Q452.15-586 479.82-586ZM480-34q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z" />
                 </svg>
@@ -65,7 +65,7 @@
               </div>
             </div>
           {% endif %}
-          <div class="min-w-9 min-h-9 btn btn-sm btn-secondary btn-square shadow rounded-box ml-4" hx-get="{% url 'edit_show' %}?show={{ show.id|unlocalize }}" hx-trigger="click" hx-target="#edit-modal" hx-swap="innerHTML">
+          <div class="min-w-9 min-h-9 btn btn-sm btn-secondary btn-square shadow rounded-box ml-4" hx-get="{% url 'edit_show' %}?show={{ show.id|unlocalize }}" hx-trigger="click" hx-target="#edit-modal" hx-swap="innerHTML" aria-label="suggest edit" title="Suggest edit">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-secondary-content" viewBox="0 -960 960 960">
               <path d="M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h389L509-773.33H186.67v586.66h586.66v-324.66L840-578v391.33q0 27-19.83 46.84Q800.33-120 773.33-120H186.67ZM480-480ZM360-360v-170l377-377q10-10 22.33-14.67 12.34-4.66 24.67-4.66 12.67 0 25.04 5 12.38 5 22.63 15l74 75q9.4 9.97 14.53 22.02 5.13 12.05 5.13 24.51 0 12.47-4.83 24.97-4.83 12.5-14.83 22.5L530-360H360Zm499-424.67-74.67-74.66L859-784.67Zm-432.33 358H502l246-246L710-710l-38.33-37.33-245 244.33v76.33ZM710-710l-38.33-37.33L710-710l38 37.33L710-710Z" />
             </svg>
@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <label for="filter-drawer" class="btn btn-accent btn-square drawer-button fixed h-[3.25rem] w-[3.25rem] shadow top-[calc((var(--vh,1vh)*100)-5.25rem)] left-8 z-[19] rounded-full md:hidden" aria-label="Search, Sort, and Filter">
+      <label for="filter-drawer" class="btn btn-accent btn-square drawer-button fixed h-[3.25rem] w-[3.25rem] shadow top-[calc((var(--vh,1vh)*100)-5.25rem)] left-8 z-[19] rounded-full md:hidden" aria-label="search, sort, and filter menu">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-accent-content" viewBox="0 -960 960 960">
           <path d="M455.39-180q-15.08 0-25.23-10.16Q420-200.31 420-215.39v-231.53L192.69-735.85q-11.12-13.64-3.14-28.89Q197.54-780 214.44-780h531.12q16.9 0 24.89 15.26 7.98 15.25-3.14 28.89L540-446.92v231.53q0 15.08-10.16 25.23Q519.69-180 504.61-180h-49.22ZM480-452.31l218.56-277.43H261.44L480-452.31Zm0 0Z" />
         </svg>

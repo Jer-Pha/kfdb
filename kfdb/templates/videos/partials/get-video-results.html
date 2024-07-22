@@ -20,7 +20,7 @@
             <img src="{% static 'img/not-found.webp' %}" class="max-h-16 max-w-16 w-auto h-auto" alt="Show not found" />
           {% endif %}
           <p class="pl-4 pr-10 py-0">
-            <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap">{{ video.release_date }} - {{ video.show.name }}</span>
+            <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap" aria-label="{{ video.release_date }} - {{ video.show.name }}">{{ video.release_date }} - {{ video.show.name }}</span>
             <br />
             <span class="inline-block leading-none font-semibold h-[33px] overflow-hidden">{{ video.title|safe }}</span>
           </p>
