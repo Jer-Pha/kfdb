@@ -4,8 +4,11 @@ from django.views.generic import TemplateView
 from .models import Show
 from apps.channels.models import Channel
 from apps.core.views import DefaultVideoView
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ShowsHomeView(TemplateView):
     http_method_names = "get"
     template_name = ""
@@ -47,6 +50,7 @@ class ShowsHomeView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ShowPageView(DefaultVideoView):
     template_name = ""
 

@@ -2,12 +2,15 @@ from re import sub
 
 from django.core.paginator import Paginator
 from django.db.models import Count, F, Q
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
 from .models import Host
 from apps.core.views import DefaultVideoView
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostPageView(DefaultVideoView):
     template_name = ""
 
@@ -95,6 +98,7 @@ class BaseHostView(TemplateView):
         return hosts
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostsHomeView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -112,6 +116,7 @@ class HostsHomeView(BaseHostView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostCrewView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -129,6 +134,7 @@ class HostCrewView(BaseHostView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class HostPartTimerView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -146,6 +152,7 @@ class HostPartTimerView(BaseHostView):
         return context
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class HostGuestView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -163,6 +170,7 @@ class HostGuestView(BaseHostView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class RandomHostsView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-host-names.html"
