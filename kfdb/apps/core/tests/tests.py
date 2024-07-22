@@ -240,6 +240,7 @@ class SitemapsTest(TestCase):
         sitemaps = (
             self.client.get("/sitemap.xml"),
             self.client.get("/sitemap-core.xml"),
+            self.client.get("/sitemap-priority.xml"),
             self.client.get("/sitemap-static.xml"),
         )
         for response in sitemaps:

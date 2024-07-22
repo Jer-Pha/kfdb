@@ -10,12 +10,14 @@ from .sitemaps import (
     CoreViewSitemap,
     ShowSitemap,
     HostSitemap,
+    PriorityStaticViewSitemap,
     StaticViewSitemap,
 )
 
 sitemaps = {
     "core": CoreViewSitemap,
     "hosts": HostSitemap,
+    "priority": PriorityStaticViewSitemap,
     "shows": ShowSitemap,
     "channels": ChannelSitemap,
     "static": StaticViewSitemap,
