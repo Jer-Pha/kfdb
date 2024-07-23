@@ -41,7 +41,7 @@
         <div id="pagination" class="join">
           {% for page in view.page_range %}
             {% if page != '...' %}
-              <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page|unlocalize }}" aria-label="page {{ page|unlocalize }}"{% if page == view.page %} checked{% endif %} />
+              <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page|unlocalize }}" aria-label="{{ page|unlocalize }}"{% if page == view.page %} checked{% endif %} />
             {% else %}
               <div class="join-item btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 page border-[1px] border-base-100 flex"><span class="m-auto">...</span></div>
             {% endif %}
