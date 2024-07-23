@@ -29,7 +29,6 @@ class StaticViewSitemap(Sitemap):
 
     def items(self):
         return (
-            "about",
             "support",
             "hosts_crew",
             "hosts_part_timers",

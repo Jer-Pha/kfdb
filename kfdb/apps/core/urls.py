@@ -37,11 +37,6 @@ urlpatterns = [
         name="index",
     ),
     path(
-        "about/",
-        TemplateView.as_view(template_name="core/about.html"),
-        name="about",
-    ),
-    path(
         "support/",
         TemplateView.as_view(template_name="core/support.html"),
         name="support",
