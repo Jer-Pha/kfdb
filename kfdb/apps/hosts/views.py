@@ -115,7 +115,7 @@ class HostsHomeView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 60 * 24), name="dispatch")
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostCrewView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -133,7 +133,7 @@ class HostCrewView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 60 * 24), name="dispatch")
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostPartTimerView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
