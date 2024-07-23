@@ -9,7 +9,7 @@
   <meta name="author" content="{{ host.name }}" />
   <meta name="description"
   content={% if host.blurb %}
-    "{{ host.blurb|safe }}"
+    "{{ host.blurb|striptags }}"
   {% else %}
     "The original database for Kinda Funny content. Filter, sort and search by channel, show, host. Made for the community, by the community."
   {% endif %} />
