@@ -277,16 +277,16 @@
               <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" class="inline-block w-5 h-5 fill-primary-content"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm40-83q119-15 199.5-104.5T800-480q0-123-80.5-212.5T520-797v634Z"/></svg>
             </div>
             <div tabindex="0" class="dropdown-content mt-14 md:mt-[58px] p-0 rounded-t-none rounded-b-box bg-base-200 text-base-content join join-vertical z-50">
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="dark theme" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="light theme" value="light" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'light' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="slick theme" value="black" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'black' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="clean theme" value="lofi" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'lofi' %}checked{% endif %} />
-              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="kinda funny theme" value="kindafunny" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'kindafunny' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Dark" value="dark" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'dark' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Light" value="light" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'light' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Slick" value="black" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'black' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Clean" value="lofi" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'lofi' %}checked{% endif %} />
+              <input type="radio" name="theme" class="btn theme-controller join-item" aria-label="Kinda Funny" value="kindafunny" hx-get="{% url 'update_theme' %}" hx-trigger="click" {% if theme == 'kindafunny' %}checked{% endif %} />
             </div>
           </div>
         </div>
 
-        <main class="flex flex-col justify-center mx-auto min-h-[calc((var(--vh,1vh)*100)-13.75rem)] md:min-h-[calc((var(--vh,1vh)*100)-11.5rem)] lg:max-w-[80vw]">
+        <main class="flex flex-col justify-center mx-auto min-h-[calc((var(--vh,1vh)*100)-11rem)] md:min-h-[calc((var(--vh,1vh)*100)-11.5rem)] lg:max-w-[80vw]">
           {% block main %}
 
           {% endblock %}
@@ -383,12 +383,9 @@
     </div>
 
     <footer class="footer footer-center p-6 bg-base-100 text-base-content rounded-none gap-y-6 relative">
-      <nav class="grid grid-cols-2 xs:grid-cols-4 md:grid-cols-6 gap-x-6 md:gap-x-4 gap-y-6">
-        <a href="{% url 'about' %}" class="link link-hover min-w-28" tabindex="0">About</a>
-        <a href="{% url 'support' %}" class="link link-hover min-w-28" tabindex="0">Support</a>
+      <nav class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 md:gap-x-4 gap-y-6">
         <a href="{% url 'api_docs' %}" class="link link-hover min-w-28" tabindex="0">KFDB&nbsp;API</a>
         <a href="{% url 'privacy_policy' %}" class="link link-hover min-w-28" tabindex="0">Privacy&nbsp;Policy</a>
-        <p class="hidden xs:block md:hidden"></p>
         <a href="https://www.kindafunny.com/" class="link link-hover min-w-28" tabindex="0">KindaFunny.com</a>
         <a href="https://kindafunny.shop/" class="link link-hover min-w-28" tabindex="0">KF&nbsp;Merch</a>
       </nav>
@@ -414,11 +411,12 @@
           </svg>
         </a>
       </nav>
+
     </footer>
-    <footer class="footer footer-center py-4 px-6 bg-info text-info-content rounded-none z-0 relative{% if request.path == '/home/' %} snap-end{% endif %}">
+    <footer class="footer footer-center py-4 px-6 bg-info text-info-content rounded-none z-0 relative">
       <aside>
         <p>KFDB is not endorsed by Kinda Funny and does not reflect the views or opinions of Kinda Funny or anyone officially involved in producing or managing Kinda Funny content.</p>
-        <p class="flex flex-row">From the creator of&nbsp;&nbsp;<a href="https://www.survayy.com/" target="_blank"  class="link link-hover" tabindex="0" aria-label="survayy dot com"><svg xmlns="http://www.w3.org/2000/svg" class="fill-info-content hover:fill-secondary" width="80%" height="24px" viewBox="0 0 1447 301">
+        <p class="flex flex-row -mr-6">From the creator of&nbsp;&nbsp;<a href="https://www.survayy.com/" target="_blank"  class="link link-hover" tabindex="0" aria-label="survayy dot com"><svg xmlns="http://www.w3.org/2000/svg" class="fill-info-content hover:fill-secondary" width="80%" height="24px" viewBox="0 0 1447 301">
           <path
             d="M 1240.00,64.00
               C 1240.00,64.00 1240.00,259.00 1240.00,259.00
@@ -585,6 +583,11 @@
                 910.00,194.00 992.00,194.00 992.00,194.00
                 992.00,194.00 992.00,166.00 992.00,166.00 Z" />
         </svg></a></p>
+      </aside>
+    </footer>
+    <footer class="footer footer-center py-4 px-6 bg-warning text-warning-content rounded-none z-0 relative{% if request.path == '/home/' %} snap-end{% endif %}">
+      <aside>
+          <p class="font-semibold">Love what we do? <a href="{% url 'support' %}" class="link underline" tabindex="0">Support KFDB</a></p>
       </aside>
     </footer>
 
