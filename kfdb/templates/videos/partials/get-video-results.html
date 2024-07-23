@@ -3,7 +3,7 @@
 <div id="results-body">
   {% for video in videos %}
     <div class="collapse collapse-plus border border-base-content border-t-0 first:border-t rounded-none {% cycle 'bg-base-300' 'bg-base-200' %}" hx-get="{% url 'get_video_details' %}?video_id={{ video.video_id }}" hx-trigger="click once" hx-swap="beforeend">
-      <input id="video-details-{{ video.video_id }}" type="checkbox" aria-label="view video details" />
+      <input id="video-details-{{ video.video_id }}" type="checkbox" aria-label="toggle video details" />
       <div class="collapse-title p-0 max-h-16 results-item fade-in">
         <div class="flex flex-row">
           {% if video.show and '/shows/' not in request.path %}
@@ -20,7 +20,7 @@
             <img src="{% static 'img/not-found.webp' %}" class="max-h-16 max-w-16 w-auto h-auto" alt="Show not found" />
           {% endif %}
           <p class="pl-4 pr-10 py-0">
-            <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap" aria-label="{{ video.release_date }} - {{ video.show.name }}">{{ video.release_date }} - {{ video.show.name }}</span>
+            <span class="inline-block leading-[1.1] opacity-50 font-normal text-sm mt-[-4px] max-w-[calc(100vw-7.5rem)] text-ellipsis overflow-hidden whitespace-nowrap" aria-label="release date: {{ video.release_date }}, show: {{ video.show.name }}">{{ video.release_date }} - {{ video.show.name }}</span>
             <br />
             <span class="inline-block leading-none font-semibold h-[33px] overflow-hidden">{{ video.title|safe }}</span>
           </p>
@@ -41,7 +41,7 @@
         <div id="pagination" class="join">
           {% for page in view.page_range %}
             {% if page != '...' %}
-              <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page|unlocalize }}" aria-label="{{ page|unlocalize }}"{% if page == view.page %} checked{% endif %} />
+              <input class="join-item btn btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 hover:text-base-content page" type="radio" name="page" value="{{ page|unlocalize }}" aria-label="page {{ page|unlocalize }}"{% if page == view.page %} checked{% endif %} />
             {% else %}
               <div class="join-item btn-square btn-sm 2xl:btn-md bg-base-content text-base-100 page border-[1px] border-base-100 flex"><span class="m-auto">...</span></div>
             {% endif %}
@@ -49,7 +49,7 @@
         </div>
       </form>
       <form hx-get="{{ view.curr_path }}" hx-trigger="change target:#page-input" hx-target="#results-body" hx-include="#filter-form" hx-swap="outerHTML" hx-on::before-request="fadeOut();" hx-headers='{"HX-UpdateList": true}'>
-        <input id="page-input" type="number" name="page" class="input input-bordered input-sm 2xl:input-md w-full max-w-20 form-input" min="1" max="{{ view.page_count }}" value="{{ view.page }}" />
+        <input id="page-input" type="number" name="page" class="input input-bordered input-sm 2xl:input-md w-full max-w-20 form-input" min="1" max="{{ view.page_count }}" value="{{ view.page }}" aria-label="choose a page number" />
       </form>
     </div>
   {% endif %}
