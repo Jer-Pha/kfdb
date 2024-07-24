@@ -75,6 +75,14 @@ class ShowViewsTest(TestCase):
         self.assertIn("filter_param", context)
         self.assertEqual(context["view"].template_name, "shows/show-page.html")
 
+        request_2 = RequestFactory().get(
+            reverse("show_page", kwargs={"show": "test"}) + "?channel=prime"
+        )
+        view_2 = ShowPageView.as_view()(request_2, show="test")
+        self.assertEqual(
+            view_2.context_data["filter_param"], f"s=1&channel=prime"
+        )
+
     def test_xhr_request(self):
         """Tests view when `self.new_page == False`."""
         request = RequestFactory(headers={"Hx-Request": True}).get(
