@@ -83,6 +83,7 @@ if not DEBUG:
             "LOCATION": getenv("REDIS_LOC", "").strip(),
         }
     }
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
     AWS_S3_ACCESS_KEY_ID = getenv("AMZ_S3_ACCESS_KEY_ID").strip()
     AWS_S3_SECRET_ACCESS_KEY = getenv("AMZ_S3_SECRET_ACCESS_KEY").strip()
     AWS_STORAGE_BUCKET_NAME = getenv("AMZ_STORAGE_BUCKET_NAME").strip()
