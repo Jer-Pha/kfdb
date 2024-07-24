@@ -83,7 +83,6 @@ if not DEBUG:
             "LOCATION": getenv("REDIS_LOC", "").strip(),
         }
     }
-    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
     AWS_S3_ACCESS_KEY_ID = getenv("AMZ_S3_ACCESS_KEY_ID").strip()
     AWS_S3_SECRET_ACCESS_KEY = getenv("AMZ_S3_SECRET_ACCESS_KEY").strip()
     AWS_STORAGE_BUCKET_NAME = getenv("AMZ_STORAGE_BUCKET_NAME").strip()
@@ -262,3 +261,45 @@ CSRF_TRUSTED_ORIGINS = ["https://*.kfdb.app/"]
 # Video Update Keys
 PATREON_RSS_FEED = getenv("PATREON_RSS_FEED", "").strip()
 YOUTUBE_API_KEY = getenv("YOUTUBE_API_KEY", "").strip()
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "warning_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": path.join(BASE_DIR / "logs", "warning.log"),
+            "maxBytes": 1024 * 1024,  # 1 MB
+            "backupCount": 5,
+        },
+        "error_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": path.join(BASE_DIR / "logs", "error.log"),
+            "maxBytes": 1024 * 1024,  # 1 MB
+            "backupCount": 3,
+        },
+        "critical_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": path.join(BASE_DIR / "logs", "critical.log"),
+            "maxBytes": 1024 * 1024,  # 1 MB
+            "backupCount": 2,
+        },
+    },
+    "loggers": {
+        "kfdb_warning": {
+            "level": "WARNING",
+            "handlers": ["warning_file"],
+            "propagate": True,
+        },
+        "kfdb_error": {
+            "level": "ERROR",
+            "handlers": ["error_file"],
+            "propagate": True,
+        },
+        "kfdb_critical": {
+            "level": "CRITICAL",
+            "handlers": ["critical_file"],
+            "propagate": True,
+        },
+    },
+}
