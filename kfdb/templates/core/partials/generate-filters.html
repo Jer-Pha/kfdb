@@ -74,10 +74,10 @@
       <span class="label-text">Channel</span>
     </div>
     <select name="channel" class="select select-bordered select-sm w-full max-w-xs trigger">
-      <option value="" selected>- All -</option>
+      <option value="">- All -</option>
       <hr />
-      {% for channel in channels %}
-        <option value="{{ channel.0 }}">{{ channel.1 }}</option>
+      {% for c in channels %}
+        <option value="{{ c.0 }}" {% if channel and channel == c.0 %}selected{% endif %}>{{ c.1 }}</option>
       {% endfor %}
     </select>
   </label>

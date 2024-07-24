@@ -199,6 +199,7 @@ class BuildFilterView(TemplateView):
             context.update(
                 Filter(show_id=int(request.GET.get("s", 0))).show_filter()
             )
+            context["channel"] = request.GET.get("channel", "")
         elif "h" in request.GET:
             context.update(
                 Filter(host_id=int(request.GET.get("h", 0))).host_filter()

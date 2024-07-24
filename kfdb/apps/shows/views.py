@@ -72,10 +72,16 @@ class ShowPageView(DefaultVideoView):
         filter_params = {"show": show.id}
         context["videos"] = self.get_videos(filter_params)
         if self.new_page:
+            if "?channel=" in self.request.build_absolute_uri():
+                channel = (
+                    f'&{self.request.build_absolute_uri().split("?", 1)[1]}'
+                )
+            else:
+                channel = ""
             context.update(
                 {
                     "show": show,
-                    "filter_param": f"s={show.id}",
+                    "filter_param": f"s={show.id}" + channel,
                 }
             )
 
