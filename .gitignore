@@ -5,6 +5,7 @@ kfdb/resources/temp/
 node_modules/
 staticfiles/
 media/
+logs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
