@@ -58,23 +58,38 @@ urlpatterns = [
 urlpatterns += [
     path(
         "android-chrome-192x192.png",
-        RedirectView.as_view(url=static("favicon/android-chrome-192x192.png")),
+        RedirectView.as_view(
+            url=static("favicon/android-chrome-192x192.png"),
+            permanent=True,
+        ),
     ),
     path(
         "android-chrome-512x512.png",
-        RedirectView.as_view(url=static("favicon/android-chrome-512x512.png")),
+        RedirectView.as_view(
+            url=static("favicon/android-chrome-512x512.png"),
+            permanent=True,
+        ),
     ),
     path(
         "browserconfig.xml",
-        RedirectView.as_view(url=static("favicon/browserconfig.xml")),
+        RedirectView.as_view(
+            url=static("favicon/browserconfig.xml"),
+            permanent=True,
+        ),
     ),
     path(
         "favicon.ico",
-        RedirectView.as_view(url=static("favicon/favicon.ico")),
+        RedirectView.as_view(
+            url=static("favicon/favicon.ico"),
+            permanent=True,
+        ),
     ),
     path(
         "mstile-150x150.png",
-        RedirectView.as_view(url=static("favicon/mstile-150x150.png")),
+        RedirectView.as_view(
+            url=static("favicon/mstile-150x150.png"),
+            permanent=True,
+        ),
     ),
 ]
 
