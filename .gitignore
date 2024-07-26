@@ -6,6 +6,7 @@ node_modules/
 staticfiles/
 media/
 logs/
+kfdb/apps/core/static/js/*.min.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
