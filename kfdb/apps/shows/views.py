@@ -19,35 +19,44 @@ class ShowsHomeView(TemplateView):
             else "shows/partials/show-logo-scroller.html"
         )
 
-        games = cache.get_or_set(
-            "shows_games",
-            (
+        games = cache.get("shows_games")
+        if not games:
+            games = (
                 Show.objects.only("name", "slug", "image")
                 .filter(channels__slug="games")
                 .order_by("-active", "name")
-            ),
-            60 * 15,  # 15 minutes
-        )
+            )
+            cache.set(
+                "shows_games",
+                games,
+                60 * 15,  # 15 minutes
+            )
 
-        prime = cache.get_or_set(
-            "shows_prime",
-            (
+        prime = cache.get("shows_prime")
+        if not prime:
+            prime = (
                 Show.objects.only("name", "slug", "image")
                 .filter(channels__slug="prime")
                 .order_by("-active", "name")
-            ),
-            60 * 15,  # 15 minutes
-        )
+            )
+            cache.set(
+                "shows_prime",
+                prime,
+                60 * 15,  # 15 minutes
+            )
 
-        members = cache.get_or_set(
-            "shows_members",
-            (
+        members = cache.get("shows_members")
+        if not members:
+            members = (
                 Show.objects.only("name", "slug", "image")
                 .filter(channels__slug="members")
                 .order_by("-active", "name")
-            ),
-            60 * 15,  # 15 minutes
-        )
+            )
+            cache.set(
+                "shows_members",
+                members,
+                60 * 15,  # 15 minutes
+            )
 
         context.update(
             {
@@ -81,11 +90,15 @@ class ShowPageView(DefaultVideoView):
             .get(slug=kwargs.get("show", ""))
         )
         filter_params = {"show": show.id}
-        videos = cache.get_or_set(
-            self.request.build_absolute_uri(),
-            self.get_videos(filter_params),
-            60 * 15,  # 15 minutes
-        )
+        videos = cache.get(self.request.build_absolute_uri())
+
+        if not videos:
+            videos = self.get_videos(filter_params)
+            cache.set(
+                self.request.build_absolute_uri(),
+                videos,
+                60 * 15,  # 15 minutes
+            )
         context["videos"] = videos
 
         if self.new_page:

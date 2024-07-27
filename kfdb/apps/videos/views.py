@@ -28,11 +28,15 @@ class AllVideosView(DefaultVideoView):
             else "videos/partials/get-video-results.html"
         )
         filter_params = {}
-        videos = cache.get_or_set(
-            self.request.build_absolute_uri(),
-            self.get_videos(filter_params),
-            60 * 15,  # 15 minutes
-        )
+        videos = cache.get(self.request.build_absolute_uri())
+
+        if not videos:
+            videos = self.get_videos(filter_params)
+            cache.set(
+                self.request.build_absolute_uri(),
+                videos,
+                60 * 15,  # 15 minutes
+            )
         context["videos"] = videos
 
         return context
