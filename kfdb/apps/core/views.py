@@ -142,23 +142,6 @@ class DefaultVideoView(TemplateView):
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
-class HeroStatsView(TemplateView):
-    http_method_names = "get"
-    template_name = "core/partials/update-index-stats.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        count = Host.objects.only("pk", "kf_crew", "part_timer").aggregate(
-            crew=Count("pk", filter=Q(kf_crew=True, part_timer=False)),
-            pt=Count("pk", filter=Q(kf_crew=False, part_timer=True)),
-            guest=Count("pk", filter=Q(kf_crew=False, part_timer=False)),
-        )
-        count["video"] = Video.objects.all().count()
-        context["count"] = count
-        return context
-
-
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class HostCountView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-host-count.html"
@@ -171,6 +154,18 @@ class HostCountView(TemplateView):
             guest=Count("pk", filter=Q(kf_crew=False, part_timer=False)),
         )
         context["count"] = count
+
+        return context
+
+
+@method_decorator(cache_page(60 * 15), name="dispatch")
+class HeroStatsView(HostCountView):
+    http_method_names = "get"
+    template_name = "core/partials/update-index-stats.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["count"]["video"] = Video.objects.all().count()
         return context
 
 
