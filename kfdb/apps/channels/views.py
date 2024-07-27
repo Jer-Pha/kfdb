@@ -1,5 +1,4 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 from .models import Channel
 from apps.core.views import DefaultVideoView
@@ -19,7 +18,13 @@ class ChannelPageView(DefaultVideoView):
             slug=kwargs.get("channel", "")
         )
         filter_params = {"channel": channel.id}
-        context["videos"] = self.get_videos(filter_params)
+        videos = cache.get_or_set(
+            self.request.build_absolute_uri(),
+            self.get_videos(filter_params),
+            60 * 15,  # 15 minutes
+        )
+        context["videos"] = videos
+
         if self.new_page:
             context.update(
                 {
