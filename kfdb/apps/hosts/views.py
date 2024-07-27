@@ -1,5 +1,6 @@
 from re import sub
 
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Count, F, Q
 from django.utils.decorators import method_decorator
@@ -24,7 +25,17 @@ class HostPageView(DefaultVideoView):
             slug=kwargs.get("host", "")
         )
         filter_params = {"host": host.id}
-        context["videos"] = self.get_videos(filter_params)
+        videos = cache.get(self.request.build_absolute_uri())
+
+        if not videos:
+            videos = self.get_videos(filter_params)
+            cache.set(
+                self.request.build_absolute_uri(),
+                videos,
+                60 * 15,  # 15 minutes
+            )
+        context["videos"] = videos
+
         if self.new_page:
             context.update(
                 {

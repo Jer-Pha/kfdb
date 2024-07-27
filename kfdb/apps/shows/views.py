@@ -1,11 +1,10 @@
+from django.core.cache import cache
 from django.db.models import Prefetch
 from django.views.generic import TemplateView
 
 from .models import Show
 from apps.channels.models import Channel
 from apps.core.views import DefaultVideoView
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 
 
 class ShowsHomeView(TemplateView):
@@ -20,23 +19,44 @@ class ShowsHomeView(TemplateView):
             else "shows/partials/show-logo-scroller.html"
         )
 
-        games = (
-            Show.objects.only("name", "slug", "image")
-            .filter(channels__slug="games")
-            .order_by("-active", "name")
-        )
+        games = cache.get("shows_games")
+        if not games:
+            games = (
+                Show.objects.only("name", "slug", "image")
+                .filter(channels__slug="games")
+                .order_by("-active", "name")
+            )
+            cache.set(
+                "shows_games",
+                games,
+                60 * 15,  # 15 minutes
+            )
 
-        prime = (
-            Show.objects.only("name", "slug", "image")
-            .filter(channels__slug="prime")
-            .order_by("-active", "name")
-        )
+        prime = cache.get("shows_prime")
+        if not prime:
+            prime = (
+                Show.objects.only("name", "slug", "image")
+                .filter(channels__slug="prime")
+                .order_by("-active", "name")
+            )
+            cache.set(
+                "shows_prime",
+                prime,
+                60 * 15,  # 15 minutes
+            )
 
-        members = (
-            Show.objects.only("name", "slug", "image")
-            .filter(channels__slug="members")
-            .order_by("-active", "name")
-        )
+        members = cache.get("shows_members")
+        if not members:
+            members = (
+                Show.objects.only("name", "slug", "image")
+                .filter(channels__slug="members")
+                .order_by("-active", "name")
+            )
+            cache.set(
+                "shows_members",
+                members,
+                60 * 15,  # 15 minutes
+            )
 
         context.update(
             {
@@ -70,7 +90,17 @@ class ShowPageView(DefaultVideoView):
             .get(slug=kwargs.get("show", ""))
         )
         filter_params = {"show": show.id}
-        context["videos"] = self.get_videos(filter_params)
+        videos = cache.get(self.request.build_absolute_uri())
+
+        if not videos:
+            videos = self.get_videos(filter_params)
+            cache.set(
+                self.request.build_absolute_uri(),
+                videos,
+                60 * 15,  # 15 minutes
+            )
+        context["videos"] = videos
+
         if self.new_page:
             if "?channel=" in self.request.build_absolute_uri():
                 channel = (

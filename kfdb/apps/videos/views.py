@@ -4,6 +4,7 @@ from requests import get
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -27,7 +28,16 @@ class AllVideosView(DefaultVideoView):
             else "videos/partials/get-video-results.html"
         )
         filter_params = {}
-        context["videos"] = self.get_videos(filter_params)
+        videos = cache.get(self.request.build_absolute_uri())
+
+        if not videos:
+            videos = self.get_videos(filter_params)
+            cache.set(
+                self.request.build_absolute_uri(),
+                videos,
+                60 * 15,  # 15 minutes
+            )
+        context["videos"] = videos
 
         return context
 
@@ -48,7 +58,6 @@ class VideoDetailsView(TemplateView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class VideoBlurbView(TemplateView):
     http_method_names = "get"
     template_name = "videos/partials/get-video-blurb.html"
@@ -62,7 +71,6 @@ class VideoBlurbView(TemplateView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class VideoEmbedView(TemplateView):
     http_method_names = "get"
     template_name = "videos/partials/get-video-embed.html"
