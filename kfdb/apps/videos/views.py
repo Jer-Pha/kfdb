@@ -54,7 +54,6 @@ class VideoDetailsView(TemplateView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class VideoBlurbView(TemplateView):
     http_method_names = "get"
     template_name = "videos/partials/get-video-blurb.html"
@@ -68,7 +67,6 @@ class VideoBlurbView(TemplateView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
 class VideoEmbedView(TemplateView):
     http_method_names = "get"
     template_name = "videos/partials/get-video-embed.html"
