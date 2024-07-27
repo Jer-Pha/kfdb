@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.text import slugify
+from django.utils.functional import cached_property
 
 from apps.channels.models import Channel
 from apps.hosts.models import Host
@@ -82,7 +82,7 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
-    @property
+    @cached_property
     def embed_size(self):
         """Determine display dimensions when embedding the video."""
         if "youtube" in self.link and "shorts" not in self.link:

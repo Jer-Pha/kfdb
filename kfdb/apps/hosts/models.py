@@ -1,8 +1,10 @@
 from datetime import datetime
 from random import choice
 
+from django.core.cache import cache
 from django.db import models
 from django.db.models import Count, F
+from django.utils.functional import cached_property
 from django.utils.text import slugify
 
 
@@ -73,37 +75,65 @@ class Host(models.Model):
     def __str__(self):
         return self.name
 
-    @property
+    @cached_property
     def url_type(self):
         """Used in template when creating link to host's page."""
-        if self.kf_crew:
-            return "kf-crew"
-        elif self.part_timer:
-            return "part-timers"
-        return "guests"
+        url = cache.get(f"url_type_{self.slug}")
+        if not url:
+            if self.kf_crew:
+                url = "kf-crew"
+            elif self.part_timer:
+                url = "part-timers"
+            else:
+                url = "guests"
+            cache.set(
+                f"url_type_{self.slug}",
+                url,
+                60 * 15,  # 15 minutes
+            )
+        return url
 
-    @property
+    @cached_property
     def initials(self):
         """Used in template when host does not have an image."""
-        if self.slug == "fran-mirabella-iii":
-            return "FM3"
-        elif self.slug[-3:] == "-jr":
-            return "".join(i[0].upper() for i in self.slug[:-3].split("-"))
-        else:
-            return "".join(i[0].upper() for i in self.slug.split("-"))
+        initial = cache.get(f"initials_{self.slug}")
+        if not initial:
+            if self.slug == "fran-mirabella-iii":
+                initial = "FM3"
+            elif self.slug[-3:] == "-jr":
+                initial = "".join(
+                    i[0].upper() for i in self.slug[:-3].split("-")
+                )
+            else:
+                initial = "".join(i[0].upper() for i in self.slug.split("-"))
+            cache.set(
+                f"initials_{self.slug}",
+                initial,
+                60 * 15,  # 15 minutes
+            )
+        return initial
 
-    @property
+    @cached_property
     def border_color(self):
         """
         Used in template as ``image`` or ``image_xs`` border color.
 
         Does not apply to "producer" images.
         """
-        if self.kf_crew:
-            return "primary"
-        elif self.part_timer:
-            return "secondary"
-        return "accent"
+        color = cache.get(f"border_color_{self.slug}")
+        if not color:
+            if self.kf_crew:
+                color = "primary"
+            elif self.part_timer:
+                color = "secondary"
+            else:
+                color = "accent"
+            cache.set(
+                f"border_color_{self.slug}",
+                color,
+                60 * 15,  # 15 minutes
+            )
+        return color
 
     @property
     def nickname(self):
@@ -117,22 +147,37 @@ class Host(models.Model):
             return nickname
         return choice(self.nicknames)
 
-    @property
+    @cached_property
     def birth_day(self):
         """Birthday with the year removed for the host's page."""
-        return self.birthday.strftime("%B %d")
+        birthday = cache.get(f"birthday_{self.slug}")
+        if not birthday:
+            birthday = self.birthday.strftime("%B %d")
+            cache.set(
+                f"birthday_{self.slug}",
+                birthday,
+                60 * 15,  # 15 minutes
+            )
+        return birthday
 
-    @property
+    @cached_property
     def appearance_count(self):
         """Count of episodes hosted, produced, and total appearances."""
-        counts = (
-            Host.objects.filter(id=self.id)
-            .annotate(
-                hosted=Count("video_host", distinct=True),
-                produced=Count("video_producer", distinct=True),
-                appearances=(F("hosted") + F("produced")),
+        appearances = cache.get(f"appearance_count_{self.slug}")
+        if not appearances:
+            appearances = (
+                Host.objects.filter(id=self.id)
+                .annotate(
+                    hosted=Count("video_host", distinct=True),
+                    produced=Count("video_producer", distinct=True),
+                    appearances=(F("hosted") + F("produced")),
+                )
+                .values("appearances")
+                .first()
+            )["appearances"]
+            cache.set(
+                f"appearance_count_{self.slug}",
+                appearances,
+                60 * 15,  # 15 minutes
             )
-            .values("appearances")
-            .first()
-        )
-        return counts["appearances"]
+        return appearances
