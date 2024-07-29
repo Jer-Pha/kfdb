@@ -25,7 +25,7 @@ class ChannelPageView(DefaultVideoView):
             cache.set(
                 self.request.build_absolute_uri(),
                 videos,
-                60 * 15,  # 15 minutes
+                60 * 5,  # 5 minutes
             )
         context["videos"] = videos
 
