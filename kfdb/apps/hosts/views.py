@@ -32,7 +32,7 @@ class HostPageView(DefaultVideoView):
             cache.set(
                 self.request.build_absolute_uri(),
                 videos,
-                60 * 15,  # 15 minutes
+                60 * 5,  # 5 minutes
             )
         context["videos"] = videos
 
@@ -108,7 +108,10 @@ class BaseHostView(TemplateView):
         return hosts
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 15, key_prefix="hosts_all"),
+    name="dispatch",
+)
 class HostsHomeView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -126,7 +129,10 @@ class HostsHomeView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 5, key_prefix="hosts_crew"),
+    name="dispatch",
+)
 class HostCrewView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -144,7 +150,10 @@ class HostCrewView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 5, key_prefix="hosts_part_timers"),
+    name="dispatch",
+)
 class HostPartTimerView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -162,7 +171,10 @@ class HostPartTimerView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 15, key_prefix="hosts_guests"),
+    name="dispatch",
+)
 class HostGuestView(BaseHostView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -180,7 +192,10 @@ class HostGuestView(BaseHostView):
         return context
 
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
+@method_decorator(
+    cache_page(60 * 5, key_prefix="random_hosts"),
+    name="dispatch",
+)
 class RandomHostsView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-host-names.html"

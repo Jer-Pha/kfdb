@@ -141,7 +141,10 @@ class DefaultVideoView(TemplateView):
         self.page_count = page_count
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 15, key_prefix="host_count"),
+    name="dispatch",
+)
 class HostCountView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-host-count.html"
@@ -158,7 +161,10 @@ class HostCountView(TemplateView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 15, key_prefix="hero"),
+    name="dispatch",
+)
 class HeroStatsView(HostCountView):
     http_method_names = "get"
     template_name = "core/partials/update-index-stats.html"
@@ -169,7 +175,10 @@ class HeroStatsView(HostCountView):
         return context
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 15, key_prefix="show_count"),
+    name="dispatch",
+)
 class ShowCountView(View):
     http_method_names = "get"
 
@@ -177,7 +186,10 @@ class ShowCountView(View):
         return HttpResponse(Show.objects.only("pk").all().count(), status=200)
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 15, key_prefix="filter"),
+    name="dispatch",
+)
 class BuildFilterView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/generate-filters.html"

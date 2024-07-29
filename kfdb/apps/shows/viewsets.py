@@ -8,7 +8,10 @@ from .models import Show
 from .serializers import ShowSerializer
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 5, key_prefix="API_shows"),
+    name="dispatch",
+)
 @extend_schema(
     description="Shows are how videos are categorized in the database."
 )

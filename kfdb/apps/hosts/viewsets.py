@@ -8,7 +8,10 @@ from .models import Host
 from .serializers import HostSerializer
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 5, key_prefix="API_hosts"),
+    name="dispatch",
+)
 @extend_schema(
     description="Hosts include the KF Crew, Part-Timers, and Guests."
 )

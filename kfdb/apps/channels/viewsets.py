@@ -8,7 +8,10 @@ from .models import Channel
 from .serializers import ChannelSerializer
 
 
-@method_decorator(cache_page(60 * 15), name="dispatch")
+@method_decorator(
+    cache_page(60 * 5, key_prefix="API_channels"),
+    name="dispatch",
+)
 @extend_schema(
     description=(
         "Channels are the most basic way to filter Kinda Funny"

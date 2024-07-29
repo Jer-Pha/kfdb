@@ -89,7 +89,7 @@ class Host(models.Model):
             cache.set(
                 f"url_type_{self.slug}",
                 url,
-                60 * 15,  # 15 minutes
+                60 * 5,  # 5 minutes
             )
         return url
 
@@ -109,7 +109,7 @@ class Host(models.Model):
             cache.set(
                 f"initials_{self.slug}",
                 initial,
-                60 * 15,  # 15 minutes
+                60 * 5,  # 5 minutes
             )
         return initial
 
@@ -131,7 +131,7 @@ class Host(models.Model):
             cache.set(
                 f"border_color_{self.slug}",
                 color,
-                60 * 15,  # 15 minutes
+                60 * 5,  # 5 minutes
             )
         return color
 
@@ -156,7 +156,7 @@ class Host(models.Model):
             cache.set(
                 f"birthday_{self.slug}",
                 birthday,
-                60 * 15,  # 15 minutes
+                60 * 5,  # 5 minutes
             )
         return birthday
 
@@ -178,6 +178,6 @@ class Host(models.Model):
             cache.set(
                 f"appearance_count_{self.slug}",
                 appearances,
-                60 * 15,  # 15 minutes
+                60 * 5,  # 5 minutes
             )
         return appearances
