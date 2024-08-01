@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load l10n %}
+{% load static l10n %}
 
 {% block title %}
   {{ host.name }}
@@ -14,6 +14,10 @@
     "The original database for Kinda Funny content. Filter, sort and search by channel, show, host. Made for the community, by the community."
   {% endif %} />
   <meta name="keywords" content="Kinda Funny, KF, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture, {{ host.name }}" />
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'chart.umd.js' %}" defer></script>
 {% endblock %}
 
 {% block main %}
@@ -112,8 +116,15 @@
               <path d="M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h389L509-773.33H186.67v586.66h586.66v-324.66L840-578v391.33q0 27-19.83 46.84Q800.33-120 773.33-120H186.67ZM480-480ZM360-360v-170l377-377q10-10 22.33-14.67 12.34-4.66 24.67-4.66 12.67 0 25.04 5 12.38 5 22.63 15l74 75q9.4 9.97 14.53 22.02 5.13 12.05 5.13 24.51 0 12.47-4.83 24.97-4.83 12.5-14.83 22.5L530-360H360Zm499-424.67-74.67-74.66L859-784.67Zm-432.33 358H502l246-246L710-710l-38.33-37.33-245 244.33v76.33ZM710-710l-38.33-37.33L710-710l38 37.33L710-710Z" />
             </svg>
           </div>
+          <div tabindex="0" role="button" class="min-w-9 min-h-9 btn btn-sm btn-accent btn-square shadow rounded-box ml-4" hx-get="{% url 'hosts_charts' %}?host={{ host.id|unlocalize }}" hx-trigger="click" hx-target="#charts" hx-swap="innerHTML" aria-label="view data charts" title="Data charts">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent-content" viewBox="0 -960 960 960">
+              <path d="M277.85-277.85h67.59v-203.23h-67.59v203.23Zm336.71 0h67.59v-413.07h-67.59v413.07Zm-167.69 0h67.59v-118.51h-67.59v118.51Zm0-203.23h67.59v-87.59h-67.59v87.59Zm-244.3 358.41q-32.52 0-56.21-23.69-23.69-23.69-23.69-56.21v-554.86q0-32.52 23.69-56.21 23.69-23.69 56.21-23.69h554.86q32.52 0 56.21 23.69 23.69 23.69 23.69 56.21v554.86q0 32.52-23.69 56.21-23.69 23.69-56.21 23.69H202.57Zm0-67.59h554.86q4.62 0 8.47-3.84 3.84-3.85 3.84-8.47v-554.86q0-4.62-3.84-8.47-3.85-3.84-8.47-3.84H202.57q-4.62 0-8.47 3.84-3.84 3.85-3.84 8.47v554.86q0 4.62 3.84 8.47 3.85 3.84 8.47 3.84Zm-12.31-579.48v579.48-579.48Z"/>
+            </svg>
+          </div>
         </div>
       </div>
+
+      <div id="charts"></div>
 
       <label for="filter-drawer" class="btn btn-accent btn-square drawer-button fixed h-[3.25rem] w-[3.25rem] shadow top-[calc((var(--vh,1vh)*100)-5.25rem)] left-8 z-[19] rounded-full md:hidden" aria-label="search, sort, and filter menu">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-accent-content" viewBox="0 -960 960 960">

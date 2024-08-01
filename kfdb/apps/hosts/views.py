@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 
 from .models import Host
 from apps.core.views import DefaultVideoView
+from apps.shows.models import Show
 
 
 class HostPageView(DefaultVideoView):
@@ -215,4 +216,59 @@ class RandomHostsView(TemplateView):
             }
         )
 
+        return context
+
+
+# @method_decorator(
+#     cache_page(60 * 5, key_prefix="host_chart_data"),
+#     name="dispatch",
+# )
+class HostChartsView(TemplateView):
+    http_method_names = "get"
+    template_name = "hosts/partials/get-host-charts.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        host_id = int(self.request.GET.get("host", ""))
+        shows = list(
+            Show.objects.filter(
+                Q(video_show__hosts=host_id) | Q(video_show__producer=host_id)
+            )
+            .annotate(appearance_count=Count("video_show", distinct=True))
+            .values("name", "appearance_count")
+            .order_by("-appearance_count")
+            .distinct()
+        )
+
+        appearance_data = {}
+        other_count = 0
+        total = 0
+
+        for show in shows:
+            total += show["appearance_count"]
+            if len(appearance_data) < 9:
+                appearance_data[show["name"]] = show["appearance_count"]
+            else:
+                other_count += show["appearance_count"]
+
+        print(total)
+
+        if other_count:
+            appearance_data["Other"] = other_count
+
+        context.update(
+            {
+                "doughnut_data": {
+                    "labels": list(appearance_data.keys()),
+                    "datasets": [
+                        {
+                            "label": "Appearances",
+                            "data": list(appearance_data.values()),
+                            "borderWidth": 1,
+                        },
+                    ],
+                },
+                "doughnut_fallback": list(appearance_data.items()),
+            }
+        )
         return context

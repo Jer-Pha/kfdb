@@ -1,0 +1,15 @@
+{% load static %}
+<canvas id="appearances_doughnut" class="max-h-[100vw] xs:max-h-56 xl:max-h-72 p-4" aria-label="chart of host appearances by show" role="img">
+  <p>Appearances by show:</p>
+  {% for show in doughnut_fallback %}
+    <p>{{ show.0 }}: {{ show.1 }}</p>
+  {% endfor %}
+</canvas>
+<script>
+  const canvas = document.getElementById('appearances_doughnut');
+
+  new Chart(canvas, {
+    type: 'doughnut',
+    data: {{ doughnut_data|safe }},
+  });
+</script>

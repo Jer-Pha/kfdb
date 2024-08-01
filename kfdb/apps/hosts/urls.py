@@ -3,6 +3,7 @@
 from django.urls import path
 
 from .views import (
+    HostChartsView,
     HostCrewView,
     HostGuestView,
     HostsHomeView,
@@ -31,4 +32,5 @@ urlpatterns = [
         RandomHostsView.as_view(),
         name="get_random_hosts",
     ),
+    path("hosts/charts", HostChartsView.as_view(), name="hosts_charts"),
 ]
