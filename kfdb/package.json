@@ -10,6 +10,8 @@
     "tailwindcss": "^3.4.4"
   },
   "dependencies": {
+    "chart.js": "^4.4.3",
+    "chartjs-plugin-autocolors": "^0.2.2",
     "htmx.org": "^1.9.12",
     "uglify-js": "^3.19.0"
   }
