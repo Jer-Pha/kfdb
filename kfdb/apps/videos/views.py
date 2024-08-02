@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from datetime import date, timedelta, datetime
 from feedparser import parse
 from requests import get
@@ -6,6 +7,8 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.http import HttpResponse
+from django.db.models import Count, Q
+from django.db.models.functions import TruncMonth
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
@@ -270,3 +273,91 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
             content_type="text/plain",
             status=200,
         )
+
+
+class AllVideosChartsView(TemplateView):
+    http_method_names = "get"
+    template_name = "hosts/partials/get-charts.html"
+
+    def get_show_count(self):
+        """Calculates videos per show."""
+        shows = list(
+            Show.objects.all()
+            .annotate(count=Count("video_show", distinct=True))
+            .values("name", "count")
+            .order_by("-count")
+            .distinct()
+        )
+
+        data = {}
+        other = 0
+
+        for show in shows:
+            if len(data) < 19:
+                data[show["name"]] = show["count"]
+            else:
+                other += show["count"]
+
+        data["Other"] = other
+
+        context = {
+            "doughnut_data": {
+                "labels": list(data.keys()),
+                "datasets": [
+                    {
+                        "label": " Shows",
+                        "data": list(data.values()),
+                        "borderWidth": 1,
+                    },
+                ],
+            },
+            "doughnut_fallback": list(data.items()),
+        }
+
+        return context
+
+    def get_video_dates(self):
+        """Calculates episodes per month for selected host for only
+        appearances.
+        """
+        videos = (
+            Video.objects.all()
+            .values(month=TruncMonth("release_date"))
+            .annotate(
+                count=Count("pk", distinct=True),
+            )
+            .order_by("month")
+        )
+        months = [
+            {
+                "month": i["month"].strftime("%b '%y"),
+                "count": i["count"],
+            }
+            for i in videos
+        ]
+
+        data = OrderedDict()
+
+        for month in months:
+            data[month["month"]] = (month["count"],)
+
+        context = {
+            "bar_data": {
+                "labels": list(data.keys()),
+                "datasets": [
+                    {
+                        "label": " Video",
+                        "data": list(data.values()),
+                    },
+                ],
+            },
+            "bar_fallback": list(data.items()),
+        }
+
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_show_count())
+        context.update(self.get_video_dates())
+        return context
