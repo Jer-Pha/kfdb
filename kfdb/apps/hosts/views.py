@@ -30,12 +30,20 @@ class HostPageView(DefaultVideoView):
         )
         filter_params = {"host": host.id}
         videos = cache.get(self.request.build_absolute_uri())
+        self.page_range = cache.get(
+            f"{self.request.build_absolute_uri()}_page_range"
+        )
 
         if not videos:
             videos = self.get_videos(filter_params)
             cache.set(
                 self.request.build_absolute_uri(),
                 videos,
+                60 * 5,  # 5 minutes
+            )
+            cache.set(
+                f"{self.request.build_absolute_uri()}_page_range",
+                self.page_range,
                 60 * 5,  # 5 minutes
             )
         context["videos"] = videos
@@ -280,8 +288,12 @@ class HostChartsView(TemplateView):
             Video.objects.filter(Q(hosts=host) | Q(producer=host))
             .values(month=TruncMonth("release_date"))
             .annotate(
-                host_count=Count("pk", filter=Q(hosts=host)),
-                producer_count=Count("pk", filter=Q(producer=host)),
+                host_count=Count("pk", filter=Q(hosts=host), distinct=True),
+                producer_count=Count(
+                    "pk",
+                    filter=Q(producer=host),
+                    distinct=True,
+                ),
             )
             .order_by("month")
         )
