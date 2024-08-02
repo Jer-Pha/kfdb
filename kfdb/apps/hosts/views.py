@@ -230,10 +230,10 @@ class RandomHostsView(TemplateView):
         return context
 
 
-# @method_decorator(
-#     cache_page(60 * 5, key_prefix="host_chart_data"),
-#     name="dispatch",
-# )
+@method_decorator(
+    cache_page(60 * 5, key_prefix="host_chart_data"),
+    name="dispatch",
+)
 class HostChartsView(TemplateView):
     http_method_names = "get"
     template_name = "hosts/partials/get-host-charts.html"
