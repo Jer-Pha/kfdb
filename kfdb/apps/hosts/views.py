@@ -236,7 +236,7 @@ class RandomHostsView(TemplateView):
 )
 class HostChartsView(TemplateView):
     http_method_names = "get"
-    template_name = "hosts/partials/get-host-charts.html"
+    template_name = "core/partials/get-charts.html"
 
     def get_appearance_count(self, host):
         """Calculates appearances per show for selected host."""
@@ -252,10 +252,8 @@ class HostChartsView(TemplateView):
 
         data = {}
         other = 0
-        total = 0
 
         for show in shows:
-            total += show["count"]
             if len(data) < 9:
                 data[show["name"]] = show["count"]
             else:

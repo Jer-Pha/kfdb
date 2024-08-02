@@ -277,7 +277,7 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
 
 class AllVideosChartsView(TemplateView):
     http_method_names = "get"
-    template_name = "hosts/partials/get-charts.html"
+    template_name = "core/partials/get-charts.html"
 
     def get_show_count(self):
         """Calculates videos per show."""
