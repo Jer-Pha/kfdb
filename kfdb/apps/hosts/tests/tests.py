@@ -154,8 +154,9 @@ class HostViewsTest(TestCase):
             blurb="Test blurb",
         )
         show = Show.objects.create(name="test show")
+
         v1 = Video.objects.create(
-            title="test video 1",
+            title="test video",
             release_date="2024-01-01",
             show=show,
             producer=h1,
@@ -163,12 +164,22 @@ class HostViewsTest(TestCase):
         )
         v1.hosts.add(h2, h3)
         v2 = Video.objects.create(
-            title="test video 2",
+            title="test vid",
             release_date="2024-02-01",
             show=show,
             video_id="12345678901",
         )
         v2.hosts.add(h1, h2)
+
+        for i in range(15):
+            s = Show.objects.create(name=f"test show {i}")
+            v = Video.objects.create(
+                title=f"test video {i}",
+                release_date="2024-03-01",
+                show=s,
+                video_id=f"012345678{i}",
+            )
+            v.hosts.add(h3)
 
     def test_new_page(self):
         """Tests view when `self.new_page == True`."""
@@ -244,10 +255,10 @@ class HostViewsTest(TestCase):
     def test_host_charts_view(self):
         """Tests HostChartsView()."""
         request_1 = RequestFactory().get(reverse("hosts_charts") + "?host=1")
-        view = HostChartsView.as_view()(request_1)
-        context = view.context_data
+        view_1 = HostChartsView.as_view()(request_1)
+        context_1 = view_1.context_data
         self.assertEqual(
-            context["doughnut_data"],
+            context_1["doughnut_data"],
             {
                 "labels": ["test show"],
                 "datasets": [
@@ -259,9 +270,9 @@ class HostViewsTest(TestCase):
                 ],
             },
         )
-        self.assertEqual(context["doughnut_fallback"], [("test show", 2)])
+        self.assertEqual(context_1["doughnut_fallback"], [("test show", 2)])
         self.assertEqual(
-            context["bar_data"],
+            context_1["bar_data"],
             {
                 "labels": ["Jan '24", "Feb '24"],
                 "datasets": [
@@ -277,7 +288,7 @@ class HostViewsTest(TestCase):
             },
         )
         self.assertEqual(
-            context["bar_fallback"],
+            context_1["bar_fallback"],
             [("Jan '24", (0, 1)), ("Feb '24", (1, 0))],
         )
 
@@ -296,6 +307,12 @@ class HostViewsTest(TestCase):
                 ],
             },
         )
+
+        request_3 = RequestFactory().get(reverse("hosts_charts") + "?host=3")
+        view_3 = HostChartsView.as_view()(request_3)
+        context_3 = view_3.context_data
+        self.assertEqual("Other", context_3["doughnut_data"]["labels"][-1])
+        self.assertEqual(10, len(context_3["doughnut_data"]["labels"]))
 
 
 class HostSerializerTest(TestCase):
