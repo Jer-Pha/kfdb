@@ -341,7 +341,7 @@ class HostChartsView(TemplateView):
             Video.objects.filter(Q(hosts=host) | Q(producer=host))
             .values(month=TruncMonth("release_date"))
             .annotate(
-                host_count=Count("pk", filter=Q(hosts=host)),
+                host_count=Count("pk", filter=Q(hosts=host), distinct=True),
             )
             .order_by("month")
         )
