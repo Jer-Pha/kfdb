@@ -1,8 +1,10 @@
+from collections import OrderedDict
 from re import sub
 
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Count, F, Q
+from django.db.models.functions import TruncMonth
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
@@ -10,6 +12,7 @@ from django.views.generic import TemplateView
 from .models import Host
 from apps.core.views import DefaultVideoView
 from apps.shows.models import Show
+from apps.videos.models import Video
 
 
 class HostPageView(DefaultVideoView):
@@ -227,48 +230,143 @@ class HostChartsView(TemplateView):
     http_method_names = "get"
     template_name = "hosts/partials/get-host-charts.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        host_id = int(self.request.GET.get("host", ""))
+    def get_appearance_count(self, host):
+        """Calculates appearances per show for selected host."""
         shows = list(
             Show.objects.filter(
-                Q(video_show__hosts=host_id) | Q(video_show__producer=host_id)
+                Q(video_show__hosts=host) | Q(video_show__producer=host)
             )
-            .annotate(appearance_count=Count("video_show", distinct=True))
-            .values("name", "appearance_count")
-            .order_by("-appearance_count")
+            .annotate(count=Count("video_show", distinct=True))
+            .values("name", "count")
+            .order_by("-count")
             .distinct()
         )
 
-        appearance_data = {}
-        other_count = 0
+        data = {}
+        other = 0
         total = 0
 
         for show in shows:
-            total += show["appearance_count"]
-            if len(appearance_data) < 9:
-                appearance_data[show["name"]] = show["appearance_count"]
+            total += show["count"]
+            if len(data) < 9:
+                data[show["name"]] = show["count"]
             else:
-                other_count += show["appearance_count"]
+                other += show["count"]
 
-        print(total)
+        if other:
+            data["Other"] = other
 
-        if other_count:
-            appearance_data["Other"] = other_count
+        context = {
+            "doughnut_data": {
+                "labels": list(data.keys()),
+                "datasets": [
+                    {
+                        "label": " Appearances",
+                        "data": list(data.values()),
+                        "borderWidth": 1,
+                    },
+                ],
+            },
+            "doughnut_fallback": list(data.items()),
+        }
 
-        context.update(
-            {
-                "doughnut_data": {
-                    "labels": list(appearance_data.keys()),
-                    "datasets": [
-                        {
-                            "label": "Appearances",
-                            "data": list(appearance_data.values()),
-                            "borderWidth": 1,
-                        },
-                    ],
-                },
-                "doughnut_fallback": list(appearance_data.items()),
-            }
+        return context
+
+    def get_app_prod_dates(self, host):
+        """Calculates episodes per month for selected host for both
+        appearances and produced episodes.
+        """
+        videos = (
+            Video.objects.filter(Q(hosts=host) | Q(producer=host))
+            .values(month=TruncMonth("release_date"))
+            .annotate(
+                host_count=Count("pk", filter=Q(hosts=host)),
+                producer_count=Count("pk", filter=Q(producer=host)),
+            )
+            .order_by("month")
         )
+        months = [
+            {
+                "month": i["month"].strftime("%b '%y"),
+                "host_count": i["host_count"],
+                "producer_count": i["producer_count"],
+            }
+            for i in videos
+        ]
+
+        data = OrderedDict()
+
+        for month in months:
+            data[month["month"]] = (
+                month["host_count"],
+                month["producer_count"],
+            )
+
+        context = {
+            "bar_data": {
+                "labels": list(data.keys()),
+                "datasets": [
+                    {
+                        "label": " Appeared ",
+                        "data": [x[0] for x in data.values()],
+                    },
+                    {
+                        "label": " Produced",
+                        "data": [x[1] for x in data.values()],
+                    },
+                ],
+            },
+            "bar_fallback": list(data.items()),
+        }
+
+        return context
+
+    def get_appearance_dates(self, host):
+        """Calculates episodes per month for selected host for only
+        appearances.
+        """
+        videos = (
+            Video.objects.filter(Q(hosts=host) | Q(producer=host))
+            .values(month=TruncMonth("release_date"))
+            .annotate(
+                host_count=Count("pk", filter=Q(hosts=host)),
+            )
+            .order_by("month")
+        )
+        months = [
+            {
+                "month": i["month"].strftime("%b '%y"),
+                "host_count": i["host_count"],
+            }
+            for i in videos
+        ]
+
+        data = OrderedDict()
+
+        for month in months:
+            data[month["month"]] = (month["host_count"],)
+
+        context = {
+            "bar_data": {
+                "labels": list(data.keys()),
+                "datasets": [
+                    {
+                        "label": " Appearance",
+                        "data": [x[0] for x in data.values()],
+                    },
+                ],
+            },
+            "bar_fallback": list(data.items()),
+        }
+
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        host = Host.objects.get(id=int(self.request.GET.get("host", "")))
+        context.update(self.get_appearance_count(host))
+        if Video.objects.filter(producer=host).exists():
+            context.update(self.get_app_prod_dates(host))
+        else:
+            context.update(self.get_appearance_dates(host))
         return context
