@@ -1,4 +1,4 @@
-const chartBtn = document.getElementById('display-stats');
+const chartBtn = document.getElementById('display-charts');
 
 function toggleCharts() {
     let charts = document.getElementById('charts');
