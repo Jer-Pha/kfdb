@@ -30,12 +30,20 @@ class HostPageView(DefaultVideoView):
         )
         filter_params = {"host": host.id}
         videos = cache.get(self.request.build_absolute_uri())
+        self.page_range = cache.get(
+            f"{self.request.build_absolute_uri()}_page_range"
+        )
 
         if not videos:
             videos = self.get_videos(filter_params)
             cache.set(
                 self.request.build_absolute_uri(),
                 videos,
+                60 * 5,  # 5 minutes
+            )
+            cache.set(
+                f"{self.request.build_absolute_uri()}_page_range",
+                self.page_range,
                 60 * 5,  # 5 minutes
             )
         context["videos"] = videos
