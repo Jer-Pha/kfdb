@@ -174,6 +174,7 @@ STATICFILES_DIRS = [
     path.join(BASE_DIR, "apps", "core", "static"),
     # Only available after running `npm install`
     path.join(BASE_DIR, "node_modules/htmx.org/dist"),
+    path.join(BASE_DIR, "node_modules/chart.js/dist"),
 ]
 
 STATIC_URL = "/static-files/"

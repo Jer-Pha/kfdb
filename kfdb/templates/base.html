@@ -25,6 +25,10 @@
     <meta name="msapplication-TileColor" content="#00a3e0" />
     <meta name="theme-color" content="#00a3e0" />
 
+    {% block scripts %}
+
+    {% endblock %}
+
     <link href="{% static 'main.css' %}" rel="stylesheet" />
 
     {% if request.path == '/home/' %}

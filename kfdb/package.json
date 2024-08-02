@@ -3,13 +3,15 @@
     "dist": "tailwindcss -i ./assets/src/input.css -o ./assets/dist/main.css --minify",
     "build": "tailwindcss -i ./assets/src/input.css -o ./assets/dist/main.css",
     "watch": "tailwindcss -i ./assets/src/input.css -o ./assets/dist/main.css --watch",
-    "minifyjs": "uglifyjs ./apps/core/static/js/kfdb.js -c -m -o ./apps/core/static/js/kfdb.min.js & uglifyjs ./apps/core/static/js/hostsHandler.js -c -m -o ./apps/core/static/js/hostsHandler.min.js & uglifyjs ./apps/core/static/js/resultsHandler.js -c -m -o ./apps/core/static/js/resultsHandler.min.js"
+    "minifyjs": "uglifyjs ./apps/core/static/js/kfdb.js -c -m -o ./apps/core/static/js/kfdb.min.js & uglifyjs ./apps/core/static/js/hostsHandler.js -c -m -o ./apps/core/static/js/hostsHandler.min.js & uglifyjs ./apps/core/static/js/resultsHandler.js -c -m -o ./apps/core/static/js/resultsHandler.min.js & uglifyjs ./apps/core/static/js/hslToHex.js -c -m -o ./apps/core/static/js/hslToHex.min.js & uglifyjs ./apps/core/static/js/chartBtnHandler.js -c -m -o ./apps/core/static/js/chartBtnHandler.min.js"
   },
   "devDependencies": {
     "daisyui": "^4.12.7",
     "tailwindcss": "^3.4.4"
   },
   "dependencies": {
+    "chart.js": "^4.4.3",
+    "chartjs-plugin-autocolors": "^0.2.2",
     "htmx.org": "^1.9.12",
     "uglify-js": "^3.19.0"
   }

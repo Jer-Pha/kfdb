@@ -14,7 +14,9 @@ from ..views import (
     HostsHomeView,
     HostPartTimerView,
     RandomHostsView,
+    HostChartsView,
 )
+from apps.shows.models import Show
 from apps.videos.models import Video
 
 # Bytes representing a valid 1-pixel PNG
@@ -91,7 +93,7 @@ class HostViewsTest(TestCase):
 
     def setUp(self):
         """Sets up test data."""
-        Host.objects.create(
+        h1 = Host.objects.create(
             name="Test Crew",
             slug="test-crew",
             image=SimpleUploadedFile(
@@ -111,7 +113,7 @@ class HostViewsTest(TestCase):
             birthday=datetime.now().date(),
             blurb="Test blurb",
         )
-        Host.objects.create(
+        h2 = Host.objects.create(
             name="Test Part Timer",
             slug="test-part-timer",
             image=SimpleUploadedFile(
@@ -131,7 +133,7 @@ class HostViewsTest(TestCase):
             birthday=datetime.now().date(),
             blurb="Test blurb",
         )
-        Host.objects.create(
+        h3 = Host.objects.create(
             name="Test Guest",
             slug="test-guest",
             image=SimpleUploadedFile(
@@ -151,6 +153,33 @@ class HostViewsTest(TestCase):
             birthday=datetime.now().date(),
             blurb="Test blurb",
         )
+        show = Show.objects.create(name="test show")
+
+        v1 = Video.objects.create(
+            title="test video",
+            release_date="2024-01-01",
+            show=show,
+            producer=h1,
+            video_id="12345678900",
+        )
+        v1.hosts.add(h2, h3)
+        v2 = Video.objects.create(
+            title="test vid",
+            release_date="2024-02-01",
+            show=show,
+            video_id="12345678901",
+        )
+        v2.hosts.add(h1, h2)
+
+        for i in range(15):
+            s = Show.objects.create(name=f"test show {i}")
+            v = Video.objects.create(
+                title=f"test video {i}",
+                release_date="2024-03-01",
+                show=s,
+                video_id=f"012345678{i}",
+            )
+            v.hosts.add(h3)
 
     def test_new_page(self):
         """Tests view when `self.new_page == True`."""
@@ -222,6 +251,68 @@ class HostViewsTest(TestCase):
         self.assertEqual(
             len(context["hosts"]), (Host.objects.filter(kf_crew=False).count())
         )
+
+    def test_host_charts_view(self):
+        """Tests HostChartsView()."""
+        request_1 = RequestFactory().get(reverse("hosts_charts") + "?host=1")
+        view_1 = HostChartsView.as_view()(request_1)
+        context_1 = view_1.context_data
+        self.assertEqual(
+            context_1["doughnut_data"],
+            {
+                "labels": ["test show"],
+                "datasets": [
+                    {
+                        "label": " Appearances",
+                        "data": [2],
+                        "borderWidth": 1,
+                    },
+                ],
+            },
+        )
+        self.assertEqual(context_1["doughnut_fallback"], [("test show", 2)])
+        self.assertEqual(
+            context_1["bar_data"],
+            {
+                "labels": ["Jan '24", "Feb '24"],
+                "datasets": [
+                    {
+                        "label": " Appeared ",
+                        "data": [0, 1],
+                    },
+                    {
+                        "label": " Produced",
+                        "data": [1, 0],
+                    },
+                ],
+            },
+        )
+        self.assertEqual(
+            context_1["bar_fallback"],
+            [("Jan '24", (0, 1)), ("Feb '24", (1, 0))],
+        )
+
+        request_2 = RequestFactory().get(reverse("hosts_charts") + "?host=2")
+        view_2 = HostChartsView.as_view()(request_2)
+        context_2 = view_2.context_data
+        self.assertEqual(
+            context_2["bar_data"],
+            {
+                "labels": ["Jan '24", "Feb '24"],
+                "datasets": [
+                    {
+                        "label": " Appearance",
+                        "data": [1, 1],
+                    },
+                ],
+            },
+        )
+
+        request_3 = RequestFactory().get(reverse("hosts_charts") + "?host=3")
+        view_3 = HostChartsView.as_view()(request_3)
+        context_3 = view_3.context_data
+        self.assertEqual("Other", context_3["doughnut_data"]["labels"][-1])
+        self.assertEqual(10, len(context_3["doughnut_data"]["labels"]))
 
 
 class HostSerializerTest(TestCase):
