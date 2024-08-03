@@ -1,30 +1,19 @@
 {% load static %}
 
-<canvas id="doughnut-canvas" class="w-full max-h-64 px-2 pb-2 sm:px-4 sm:pb-4" aria-label="chart of host appearances by show" role="img">
-  <p>Appearances by show:</p>
-  {% for count in doughnut_fallback %}
-    <p>{{ count.0 }}: {{ count.1 }}</p>
-  {% endfor %}
-</canvas>
-
-<canvas id="bar-canvas" class="w-full max-h-64 px-2 pb-2 sm:px-4 sm:pb-4" aria-label="chart of host appearances by month" role="img">
-  <p>Videos appeared in:</p>
-  {% for count in bar_fallback %}
-    {% with c=count.1 %}
-      <p>{{ count.0 }}: {{ c.0 }}</p>
-    {% endwith %}
-  {% endfor %}
-  <p>Videos produced:</p>
-  {% for count in bar_fallback %}
-    <p>{{ count.0 }}: {{ count.1.1 }}</p>
-  {% endfor %}
-</canvas>
-
 <script>
-  const textColor = hslToHex(...getComputedStyle(document.body).getPropertyValue('--bc').split(' '));
-  const doughnutCanvas = document.getElementById('doughnut-canvas');
-  const barCanvas = document.getElementById('bar-canvas');
+  const textColor = hslToHex(...getComputedStyle(document.body).getPropertyValue('--bc').split(' '))
+</script>
 
+{% if doughnut_data %}
+  <canvas id="doughnut-canvas" class="w-full max-h-64 px-2 pb-2 sm:px-4 sm:pb-4" aria-label="chart of host appearances by show" role="img">
+    <p>A chart displaying the following data:</p>
+    {% for count in doughnut_fallback %}
+      <p>{{ count.0 }}: {{ count.1 }}</p>
+    {% endfor %}
+  </canvas>
+
+  <script>
+  const doughnutCanvas = document.getElementById('doughnut-canvas');
   let doughnutData = {{ doughnut_data|safe }};
   let doughnutOptions = {
     responsive: true,
@@ -40,12 +29,37 @@
       },
       title:{
         display: true,
-        text: "Show Appearances",
+        text: "{{ doughnut_title }}",
         color: textColor,
+        padding: {
+          top: 0,
+        },
       },
     },
   };
+  new Chart(doughnutCanvas, {
+    type: 'doughnut',
+    data: doughnutData,
+    options: doughnutOptions,
+  });
+</script>
+{% endif %}
 
+{% if bar_data %}
+  <canvas id="bar-canvas" class="w-full max-h-64 px-2 pb-2 sm:px-4 sm:pb-4" aria-label="chart of host appearances by month" role="img">
+    <p>A chart displaying the following data:</p>
+    {% for count in bar_fallback %}
+      {% with c=count.1 %}
+        <p>{{ count.0 }}: {{ c.0 }}</p>
+      {% endwith %}
+    {% endfor %}
+    {% for count in bar_fallback %}
+      <p>{{ count.0 }}: {{ count.1.1 }}</p>
+    {% endfor %}
+  </canvas>
+
+  <script>
+  const barCanvas = document.getElementById('bar-canvas');
   let barData = {{ bar_data|safe }};
   let barOptions = {
     responsive: true,
@@ -61,7 +75,7 @@
       },
       title:{
         display: true,
-        text: "Appearances by Month",
+        text: "{{ bar_title }}",
         color: textColor,
       },
     },
@@ -84,17 +98,13 @@
     }
   };
 
-  new Chart(doughnutCanvas, {
-    type: 'doughnut',
-    data: doughnutData,
-    options: doughnutOptions,
-  });
-  new Chart(barCanvas, {
+new Chart(barCanvas, {
     type: 'bar',
     data: barData,
     options: barOptions,
   });
 </script>
+{% endif %}
 
 <div id="display-charts" hx-swap-oob="true" tabindex="0" role="button" class="min-w-9 min-h-9 btn btn-sm btn-accent btn-square shadow rounded-box ml-4" aria-label="view data charts" title="Data charts">
   <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent-content" viewBox="0 -960 960 960">

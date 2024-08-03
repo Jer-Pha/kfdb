@@ -254,7 +254,7 @@ class HostChartsView(TemplateView):
         other = 0
 
         for show in shows:
-            if len(data) < 9:
+            if len(data) < 10:
                 data[show["name"]] = show["count"]
             else:
                 other += show["count"]
@@ -274,6 +274,7 @@ class HostChartsView(TemplateView):
                 ],
             },
             "doughnut_fallback": list(data.items()),
+            "doughnut_title": "Show Appearances",
         }
 
         return context
@@ -327,6 +328,7 @@ class HostChartsView(TemplateView):
                 ],
             },
             "bar_fallback": list(data.items()),
+            "bar_title": "Appearances per Month",
         }
 
         return context
@@ -367,13 +369,16 @@ class HostChartsView(TemplateView):
                 ],
             },
             "bar_fallback": list(data.items()),
+            "bar_title": "Appearances per Month",
         }
 
         return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        host = Host.objects.get(id=int(self.request.GET.get("host", "")))
+        host = Host.objects.only("pk").get(
+            id=int(self.request.GET.get("host", ""))
+        )
         context.update(self.get_appearance_count(host))
         if Video.objects.filter(producer=host).exists():
             context.update(self.get_app_prod_dates(host))

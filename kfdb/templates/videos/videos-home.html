@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
   All Videos
@@ -10,13 +11,29 @@
   <meta name="keywords" content="Kinda Funny, KF, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture, Videos" />
 {% endblock %}
 
+{% block scripts %}
+  <script src="{% static 'chart.umd.js' %}" defer></script>
+  <script src="{% static 'js/hslToHex.min.js' %}" defer></script>
+{% endblock %}
+
 {% block main %}
   <div class="drawer md:drawer-open min-h-[inherit]">
     <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col bg-base-100 px-2">
-      <div class="pb-1 sm:pb-2">
-        <h1 class="text-lg sm:text-3xl md:text-xl lg:text-3xl text-base-content">All Videos</h1>
+      <div class="py-2">
+        <h1 class="text-3xl md:text-xl lg:text-3xl text-base-content">All Videos</h1>
       </div>
+
+      <div class="absolute flex right-4 top-2">
+        <div id="display-charts" tabindex="0" role="button" class="min-w-9 min-h-9 btn btn-sm btn-accent btn-square shadow rounded-box ml-4" hx-get="{% url 'videos_charts' %}" hx-trigger="click" hx-target="#charts" hx-swap="innerHTML" aria-label="view data charts" title="Data charts">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-accent-content" viewBox="0 -960 960 960">
+            <path d="M277.85-277.85h67.59v-203.23h-67.59v203.23Zm336.71 0h67.59v-413.07h-67.59v413.07Zm-167.69 0h67.59v-118.51h-67.59v118.51Zm0-203.23h67.59v-87.59h-67.59v87.59Zm-244.3 358.41q-32.52 0-56.21-23.69-23.69-23.69-23.69-56.21v-554.86q0-32.52 23.69-56.21 23.69-23.69 56.21-23.69h554.86q32.52 0 56.21 23.69 23.69 23.69 23.69 56.21v554.86q0 32.52-23.69 56.21-23.69 23.69-56.21 23.69H202.57Zm0-67.59h554.86q4.62 0 8.47-3.84 3.84-3.85 3.84-8.47v-554.86q0-4.62-3.84-8.47-3.85-3.84-8.47-3.84H202.57q-4.62 0-8.47 3.84-3.84 3.85-3.84 8.47v554.86q0 4.62 3.84 8.47 3.85 3.84 8.47 3.84Zm-12.31-579.48v579.48-579.48Z" />
+          </svg>
+        </div>
+      </div>
+
+      <div id="charts" class="w-full"></div>
+
       <label for="filter-drawer" class="btn btn-accent btn-square drawer-button fixed h-[3.25rem] w-[3.25rem] shadow top-[calc((var(--vh,1vh)*100)-5.25rem)] left-8 z-[19] rounded-full md:hidden" aria-label="search, sort, and filter menu">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-accent-content" viewBox="0 -960 960 960">
           <path d="M455.39-180q-15.08 0-25.23-10.16Q420-200.31 420-215.39v-231.53L192.69-735.85q-11.12-13.64-3.14-28.89Q197.54-780 214.44-780h531.12q16.9 0 24.89 15.26 7.98 15.25-3.14 28.89L540-446.92v231.53q0 15.08-10.16 25.23Q519.69-180 504.61-180h-49.22ZM480-452.31l218.56-277.43H261.44L480-452.31Zm0 0Z" />

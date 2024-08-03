@@ -293,7 +293,7 @@ class AllVideosChartsView(TemplateView):
         other = 0
 
         for show in shows:
-            if len(data) < 19:
+            if len(data) < 10:
                 data[show["name"]] = show["count"]
             else:
                 other += show["count"]
@@ -312,14 +312,13 @@ class AllVideosChartsView(TemplateView):
                 ],
             },
             "doughnut_fallback": list(data.items()),
+            "doughnut_title": "Shows",
         }
 
         return context
 
-    def get_video_dates(self):
-        """Calculates episodes per month for selected host for only
-        appearances.
-        """
+    def get_monthly_count(self):
+        """Calculates episodes per month for all videos."""
         videos = (
             Video.objects.all()
             .values(month=TruncMonth("release_date"))
@@ -347,11 +346,12 @@ class AllVideosChartsView(TemplateView):
                 "datasets": [
                     {
                         "label": " Video",
-                        "data": list(data.values()),
+                        "data": [x[0] for x in data.values()],
                     },
                 ],
             },
             "bar_fallback": list(data.items()),
+            "bar_title": "Videos per Month",
         }
 
         return context
@@ -359,5 +359,5 @@ class AllVideosChartsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(self.get_show_count())
-        context.update(self.get_video_dates())
+        context.update(self.get_monthly_count())
         return context
