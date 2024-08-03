@@ -68,12 +68,13 @@ class ShowViewsTest(TestCase):
             )
         )
 
+        channel_prime = Channel.objects.get(id=1)
         producer = Host.objects.create(
             name="test producer",
             kf_crew=True,
         )
 
-        for i in range(6):
+        for i in range(12):
             Host.objects.create(
                 name=f"test host {i}",
                 kf_crew=(True if i < 2 else False),
@@ -83,12 +84,14 @@ class ShowViewsTest(TestCase):
                 title=f"test video {i}",
                 release_date=f"2024-{str(i+1).zfill(2)}-01",
                 show=show,
-                channel=Channel.objects.get(id=((i // 2) + 1)),
+                channel=channel_prime,
                 video_id=f"012345678{i}",
                 producer=(producer if not i % 2 else None),
             )
             hosts = Host.objects.filter(id__gt=1, id__lte=(i + 2))
             video.hosts.add(*hosts)
+            if i % 2:
+                video.hosts.add(producer)
 
         show.channels.add(*Channel.objects.all())
 
@@ -139,18 +142,31 @@ class ShowViewsTest(TestCase):
 
     def test_show_charts_view(self):
         """Tests ShowChartsView()."""
-        request_1 = RequestFactory().get(reverse("show_charts") + "?show=1")
+        self.maxDiff = None
+        request_1 = RequestFactory().get(
+            reverse("show_charts") + "?show=1&channel=prime"
+        )
         view_1 = ShowChartsView.as_view()(request_1)
         context_1 = view_1.context_data
         self.assertEqual(
             context_1["doughnut_data"],
             {
-                "labels": [f"test host {i}" for i in range(6)]
-                + ["test producer"],
+                "labels": (
+                    [f"test host {i}" for i in range(6)]
+                    + ["test producer"]
+                    + [f"test host {i}" for i in range(6, 8)]
+                    + ["test host 8"]
+                    + ["Other"]
+                ),
                 "datasets": [
                     {
                         "label": " Appearances",
-                        "data": [i for i in range(6, 0, -1)] + [3],
+                        "data": (
+                            [i for i in range(12, 6, -1)]
+                            + [12]
+                            + [i for i in range(6, 3, -1)]
+                            + [6]
+                        ),
                         "borderWidth": 1,
                     },
                 ],
@@ -160,8 +176,19 @@ class ShowViewsTest(TestCase):
             context_1["doughnut_fallback"],
             list(
                 zip(
-                    [f"test host {i}" for i in range(6)] + ["test producer"],
-                    [i for i in range(6, 0, -1)] + [3],
+                    (
+                        [f"test host {i}" for i in range(6)]
+                        + ["test producer"]
+                        + [f"test host {i}" for i in range(6, 8)]
+                        + ["test host 8"]
+                        + ["Other"]
+                    ),
+                    (
+                        [i for i in range(12, 6, -1)]
+                        + [12]
+                        + [i for i in range(6, 3, -1)]
+                        + [6]
+                    ),
                 )
             ),
         )
@@ -175,11 +202,17 @@ class ShowViewsTest(TestCase):
                     "Apr '24",
                     "May '24",
                     "Jun '24",
+                    "Jul '24",
+                    "Aug '24",
+                    "Sep '24",
+                    "Oct '24",
+                    "Nov '24",
+                    "Dec '24",
                 ],
                 "datasets": [
                     {
                         "label": " Video",
-                        "data": [1] * 6,
+                        "data": [1] * 12,
                     },
                 ],
             },
@@ -195,8 +228,14 @@ class ShowViewsTest(TestCase):
                         "Apr '24",
                         "May '24",
                         "Jun '24",
+                        "Jul '24",
+                        "Aug '24",
+                        "Sep '24",
+                        "Oct '24",
+                        "Nov '24",
+                        "Dec '24",
                     ],
-                    [(1,)] * 6,
+                    [(1,)] * 12,
                 )
             ),
         )
