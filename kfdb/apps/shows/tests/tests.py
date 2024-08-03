@@ -5,8 +5,10 @@ from rest_framework.test import APIRequestFactory
 
 from ..models import Show
 from ..serializers import ShowSerializer
-from ..views import ShowPageView, ShowsHomeView
+from ..views import ShowChartsView, ShowPageView, ShowsHomeView
 from apps.channels.models import Channel
+from apps.hosts.models import Host
+from apps.videos.models import Video
 
 # Bytes representing a valid 1-pixel PNG
 ONE_PIXEL_PNG_BYTES = (
@@ -58,11 +60,37 @@ class ShowViewsTest(TestCase):
             blurb="Test blurb.",
         )
 
-        show.channels.add(
-            Channel.objects.create(name="KF Prime", slug="prime"),
-            Channel.objects.create(name="KF Games", slug="games"),
-            Channel.objects.create(name="KF Membership", slug="members"),
+        Channel.objects.bulk_create(
+            (
+                Channel(name="KF Prime", slug="prime"),
+                Channel(name="KF Games", slug="games"),
+                Channel(name="KF Membership", slug="members"),
+            )
         )
+
+        producer = Host.objects.create(
+            name="test producer",
+            kf_crew=True,
+        )
+
+        for i in range(6):
+            Host.objects.create(
+                name=f"test host {i}",
+                kf_crew=(True if i < 2 else False),
+                part_timer=(True if i > 3 else False),
+            )
+            video = Video.objects.create(
+                title=f"test video {i}",
+                release_date=f"2024-{str(i+1).zfill(2)}-01",
+                show=show,
+                channel=Channel.objects.get(id=((i // 2) + 1)),
+                video_id=f"012345678{i}",
+                producer=(producer if not i % 2 else None),
+            )
+            hosts = Host.objects.filter(id__gt=1, id__lte=(i + 2))
+            video.hosts.add(*hosts)
+
+        show.channels.add(*Channel.objects.all())
 
     def test_new_page(self):
         """Tests view when `self.new_page == True`."""
@@ -108,6 +136,82 @@ class ShowViewsTest(TestCase):
         self.assertEqual(len(context["games"]), 1)
         self.assertEqual(len(context["prime"]), 1)
         self.assertEqual(len(context["members"]), 1)
+
+    def test_show_charts_view(self):
+        """Tests ShowChartsView()."""
+        request_1 = RequestFactory().get(reverse("show_charts") + "?show=1")
+        view_1 = ShowChartsView.as_view()(request_1)
+        context_1 = view_1.context_data
+        self.assertEqual(
+            context_1["doughnut_data"],
+            {
+                "labels": [f"test host {i}" for i in range(6)]
+                + ["test producer"],
+                "datasets": [
+                    {
+                        "label": " Appearances",
+                        "data": [i for i in range(6, 0, -1)] + [3],
+                        "borderWidth": 1,
+                    },
+                ],
+            },
+        )
+        self.assertEqual(
+            context_1["doughnut_fallback"],
+            list(
+                zip(
+                    [f"test host {i}" for i in range(6)] + ["test producer"],
+                    [i for i in range(6, 0, -1)] + [3],
+                )
+            ),
+        )
+        self.assertEqual(
+            context_1["bar_data"],
+            {
+                "labels": [
+                    "Jan '24",
+                    "Feb '24",
+                    "Mar '24",
+                    "Apr '24",
+                    "May '24",
+                    "Jun '24",
+                ],
+                "datasets": [
+                    {
+                        "label": " Video",
+                        "data": [1] * 6,
+                    },
+                ],
+            },
+        )
+        self.assertEqual(
+            context_1["bar_fallback"],
+            list(
+                zip(
+                    [
+                        "Jan '24",
+                        "Feb '24",
+                        "Mar '24",
+                        "Apr '24",
+                        "May '24",
+                        "Jun '24",
+                    ],
+                    [(1,)] * 6,
+                )
+            ),
+        )
+
+        request_2 = RequestFactory().get(
+            reverse("show_charts") + "?show=1&channel=members"
+        )
+        view_2 = ShowChartsView.as_view()(request_2)
+        context_2 = view_2.context_data
+        self.assertNotIn("doughnut_data", context_2)
+        self.assertNotIn("doughnut_fallback", context_2)
+        self.assertNotIn("doughnut_title", context_2)
+        self.assertIn("bar_data", context_2)
+        self.assertIn("bar_fallback", context_2)
+        self.assertIn("bar_title", context_2)
 
 
 class ShowSerializerTest(TestCase):

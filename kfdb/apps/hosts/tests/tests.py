@@ -312,7 +312,7 @@ class HostViewsTest(TestCase):
         view_3 = HostChartsView.as_view()(request_3)
         context_3 = view_3.context_data
         self.assertEqual("Other", context_3["doughnut_data"]["labels"][-1])
-        self.assertEqual(10, len(context_3["doughnut_data"]["labels"]))
+        self.assertEqual(11, len(context_3["doughnut_data"]["labels"]))
 
 
 class HostSerializerTest(TestCase):
