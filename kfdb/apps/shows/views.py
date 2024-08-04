@@ -1,7 +1,9 @@
 from collections import OrderedDict
 from django.core.cache import cache
-from django.db.models import Count, F, Prefetch, Q
+from django.db.models import Count, Prefetch
 from django.db.models.functions import TruncMonth
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
 from .models import Show
@@ -123,6 +125,10 @@ class ShowPageView(DefaultVideoView):
         return context
 
 
+@method_decorator(
+    cache_page(60 * 5, key_prefix="host_chart_data"),
+    name="dispatch",
+)
 class ShowChartsView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-charts.html"
