@@ -69,8 +69,12 @@ class ShowViewsTest(TestCase):
         )
 
         channel_prime = Channel.objects.get(id=1)
-        producer = Host.objects.create(
-            name="test producer",
+        producer_1 = Host.objects.create(
+            name="test producer 1",
+            kf_crew=True,
+        )
+        producer_2 = Host.objects.create(
+            name="test producer 2",
             kf_crew=True,
         )
 
@@ -86,12 +90,15 @@ class ShowViewsTest(TestCase):
                 show=show,
                 channel=channel_prime,
                 video_id=f"012345678{i}",
-                producer=(producer if not i % 2 else None),
+                producer=(producer_1 if not i % 2 else None),
             )
-            hosts = Host.objects.filter(id__gt=1, id__lte=(i + 2))
+            hosts = Host.objects.filter(id__gt=2, id__lte=(i + 3))
             video.hosts.add(*hosts)
             if i % 2:
-                video.hosts.add(producer)
+                video.hosts.add(producer_1)
+            if i == 11:
+                video.producer = producer_2
+                video.save()
 
         show.channels.add(*Channel.objects.all())
 
@@ -153,7 +160,7 @@ class ShowViewsTest(TestCase):
             {
                 "labels": (
                     [f"test host {i}" for i in range(6)]
-                    + ["test producer"]
+                    + ["test producer 1"]
                     + [f"test host {i}" for i in range(6, 8)]
                     + ["test host 8"]
                     + ["Other"]
@@ -165,7 +172,7 @@ class ShowViewsTest(TestCase):
                             [i for i in range(12, 6, -1)]
                             + [12]
                             + [i for i in range(6, 3, -1)]
-                            + [6]
+                            + [7]
                         ),
                         "borderWidth": 1,
                     },
@@ -178,7 +185,7 @@ class ShowViewsTest(TestCase):
                 zip(
                     (
                         [f"test host {i}" for i in range(6)]
-                        + ["test producer"]
+                        + ["test producer 1"]
                         + [f"test host {i}" for i in range(6, 8)]
                         + ["test host 8"]
                         + ["Other"]
@@ -187,13 +194,17 @@ class ShowViewsTest(TestCase):
                         [i for i in range(12, 6, -1)]
                         + [12]
                         + [i for i in range(6, 3, -1)]
-                        + [6]
+                        + [7]
                     ),
                 )
             ),
         )
+
+        request_2 = RequestFactory().get(reverse("show_charts") + "?show=1")
+        view_2 = ShowChartsView.as_view()(request_2)
+        context_2 = view_2.context_data
         self.assertEqual(
-            context_1["bar_data"],
+            context_2["bar_data"],
             {
                 "labels": [
                     "Jan '24",
@@ -218,7 +229,7 @@ class ShowViewsTest(TestCase):
             },
         )
         self.assertEqual(
-            context_1["bar_fallback"],
+            context_2["bar_fallback"],
             list(
                 zip(
                     [
@@ -240,17 +251,17 @@ class ShowViewsTest(TestCase):
             ),
         )
 
-        request_2 = RequestFactory().get(
+        request_3 = RequestFactory().get(
             reverse("show_charts") + "?show=1&channel=members"
         )
-        view_2 = ShowChartsView.as_view()(request_2)
-        context_2 = view_2.context_data
-        self.assertNotIn("doughnut_data", context_2)
-        self.assertNotIn("doughnut_fallback", context_2)
-        self.assertNotIn("doughnut_title", context_2)
-        self.assertIn("bar_data", context_2)
-        self.assertIn("bar_fallback", context_2)
-        self.assertIn("bar_title", context_2)
+        view_3 = ShowChartsView.as_view()(request_3)
+        context_3 = view_3.context_data
+        self.assertNotIn("doughnut_data", context_3)
+        self.assertNotIn("doughnut_fallback", context_3)
+        self.assertNotIn("doughnut_title", context_3)
+        self.assertIn("bar_data", context_3)
+        self.assertIn("bar_fallback", context_3)
+        self.assertIn("bar_title", context_3)
 
 
 class ShowSerializerTest(TestCase):
