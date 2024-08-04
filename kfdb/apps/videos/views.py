@@ -275,6 +275,10 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
         )
 
 
+@method_decorator(
+    cache_page(60 * 5, key_prefix="host_chart_data"),
+    name="dispatch",
+)
 class AllVideosChartsView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-charts.html"
