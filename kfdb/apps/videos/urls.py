@@ -3,6 +3,7 @@
 from django.urls import path
 
 from .views import (
+    AllVideosChartsView,
     AllVideosView,
     UpdateVideosView,
     VideoBlurbView,
@@ -20,4 +21,5 @@ urlpatterns = [
         VideoDetailsView.as_view(),
         name="get_video_details",
     ),
+    path("videos/charts", AllVideosChartsView.as_view(), name="videos_charts"),
 ]

@@ -236,7 +236,7 @@ class RandomHostsView(TemplateView):
 )
 class HostChartsView(TemplateView):
     http_method_names = "get"
-    template_name = "hosts/partials/get-host-charts.html"
+    template_name = "core/partials/get-charts.html"
 
     def get_appearance_count(self, host):
         """Calculates appearances per show for selected host."""
@@ -252,11 +252,9 @@ class HostChartsView(TemplateView):
 
         data = {}
         other = 0
-        total = 0
 
         for show in shows:
-            total += show["count"]
-            if len(data) < 9:
+            if len(data) < 10:
                 data[show["name"]] = show["count"]
             else:
                 other += show["count"]
@@ -276,6 +274,7 @@ class HostChartsView(TemplateView):
                 ],
             },
             "doughnut_fallback": list(data.items()),
+            "doughnut_title": "Show Appearances",
         }
 
         return context
@@ -329,6 +328,7 @@ class HostChartsView(TemplateView):
                 ],
             },
             "bar_fallback": list(data.items()),
+            "bar_title": "Appearances per Month",
         }
 
         return context
@@ -341,7 +341,7 @@ class HostChartsView(TemplateView):
             Video.objects.filter(Q(hosts=host) | Q(producer=host))
             .values(month=TruncMonth("release_date"))
             .annotate(
-                host_count=Count("pk", filter=Q(hosts=host)),
+                host_count=Count("pk", filter=Q(hosts=host), distinct=True),
             )
             .order_by("month")
         )
@@ -369,13 +369,16 @@ class HostChartsView(TemplateView):
                 ],
             },
             "bar_fallback": list(data.items()),
+            "bar_title": "Appearances per Month",
         }
 
         return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        host = Host.objects.get(id=int(self.request.GET.get("host", "")))
+        host = Host.objects.only("pk").get(
+            id=int(self.request.GET.get("host", ""))
+        )
         context.update(self.get_appearance_count(host))
         if Video.objects.filter(producer=host).exists():
             context.update(self.get_app_prod_dates(host))
