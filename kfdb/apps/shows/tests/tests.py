@@ -43,7 +43,7 @@ class ShowViewsTest(TestCase):
 
     def setUp(self):
         """Sets up test data."""
-        show = Show.objects.create(
+        show_1 = Show.objects.create(
             name="Test Show",
             slug="test",
             image=SimpleUploadedFile(
@@ -87,7 +87,7 @@ class ShowViewsTest(TestCase):
             video = Video.objects.create(
                 title=f"test video {i}",
                 release_date=f"2024-{str(i+1).zfill(2)}-01",
-                show=show,
+                show=show_1,
                 channel=channel_prime,
                 video_id=f"012345678{i}",
                 producer=(producer_1 if not i % 2 else None),
@@ -96,11 +96,30 @@ class ShowViewsTest(TestCase):
             video.hosts.add(*hosts)
             if i % 2:
                 video.hosts.add(producer_1)
+            elif i == 10:
+                video.hosts.add(producer_2)
             if i == 11:
                 video.producer = producer_2
                 video.save()
 
-        show.channels.add(*Channel.objects.all())
+        show_1.channels.add(*Channel.objects.all())
+
+        show_2 = Show.objects.create(
+            name="test show 2",
+        )
+        for i in range(12):
+            video = Video.objects.create(
+                title=f"test video {i}",
+                release_date=f"2024-{str(i+1).zfill(2)}-01",
+                show=show_2,
+                channel=(
+                    channel_prime if i < 9 else Channel.objects.get(id=2)
+                ),
+                video_id=f"112345678{i}",
+                producer=(producer_1 if i % 2 else None),
+            )
+            hosts = Host.objects.filter(id__gt=2, id__lte=(i + 3))
+            video.hosts.add(*hosts)
 
     def test_new_page(self):
         """Tests view when `self.new_page == True`."""
@@ -172,7 +191,7 @@ class ShowViewsTest(TestCase):
                             [i for i in range(12, 6, -1)]
                             + [12]
                             + [i for i in range(6, 3, -1)]
-                            + [7]
+                            + [8]
                         ),
                         "borderWidth": 1,
                     },
@@ -194,7 +213,7 @@ class ShowViewsTest(TestCase):
                         [i for i in range(12, 6, -1)]
                         + [12]
                         + [i for i in range(6, 3, -1)]
-                        + [7]
+                        + [8]
                     ),
                 )
             ),
@@ -262,6 +281,18 @@ class ShowViewsTest(TestCase):
         self.assertIn("bar_data", context_3)
         self.assertIn("bar_fallback", context_3)
         self.assertIn("bar_title", context_3)
+
+        request_4 = RequestFactory().get(reverse("show_charts") + "?show=2")
+        view_4 = ShowChartsView.as_view()(request_4)
+        context_4 = view_4.context_data
+        self.assertIn("bar_data", context_4)
+
+        request_5 = RequestFactory().get(
+            reverse("show_charts") + "?show=2&channel=prime"
+        )
+        view_5 = ShowChartsView.as_view()(request_5)
+        context_5 = view_5.context_data
+        self.assertIn("bar_data", context_5)
 
 
 class ShowSerializerTest(TestCase):

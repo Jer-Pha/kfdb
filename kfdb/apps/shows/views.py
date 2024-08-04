@@ -158,18 +158,16 @@ class ShowChartsView(TemplateView):
         other_count = 0
 
         for host in hosts:
-            if len(data) < 10:
-                if host["name"] in producers:
-                    data[host["name"]] = host["count"] + producers.pop(
-                        host["name"]
-                    )
-                else:
-                    data[host["name"]] = host["count"]
+            if len(data) < 10 and host["name"] in producers:
+                data[host["name"]] = host["count"] + producers.pop(
+                    host["name"]
+                )
+            elif len(data) < 10:
+                data[host["name"]] = host["count"]
+            elif host["name"] in producers:
+                other_count += host["count"] + producers.pop(host["name"])
             else:
-                if host["name"] in producers:
-                    other_count += host["count"] + producers.pop(host["name"])
-                else:
-                    other_count += host["count"]
+                other_count += host["count"]
 
         for name, count in producers.items():
             if len(data) < 10:
