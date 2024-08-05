@@ -73,6 +73,8 @@ class ChannelViewsTest(TestCase):
         for show in Show.objects.all():
             show.channels.add(channel_prime)
 
+        Show.objects.get(id=1).channels.add(channel_games)
+
     def test_new_page(self):
         """Tests view when `self.new_page == True`."""
         request = RequestFactory().get(
@@ -108,22 +110,6 @@ class ChannelViewsTest(TestCase):
         )
         view = ChannelChartsView.as_view()(request)
         context = view.context_data
-        from pprint import pprint
-
-        pprint(context["doughnut_data"])
-        print("-------------------")
-        pprint(
-            {
-                "labels": [f"test show {i}" for i in range(10)] + ["Other"],
-                "datasets": [
-                    {
-                        "label": " Shows",
-                        "data": ([1] * 10) + [2],
-                        "borderWidth": 1,
-                    },
-                ],
-            }
-        )
         self.assertEqual(
             context["doughnut_data"],
             {
