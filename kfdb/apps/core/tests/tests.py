@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from django.conf import settings
-from django.core import signing
 from django.utils.crypto import get_random_string
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
