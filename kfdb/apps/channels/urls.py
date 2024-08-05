@@ -3,7 +3,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from .views import ChannelPageView
+from .views import ChannelChartsView, ChannelPageView
 
 urlpatterns = [
     path(
@@ -15,5 +15,8 @@ urlpatterns = [
         "channels/<slug:channel>/",
         ChannelPageView.as_view(),
         name="channel_page",
+    ),
+    path(
+        "channels/charts", ChannelChartsView.as_view(), name="channel_charts"
     ),
 ]
