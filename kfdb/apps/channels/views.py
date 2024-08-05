@@ -49,10 +49,10 @@ class ChannelPageView(DefaultVideoView):
         return context
 
 
-# @method_decorator(
-#     cache_page(60 * 5, key_prefix="host_chart_data"),
-#     name="dispatch",
-# )
+@method_decorator(
+    cache_page(60 * 5, key_prefix="host_chart_data"),
+    name="dispatch",
+)
 class ChannelChartsView(TemplateView):
     http_method_names = "get"
     template_name = "core/partials/get-charts.html"
