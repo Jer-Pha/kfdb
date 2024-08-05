@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from django.utils.crypto import get_random_string
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
+from django.utils.crypto import get_random_string
 from rest_framework.test import APIRequestFactory
 
 from ..models import Video
