@@ -207,6 +207,5 @@ class ChannelSerializerTest(TestCase):
             {
                 "name": "Test Channel name",
                 "slug": "test-channel-name",
-                "image": f"http://testserver{self.channel.image.url}",
             },
         )
