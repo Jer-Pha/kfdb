@@ -13,11 +13,10 @@ from apps.shows.models import Show
 class StringResourceRelatedField(ResourceRelatedField):
     def to_representation(self, value):
         """Add `name` field to API `relationships` data."""
-        pk = self.get_resource_id(value)
         resource_type = self.get_resource_type_from_included_serializer()
         if resource_type is None or not self._skip_polymorphic_optimization:
             resource_type = get_resource_type_from_instance(value)
-        return {"id": str(pk), "name": str(value)}
+        return {"id": str(value.pk), "name": value.name, "slug": value.slug}
 
 
 class VideoSerializer(serializers.ModelSerializer):
