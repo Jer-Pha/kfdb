@@ -321,5 +321,6 @@ class ShowSerializerTest(TestCase):
                 "name": "Test Show name",
                 "slug": "test-show-name",
                 "active": True,
+                "image_xs": f"http://testserver{self.show.image_xs.url}",
             },
         )
