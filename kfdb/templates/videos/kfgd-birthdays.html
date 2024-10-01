@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  KFDB Birthdays
+{% endblock %}
+
+{% block meta %}
+  <meta name="author" content="Kinda Funny" />
+  <meta name="description" content="The original database for Kinda Funny content. Filter, sort and search by channel, show, host. Made for the community, by the community." />
+  <meta name="keywords" content="Kinda Funny, KF, Video Games, Podcast, Reactions, Twitch, YouTube, KFBF, Nerd Culture, Videos" />
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/hslToHex.min.js' %}" defer></script>
+{% endblock %}
+
+{% block main %}
+  <div class="flex flex-col justify-start align-middle items-center p-4 min-h-[inherit]">
+    <form name="kfgd-birthdays" class="flex flex-row gap-2 sm:gap-4 my-4" hx-get="{% url 'get_kfgd_birthdays' %}" hx-target="#results">
+      <select name="month" class="select-sm sm:select-md select-primary w-full max-w-xs">
+        <option value="0" disabled selected>Month</option>
+        <option value="1">January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+      <select name="day" class="select-sm sm:select-md select-primary w-full max-w-xs">
+        <option value="0" disabled selected>Day</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+        <option>30</option>
+        <option>31</option>
+      </select>
+      <button type="submit" class="btn btn-sm sm:btn-md btn-primary !text-primary-content">Submit</button>
+    </form>
+    <div id="results">
+      <p>
+        Ever wondered what episodes of KFGD aired on your birthday? Inspired by this <a href="https://www.reddit.com/r/kindafunny/comments/1ftc99p/birthday_kfgd_headlines/" class="link underline" target="_blank" rel="nofollow noopener noreferrer">Reddit post</a>.
+      </p>
+    </div>
+  </div>
+{% endblock %}

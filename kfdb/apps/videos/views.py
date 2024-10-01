@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.http import HttpResponse
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.db.models.functions import TruncMonth
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -364,4 +364,34 @@ class AllVideosChartsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(self.get_show_count())
         context.update(self.get_monthly_count())
+        return context
+
+
+class BirthdayGamesDaily(TemplateView):
+    http_method_names = "get"
+    template_name = "videos/partials/get-kfgd-birthdays.html"
+
+    def get_context_data(self, **kwargs):  # pragma: no cover
+        context = super().get_context_data(**kwargs)
+
+        videos = cache.get(self.request.build_absolute_uri())
+
+        if not videos:
+            videos = videos = (
+                Video.objects.values("link", "title")
+                .filter(
+                    Q(release_date__month=self.request.GET.get("month", ""))
+                    & Q(release_date__day=self.request.GET.get("day", ""))
+                    & Q(show__slug="kfgd")
+                    & Q(channel__slug="games")
+                )
+                .order_by("-release_date")
+            )
+            cache.set(
+                self.request.build_absolute_uri(),
+                videos,
+                60 * 5,  # 5 minutes
+            )
+
+        context["videos"] = videos
         return context

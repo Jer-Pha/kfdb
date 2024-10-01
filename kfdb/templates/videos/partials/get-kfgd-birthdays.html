@@ -1,0 +1,10 @@
+<div>
+  {% for video in videos %}
+    <p class="pb-2">
+      {{ video.title }} <a href="{{ video.link }}" class="link underline" target="_blank" rel="nofollow noopener noreferrer">Watch</a>
+    </p>
+  {% endfor %}
+  {% if not videos %}
+    <p>No videos found</p>
+  {% endif %}
+</div>
