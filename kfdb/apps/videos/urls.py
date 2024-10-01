@@ -1,10 +1,12 @@
 """URL configuration for KFDB videos."""
 
 from django.urls import path
+from django.views.generic import TemplateView
 
 from .views import (
     AllVideosChartsView,
     AllVideosView,
+    BirthdayGamesDaily,
     UpdateVideosView,
     VideoBlurbView,
     VideoEmbedView,
@@ -22,4 +24,13 @@ urlpatterns = [
         name="get_video_details",
     ),
     path("videos/charts", AllVideosChartsView.as_view(), name="videos_charts"),
+    path(
+        "kfgd-birthdays/",
+        TemplateView.as_view(template_name="videos/kfgd-birthdays.html"),
+    ),
+    path(
+        "get/kfgd-birthdays",
+        BirthdayGamesDaily.as_view(),
+        name="get_kfgd_birthdays",
+    ),
 ]
