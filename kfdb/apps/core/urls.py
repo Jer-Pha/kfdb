@@ -15,6 +15,7 @@ from .views import (
     UpdateThemeView,
     ShowCountView,
 )
+from .views import get_news_articles, get_news_topics
 from apps.channels.viewsets import ChannelViewSet
 from apps.hosts.viewsets import HostViewSet
 from apps.shows.viewsets import ShowViewSet
@@ -102,6 +103,8 @@ urlpatterns += [
         SpectacularRedocView.as_view(url_name="schema"),
         name="api_docs",
     ),
+    path("api/news/articles", get_news_articles, name="get_articles"),
+    path("api/news/topics", get_news_topics, name="get_topics"),
 ]
 
 # Text files
