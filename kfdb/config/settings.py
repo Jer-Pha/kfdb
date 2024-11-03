@@ -33,6 +33,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_json_api",
     "django_filters",
     "drf_spectacular",
+    "corsheaders",
 ]
 
 INSTALLED_APPS = PROJECT_APPS + THIRD_PARTY_APPS
@@ -41,6 +42,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -53,6 +55,10 @@ if not DEBUG:
     ALLOWED_HOSTS = [
         s.strip() for s in getenv("ALLOWED_HOSTS").strip().split(",")
     ]
+    CORS_ALLOWED_ORIGINS = [
+        s.strip() for s in getenv("CORS_ALLOWED_ORIGINS").strip().split(",")
+    ]
+    CORS_URLS_REGEX = r"^(/api/(docs|schema|news)/.*$|/(?!api/).*)"
     DATABASES = {
         "default": {
             "ENGINE": getenv("SQL_ENGINE").strip(),
@@ -96,6 +102,7 @@ else:
     SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
     INTERNAL_IPS = ["127.0.0.1"]
+    CORS_ORIGIN_ALLOW_ALL = True
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -264,3 +271,8 @@ CSRF_TRUSTED_ORIGINS = ["https://*.kfdb.app/"]
 # Video Update Keys
 PATREON_RSS_FEED = getenv("PATREON_RSS_FEED", "").strip()
 YOUTUBE_API_KEY = getenv("YOUTUBE_API_KEY", "").strip()
+
+# Redis
+REDIS_HOST = getenv("REDIS_HOST", "").strip()
+REDIS_PORT = getenv("REDIS_PORT", "").strip()
+REDIS_PW = getenv("REDIS_PW", "").strip()
