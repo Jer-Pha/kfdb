@@ -3,7 +3,7 @@ from redis import RedisError
 from unittest.mock import MagicMock, patch
 
 from django.utils.crypto import get_random_string
-from django.test import RequestFactory, TestCase
+from django.test import override_settings, RequestFactory, TestCase
 from django.urls import reverse
 
 from ..views import (
@@ -338,39 +338,45 @@ class SitemapsTest(TestCase):
 
 
 class CorsHandlersTestCase(TestCase):
+    @override_settings(
+        CORS_ALLOWED_ORIGINS=["https://kfdb.app", "https://www.kfdb.app"]
+    )
     def test_cors_allow_all_origins(self):
         request = MagicMock()
 
         # Test unrestricted endpoint
         request.path = "/api/some_endpoint/"
         result = cors_allow_all_origins(None, request)
-        self.assertTrue(result)
-
-        # Test restricted endpoint
-        request.path = "/api/docs/"
-        result = cors_allow_all_origins(None, request)
-        self.assertIsNone(result)
+        self.assertIsNone(result)  # Should defer to default CORS
 
         # Test news articles endpoint with allowed origin
-        request.path = "/api/news/articles"
-        request.headers = {"Origin": "https://kfdb.app"}
-        result = cors_allow_all_origins(None, request)
-        self.assertIsNone(result)  # Should allow
+        with patch.object(
+            request.headers, "get", return_value="https://kfdb.app"
+        ):
+            request.path = "/api/news/articles"
+            result = cors_allow_all_origins(None, request)
+            self.assertIsNone(result)  # Should defer to default CORS
 
         # Test news articles endpoint with disallowed origin
-        request.path = "/api/news/articles"
-        request.headers = {"Origin": "https://example.com"}
-        result = cors_allow_all_origins(None, request)
-        self.assertFalse(result)  # Should block
+        with patch.object(
+            request.headers, "get", return_value="https://example.com"
+        ):
+            request.path = "/api/news/articles"
+            result = cors_allow_all_origins(None, request)
+            self.assertFalse(result)  # Should block
 
         # Test news topics endpoint with allowed origin
-        request.path = "/api/news/topics"
-        request.headers = {"Origin": "https://www.kfdb.app"}
-        result = cors_allow_all_origins(None, request)
-        self.assertIsNone(result)  # Should allow
+        with patch.object(
+            request.headers, "get", return_value="https://www.kfdb.app"
+        ):
+            request.path = "/api/news/topics"
+            result = cors_allow_all_origins(None, request)
+            self.assertIsNone(result)  # Should defer to default CORS
 
         # Test news topics endpoint with disallowed origin
-        request.path = "/api/news/topics"
-        request.headers = {"Origin": "https://example.com"}
-        result = cors_allow_all_origins(None, request)
-        self.assertFalse(result)  # Should block
+        with patch.object(
+            request.headers, "get", return_value="https://www.example.com"
+        ):
+            request.path = "/api/news/topics"
+            result = cors_allow_all_origins(None, request)
+            self.assertFalse(result)  # Should block

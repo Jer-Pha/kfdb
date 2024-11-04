@@ -67,7 +67,7 @@ if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
         s.strip() for s in getenv("CORS_ALLOWED_ORIGINS").strip().split(",")
     ]
-    CORS_URLS_REGEX = r"^(/api/(docs|schema|news)/.*$|/(?!api/).*)"
+    CORS_URLS_REGEX = r"^/api/news/.*$"
     DATABASES = {
         "default": {
             "ENGINE": getenv("SQL_ENGINE").strip(),
