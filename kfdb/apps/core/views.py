@@ -10,10 +10,10 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
-from apps.core.utils import Filter
+from .decorators import require_allowed_origin
+from .utils import Filter
 from apps.hosts.models import Host
 from apps.shows.models import Show
 from apps.videos.models import Video
@@ -252,7 +252,8 @@ class UpdateThemeView(View):
             return HttpResponse(status=304)
 
 
-def get_news_articles(request):
+@require_allowed_origin
+def get_news_data(request, data_type):
     """Retrieves 'articles' data from Redis for the news
     aggregator site.
     """
@@ -263,32 +264,7 @@ def get_news_articles(request):
             db=0,
             password=settings.REDIS_PW,
         )
-        data = redis_client.get("articles")
-        return JsonResponse(loads(data), safe=False)
-    except RedisError:
-        return JsonResponse(
-            {"error": "Failed to connect to cache."},
-            status=500,
-        )
-    except Exception:
-        return JsonResponse(
-            {"error": "An unexpected error occurred."},
-            status=500,
-        )
-
-
-def get_news_topics(request):
-    """Retrieves 'topics' data from Redis for the news
-    aggregator site.
-    """
-    try:
-        redis_client = StrictRedis(
-            host=settings.REDIS_HOST,
-            port=int(settings.REDIS_PORT),
-            db=0,
-            password=settings.REDIS_PW,
-        )
-        data = redis_client.get("topics")
+        data = redis_client.get(data_type)
         return JsonResponse(loads(data), safe=False)
     except RedisError:
         return JsonResponse(

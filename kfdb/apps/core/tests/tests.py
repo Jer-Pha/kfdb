@@ -2,9 +2,10 @@ from datetime import datetime
 from redis import RedisError
 from unittest.mock import MagicMock, patch
 
-from django.utils.crypto import get_random_string
+from django.http import HttpResponseForbidden
 from django.test import override_settings, RequestFactory, TestCase
 from django.urls import reverse
+from django.utils.crypto import get_random_string
 
 from ..views import (
     BuildFilterView,
@@ -12,8 +13,7 @@ from ..views import (
     HostCountView,
     ShowCountView,
     UpdateThemeView,
-    get_news_articles,
-    get_news_topics,
+    get_news_data,
 )
 from ..handlers import cors_allow_all_origins
 from apps.channels.models import Channel
@@ -227,52 +227,32 @@ class CoreViewsTest(TestCase):
         response = view.get(request)
         self.assertEqual(response.status_code, 200)
 
+    @override_settings(DEBUG=False)
     @patch("apps.core.views.StrictRedis")
     @patch("apps.core.views.JsonResponse")
-    def test_get_news_articles(self, mock_json_response, mock_strict_redis):
+    def test_get_news_data(self, mock_json_response, mock_strict_redis):
         mock_redis_client = mock_strict_redis
+        request = MagicMock()
+        request.headers = {"Origin": "https://kfdb.app"}
 
         # Test success
         mock_redis_client.return_value.get.return_value = (
             b'[{"title": "Sample Article"}]'
         )
-        response = get_news_articles(MagicMock())
-        mock_redis_client.return_value.get.assert_called_once_with("articles")
-        mock_json_response.assert_called_once_with(
+        response = get_news_data(request, "articles")
+        mock_redis_client.return_value.get.assert_called_with("articles")
+        mock_json_response.assert_called_with(
             [{"title": "Sample Article"}],
             safe=False,
         )
         self.assertEqual(response, mock_json_response.return_value)
 
-        # Test RedisError
-        mock_redis_client.return_value.get.side_effect = RedisError("x")
-        response = get_news_articles(MagicMock())
-        mock_json_response.assert_called_with(
-            {"error": "Failed to connect to cache."},
-            status=500,
-        )
-        self.assertEqual(response, mock_json_response.return_value)
-
-        # Test all other exceptions
-        mock_redis_client.return_value.get.side_effect = Exception("x")
-        response = get_news_articles(MagicMock())
-        mock_json_response.assert_called_with(
-            {"error": "An unexpected error occurred."}, status=500
-        )
-        self.assertEqual(response, mock_json_response.return_value)
-
-    @patch("apps.core.views.StrictRedis")
-    @patch("apps.core.views.JsonResponse")
-    def test_get_news_topics(self, mock_json_response, mock_strict_redis):
-        mock_redis_client = mock_strict_redis
-
-        # Test success
         mock_redis_client.return_value.get.return_value = (
             b'[{"title": "Sample Topic"}]'
         )
-        response = get_news_topics(MagicMock())
-        mock_redis_client.return_value.get.assert_called_once_with("topics")
-        mock_json_response.assert_called_once_with(
+        response = get_news_data(request, "topics")
+        mock_redis_client.return_value.get.assert_called_with("topics")
+        mock_json_response.assert_called_with(
             [{"title": "Sample Topic"}],
             safe=False,
         )
@@ -280,7 +260,7 @@ class CoreViewsTest(TestCase):
 
         # Test RedisError
         mock_redis_client.return_value.get.side_effect = RedisError("x")
-        response = get_news_topics(MagicMock())
+        response = get_news_data(request, "articles")
         mock_json_response.assert_called_with(
             {"error": "Failed to connect to cache."},
             status=500,
@@ -289,7 +269,7 @@ class CoreViewsTest(TestCase):
 
         # Test all other exceptions
         mock_redis_client.return_value.get.side_effect = Exception("x")
-        response = get_news_topics(MagicMock())
+        response = get_news_data(request, "topics")
         mock_json_response.assert_called_with(
             {"error": "An unexpected error occurred."}, status=500
         )
@@ -337,10 +317,7 @@ class SitemapsTest(TestCase):
         )
 
 
-class CorsHandlersTestCase(TestCase):
-    @override_settings(
-        CORS_ALLOWED_ORIGINS=["https://kfdb.app", "https://www.kfdb.app"]
-    )
+class CorsHandlersTest(TestCase):
     def test_cors_allow_all_origins(self):
         request = MagicMock()
 
@@ -380,3 +357,23 @@ class CorsHandlersTestCase(TestCase):
             request.path = "/api/news/topics"
             result = cors_allow_all_origins(None, request)
             self.assertFalse(result)  # Should block
+
+
+class AllowedOriginDecoratorTest(TestCase):
+    def test_require_allowed_origin_decorator(self):
+        request = MagicMock()
+
+        # Test with allowed origin and DEBUG=False
+        with patch.object(
+            request.headers, "get", return_value="https://kfdb.app"
+        ), override_settings(DEBUG=False):
+            response = get_news_data(request, "articles")
+            self.assertNotIsInstance(response, HttpResponseForbidden)
+
+        # Test with disallowed origin and DEBUG=False
+        with patch.object(
+            request.headers, "get", return_value="https://example.com"
+        ), override_settings(DEBUG=False):
+            response = get_news_data(request, "topics")
+            self.assertIsInstance(response, HttpResponseForbidden)
+            self.assertEqual(response.content, b"Forbidden")
