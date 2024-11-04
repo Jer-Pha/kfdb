@@ -291,6 +291,6 @@ else:
 
 for i in range(10):
     print("*****************************************************")
-print(type(REDIS_HOST))
-print(type(REDIS_PORT))
-print(type(REDIS_PW))
+print(len(REDIS_HOST))
+print(len(REDIS_PORT))
+print(len(REDIS_PW))
