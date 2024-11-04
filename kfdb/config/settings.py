@@ -70,9 +70,9 @@ CORS_ALLOWED_ORIGINS = [
         default="https://kfdb.app,https://www.kfdb.app",
     ).split(",")
 ]
+CORS_URLS_REGEX = r"^/api/news/.*$"
 
 if not DEBUG:
-    CORS_URLS_REGEX = r"^/api/news/.*$"
     DATABASES = {
         "default": {
             "ENGINE": getenv("SQL_ENGINE").strip(),
