@@ -2,4 +2,3 @@
 
 django-storages[s3]==1.14.3
 mysqlclient==2.2.4
-redis==5.0.7
