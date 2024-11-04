@@ -63,10 +63,15 @@ ALLOWED_HOSTS = [
     ).split(",")
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    s.strip()
+    for s in getenv(
+        "CORS_ALLOWED_ORIGINS",
+        default="https://kfdb.app,https://www.kfdb.app",
+    ).split(",")
+]
+
 if not DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        s.strip() for s in getenv("CORS_ALLOWED_ORIGINS").strip().split(",")
-    ]
     CORS_URLS_REGEX = r"^/api/news/.*$"
     DATABASES = {
         "default": {
