@@ -4,4 +4,5 @@ black==24.4.2
 coverage==7.5
 django-debug-toolbar==4.4.2
 pre-commit==3.7.1
+python-decouple==3.8
 tox==4.0

@@ -1,4 +1,6 @@
 from datetime import datetime
+from redis import RedisError
+from unittest.mock import MagicMock, patch
 
 from django.utils.crypto import get_random_string
 from django.test import RequestFactory, TestCase
@@ -10,7 +12,10 @@ from ..views import (
     HostCountView,
     ShowCountView,
     UpdateThemeView,
+    get_news_articles,
+    get_news_topics,
 )
+from ..handlers import cors_allow_all_origins
 from apps.channels.models import Channel
 from apps.hosts.models import Host
 from apps.shows.models import Show
@@ -222,6 +227,74 @@ class CoreViewsTest(TestCase):
         response = view.get(request)
         self.assertEqual(response.status_code, 200)
 
+    @patch("apps.core.views.StrictRedis")
+    @patch("apps.core.views.JsonResponse")
+    def test_get_news_articles(self, mock_json_response, mock_strict_redis):
+        mock_redis_client = mock_strict_redis
+
+        # Test success
+        mock_redis_client.return_value.get.return_value = (
+            b'[{"title": "Sample Article"}]'
+        )
+        response = get_news_articles(MagicMock())
+        mock_redis_client.return_value.get.assert_called_once_with("articles")
+        mock_json_response.assert_called_once_with(
+            [{"title": "Sample Article"}],
+            safe=False,
+        )
+        self.assertEqual(response, mock_json_response.return_value)
+
+        # Test RedisError
+        mock_redis_client.return_value.get.side_effect = RedisError("x")
+        response = get_news_articles(MagicMock())
+        mock_json_response.assert_called_with(
+            {"error": "Failed to connect to cache."},
+            status=500,
+        )
+        self.assertEqual(response, mock_json_response.return_value)
+
+        # Test all other exceptions
+        mock_redis_client.return_value.get.side_effect = Exception("x")
+        response = get_news_articles(MagicMock())
+        mock_json_response.assert_called_with(
+            {"error": "An unexpected error occurred."}, status=500
+        )
+        self.assertEqual(response, mock_json_response.return_value)
+
+    @patch("apps.core.views.StrictRedis")
+    @patch("apps.core.views.JsonResponse")
+    def test_get_news_topics(self, mock_json_response, mock_strict_redis):
+        mock_redis_client = mock_strict_redis
+
+        # Test success
+        mock_redis_client.return_value.get.return_value = (
+            b'[{"title": "Sample Topic"}]'
+        )
+        response = get_news_topics(MagicMock())
+        mock_redis_client.return_value.get.assert_called_once_with("topics")
+        mock_json_response.assert_called_once_with(
+            [{"title": "Sample Topic"}],
+            safe=False,
+        )
+        self.assertEqual(response, mock_json_response.return_value)
+
+        # Test RedisError
+        mock_redis_client.return_value.get.side_effect = RedisError("x")
+        response = get_news_topics(MagicMock())
+        mock_json_response.assert_called_with(
+            {"error": "Failed to connect to cache."},
+            status=500,
+        )
+        self.assertEqual(response, mock_json_response.return_value)
+
+        # Test all other exceptions
+        mock_redis_client.return_value.get.side_effect = Exception("x")
+        response = get_news_topics(MagicMock())
+        mock_json_response.assert_called_with(
+            {"error": "An unexpected error occurred."}, status=500
+        )
+        self.assertEqual(response, mock_json_response.return_value)
+
 
 class SitemapsTest(TestCase):
     """Tests all sitemaps."""
@@ -262,3 +335,18 @@ class SitemapsTest(TestCase):
             f"/channels/{self.channel.slug}/".encode(),
             sitemap_channels.content,
         )
+
+
+class CorsHandlersTestCase(TestCase):
+    def test_cors_allow_all_origins(self):
+        request = MagicMock()
+
+        # Test unrestricted endpoint
+        request.path = "/api/some_endpoint/"
+        result = cors_allow_all_origins(None, request)
+        self.assertTrue(result)
+
+        # Test restricted endpoint
+        request.path = "/api/docs/"
+        result = cors_allow_all_origins(None, request)
+        self.assertIsNone(result)

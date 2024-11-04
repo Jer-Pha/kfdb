@@ -50,11 +50,20 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+SECRET_KEY = getenv(
+    "SECRET_KEY",
+    default="AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy",
+).strip()
+
+ALLOWED_HOSTS = [
+    s.strip()
+    for s in getenv(
+        "ALLOWED_HOSTS",
+        default="localhost,127.0.0.1",
+    ).split(",")
+]
+
 if not DEBUG:
-    SECRET_KEY = getenv("SECRET_KEY").strip()
-    ALLOWED_HOSTS = [
-        s.strip() for s in getenv("ALLOWED_HOSTS").strip().split(",")
-    ]
     CORS_ALLOWED_ORIGINS = [
         s.strip() for s in getenv("CORS_ALLOWED_ORIGINS").strip().split(",")
     ]
@@ -83,13 +92,9 @@ if not DEBUG:
             ),
         },
     }
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": getenv("REDIS_LOC", "").strip(),
-        }
-    }
     SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+    # AWS
     AWS_S3_ACCESS_KEY_ID = getenv("AMZ_S3_ACCESS_KEY_ID").strip()
     AWS_S3_SECRET_ACCESS_KEY = getenv("AMZ_S3_SECRET_ACCESS_KEY").strip()
     AWS_STORAGE_BUCKET_NAME = getenv("AMZ_STORAGE_BUCKET_NAME").strip()
@@ -98,9 +103,18 @@ if not DEBUG:
     AWS_S3_REGION_NAME = getenv("AMZ_S3_REGION_NAME").strip()
     AWS_S3_SIGNATURE_VERSION = getenv("AMZ_S3_SIGNATURE_VERSION").strip()
 
+    # Redis
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": getenv("REDIS_LOC", "").strip(),
+        }
+    }
+    REDIS_HOST = getenv("REDIS_HOST", default="").strip()
+    REDIS_PORT = getenv("REDIS_PORT", default="").strip()
+    REDIS_PW = getenv("REDIS_PW", default="").strip()
+
 else:
-    SECRET_KEY = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrZsTtUuVvWwXxYy"
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
     INTERNAL_IPS = ["127.0.0.1"]
     CORS_ORIGIN_ALLOW_ALL = True
     DATABASES = {
@@ -124,6 +138,13 @@ else:
         MIDDLEWARE += [
             "debug_toolbar.middleware.DebugToolbarMiddleware",
         ]
+
+    # Redis
+    from decouple import config
+
+    REDIS_HOST = config("REDIS_HOST", default="")
+    REDIS_PORT = config("REDIS_PORT", default="")
+    REDIS_PW = config("REDIS_PW", default="")
 
 ROOT_URLCONF = "config.urls"
 
@@ -203,12 +224,6 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_RENDERER_CLASSES": (
         "rest_framework_json_api.renderers.JSONRenderer",
-        # If you're performance testing, you will want to use the
-        # browseable API without forms, as the forms can generate their
-        # own queries. If performance testing, enable:
-        # 'example.utils.BrowsableAPIRendererWithoutForms',
-        # Otherwise, to play around with the browseable API, enable:
-        # "rest_framework_json_api.renderers.BrowsableAPIRenderer",
     ),
     "DEFAULT_METADATA_CLASS": (
         "rest_framework_json_api.metadata.JSONAPIMetadata"
@@ -271,8 +286,3 @@ CSRF_TRUSTED_ORIGINS = ["https://*.kfdb.app/"]
 # Video Update Keys
 PATREON_RSS_FEED = getenv("PATREON_RSS_FEED", "").strip()
 YOUTUBE_API_KEY = getenv("YOUTUBE_API_KEY", "").strip()
-
-# Redis
-REDIS_HOST = getenv("REDIS_HOST", "").strip()
-REDIS_PORT = getenv("REDIS_PORT", "").strip()
-REDIS_PW = getenv("REDIS_PW", "").strip()
