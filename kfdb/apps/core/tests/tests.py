@@ -350,3 +350,27 @@ class CorsHandlersTestCase(TestCase):
         request.path = "/api/docs/"
         result = cors_allow_all_origins(None, request)
         self.assertIsNone(result)
+
+        # Test news articles endpoint with allowed origin
+        request.path = "/api/news/articles"
+        request.headers = {"Origin": "https://kfdb.app"}
+        result = cors_allow_all_origins(None, request)
+        self.assertIsNone(result)  # Should allow
+
+        # Test news articles endpoint with disallowed origin
+        request.path = "/api/news/articles"
+        request.headers = {"Origin": "https://example.com"}
+        result = cors_allow_all_origins(None, request)
+        self.assertFalse(result)  # Should block
+
+        # Test news topics endpoint with allowed origin
+        request.path = "/api/news/topics"
+        request.headers = {"Origin": "https://www.kfdb.app"}
+        result = cors_allow_all_origins(None, request)
+        self.assertIsNone(result)  # Should allow
+
+        # Test news topics endpoint with disallowed origin
+        request.path = "/api/news/topics"
+        request.headers = {"Origin": "https://example.com"}
+        result = cors_allow_all_origins(None, request)
+        self.assertFalse(result)  # Should block
