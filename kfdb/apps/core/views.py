@@ -264,16 +264,13 @@ def get_news_articles(request):
             password=settings.REDIS_PW,
         )
         data = redis_client.get("articles")
-        print(data)
         return JsonResponse(loads(data), safe=False)
-    except RedisError as e:
-        print(str(e)[:15])
+    except RedisError:
         return JsonResponse(
             {"error": "Failed to connect to cache."},
             status=500,
         )
-    except Exception as e:
-        print(str(e)[:15])
+    except Exception:
         return JsonResponse(
             {"error": "An unexpected error occurred."},
             status=500,
@@ -292,16 +289,13 @@ def get_news_topics(request):
             password=settings.REDIS_PW,
         )
         data = redis_client.get("topics")
-        print(data)
         return JsonResponse(loads(data), safe=False)
-    except RedisError as e:
-        print(str(e)[:15])
+    except RedisError:
         return JsonResponse(
             {"error": "Failed to connect to cache."},
             status=500,
         )
-    except Exception as e:
-        print(str(e)[:15])
+    except Exception:
         return JsonResponse(
             {"error": "An unexpected error occurred."},
             status=500,
