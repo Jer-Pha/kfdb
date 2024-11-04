@@ -146,6 +146,8 @@ else:
     REDIS_PORT = config("REDIS_PORT", default="")
     REDIS_PW = config("REDIS_PW", default="")
 
+    print(REDIS_PORT[0] if REDIS_PORT else print("No env variable"))
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
