@@ -287,3 +287,10 @@ else:
     REDIS_HOST = getenv("REDIS_HOST", default="").strip()
     REDIS_PORT = getenv("REDIS_PORT", default="").strip()
     REDIS_PW = getenv("REDIS_PW", default="").strip()
+
+
+for i in range(10):
+    print("*****************************************************")
+print(type(REDIS_HOST))
+print(type(REDIS_PORT))
+print(type(REDIS_PW))
