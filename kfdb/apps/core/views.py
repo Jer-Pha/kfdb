@@ -12,7 +12,6 @@ from django.views import View
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
-from .decorators import require_allowed_origin
 from .utils import Filter
 from apps.hosts.models import Host
 from apps.shows.models import Show
@@ -252,7 +251,6 @@ class UpdateThemeView(View):
             return HttpResponse(status=304)
 
 
-@require_allowed_origin
 def get_news_data(request, data_type):
     """Retrieves 'articles' data from Redis for the news
     aggregator site.

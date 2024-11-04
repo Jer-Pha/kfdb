@@ -2,8 +2,7 @@ from datetime import datetime
 from redis import RedisError
 from unittest.mock import MagicMock, patch
 
-from django.http import HttpResponseForbidden
-from django.test import override_settings, RequestFactory, TestCase
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 
@@ -227,7 +226,6 @@ class CoreViewsTest(TestCase):
         response = view.get(request)
         self.assertEqual(response.status_code, 200)
 
-    @override_settings(DEBUG=False)
     @patch("apps.core.views.StrictRedis")
     @patch("apps.core.views.JsonResponse")
     def test_get_news_data(self, mock_json_response, mock_strict_redis):
@@ -357,23 +355,3 @@ class CorsHandlersTest(TestCase):
             request.path = "/api/news/topics"
             result = cors_allow_all_origins(None, request)
             self.assertFalse(result)  # Should block
-
-
-class AllowedOriginDecoratorTest(TestCase):
-    def test_require_allowed_origin_decorator(self):
-        request = MagicMock()
-
-        # Test with allowed origin and DEBUG=False
-        with patch.object(
-            request.headers, "get", return_value="https://kfdb.app"
-        ), override_settings(DEBUG=False):
-            response = get_news_data(request, "articles")
-            self.assertNotIsInstance(response, HttpResponseForbidden)
-
-        # Test with disallowed origin and DEBUG=False
-        with patch.object(
-            request.headers, "get", return_value="https://example.com"
-        ), override_settings(DEBUG=False):
-            response = get_news_data(request, "topics")
-            self.assertIsInstance(response, HttpResponseForbidden)
-            self.assertEqual(response.content, b"Forbidden")
