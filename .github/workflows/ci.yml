@@ -17,6 +17,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set environment variables
+        run: |
+            echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
+            echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> $GITHUB_ENV
+            echo "REDIS_PW=${{ secrets.REDIS_PW }}" >> $GITHUB_ENV
       - name: Install CI
         run: |
             pip install "tox>=4.0"
