@@ -283,14 +283,14 @@ if DEBUG and "test" not in argv:
     REDIS_HOST = config("REDIS_HOST", default="")
     REDIS_PORT = config("REDIS_PORT", default="")
     REDIS_PW = config("REDIS_PW", default="")
+elif DEBUG:
+    from os import environ
+
+    REDIS_HOST = environ.get("REDIS_HOST", default="")
+    REDIS_PORT = environ.get("REDIS_PORT", default="")
+    REDIS_PW = environ.get("REDIS_PW", default="")
+
 else:
     REDIS_HOST = getenv("REDIS_HOST", default="").strip()
     REDIS_PORT = getenv("REDIS_PORT", default="").strip()
     REDIS_PW = getenv("REDIS_PW", default="").strip()
-
-
-for i in range(10):
-    print("*****************************************************")
-print(len(REDIS_HOST))
-print(len(REDIS_PORT))
-print(len(REDIS_PW))
