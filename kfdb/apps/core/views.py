@@ -262,7 +262,8 @@ def get_news_data(request, data_type):
             db=0,
             password=settings.REDIS_PW,
         )
-        data = redis_client.get(data_type)
+        print(data_type)
+        data = redis_client.get(f"games-daily::{data_type}")
         return JsonResponse(loads(data), safe=False)
     except RedisError:
         return JsonResponse(

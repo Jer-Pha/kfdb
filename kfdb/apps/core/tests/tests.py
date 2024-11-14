@@ -237,8 +237,23 @@ class CoreViewsTest(TestCase):
         mock_redis_client.return_value.get.return_value = (
             b'[{"title": "Sample Article"}]'
         )
-        response = get_news_data(request, "articles")
-        mock_redis_client.return_value.get.assert_called_with("articles")
+        response = get_news_data(request, "articles-by-topic")
+        mock_redis_client.return_value.get.assert_called_with(
+            "games-daily::articles-by-topic"
+        )
+        mock_json_response.assert_called_with(
+            [{"title": "Sample Article"}],
+            safe=False,
+        )
+        self.assertEqual(response, mock_json_response.return_value)
+
+        mock_redis_client.return_value.get.return_value = (
+            b'[{"title": "Sample Article"}]'
+        )
+        response = get_news_data(request, "articles-by-site")
+        mock_redis_client.return_value.get.assert_called_with(
+            "games-daily::articles-by-site"
+        )
         mock_json_response.assert_called_with(
             [{"title": "Sample Article"}],
             safe=False,
@@ -249,7 +264,9 @@ class CoreViewsTest(TestCase):
             b'[{"title": "Sample Topic"}]'
         )
         response = get_news_data(request, "topics")
-        mock_redis_client.return_value.get.assert_called_with("topics")
+        mock_redis_client.return_value.get.assert_called_with(
+            "games-daily::topics"
+        )
         mock_json_response.assert_called_with(
             [{"title": "Sample Topic"}],
             safe=False,
@@ -258,7 +275,7 @@ class CoreViewsTest(TestCase):
 
         # Test RedisError
         mock_redis_client.return_value.get.side_effect = RedisError("x")
-        response = get_news_data(request, "articles")
+        response = get_news_data(request, "articles-by-topic")
         mock_json_response.assert_called_with(
             {"error": "Failed to connect to cache."},
             status=500,
@@ -328,7 +345,7 @@ class CorsHandlersTest(TestCase):
         with patch.object(
             request.headers, "get", return_value="https://kfdb.app"
         ):
-            request.path = "/api/news/articles"
+            request.path = "/api/news/articles-by-topic"
             result = cors_allow_all_origins(None, request)
             self.assertIsNone(result)  # Should defer to default CORS
 
@@ -336,7 +353,7 @@ class CorsHandlersTest(TestCase):
         with patch.object(
             request.headers, "get", return_value="https://example.com"
         ):
-            request.path = "/api/news/articles"
+            request.path = "/api/news/articles-by-site"
             result = cors_allow_all_origins(None, request)
             self.assertFalse(result)  # Should block
 

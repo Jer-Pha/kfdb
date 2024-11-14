@@ -104,16 +104,22 @@ urlpatterns += [
         name="api_docs",
     ),
     path(
-        "api/news/articles",
+        "api/news/articles-by-topic",
         get_news_data,
-        kwargs={"data_type": "articles"},
-        name="get_articles",
+        kwargs={"data_type": "articles-by-topic"},
+        name="get_articles_by_topic",
+    ),
+    path(
+        "api/news/articles-by-site",
+        get_news_data,
+        kwargs={"data_type": "articles-by-site"},
+        name="get_articles_by_site",
     ),
     path(
         "api/news/topics",
         get_news_data,
         kwargs={"data_type": "topics"},
-        name="get_articles",
+        name="get_topics",
     ),
 ]
 
