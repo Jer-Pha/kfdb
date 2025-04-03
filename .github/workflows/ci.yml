@@ -2,12 +2,11 @@ name: Continuous Integration Checks
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
 jobs:
   build:
-
     name: Unit tests and code checks
     runs-on: ubuntu-latest
     env:
@@ -23,6 +22,7 @@ jobs:
 
       - name: Install CI
         run: |
+          echo "REDIS_HOST: $REDIS_HOST | REDIS_PORT: $REDIS_PORT | REDIS_PW: $REDIS_PW"
           if [[ -z "$REDIS_HOST" || -z "$REDIS_PORT" || -z "$REDIS_PW" ]]; then
             echo "Error: One or more environment variables missing."
             exit 1
