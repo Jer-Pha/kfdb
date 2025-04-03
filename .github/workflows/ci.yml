@@ -22,7 +22,6 @@ jobs:
 
       - name: Install CI
         run: |
-          echo "REDIS_HOST: $REDIS_HOST | REDIS_PORT: $REDIS_PORT | REDIS_PW: $REDIS_PW"
           if [[ -z "$REDIS_HOST" || -z "$REDIS_PORT" || -z "$REDIS_PW" ]]; then
             echo "Error: One or more environment variables missing."
             exit 1
