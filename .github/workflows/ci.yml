@@ -2,12 +2,11 @@ name: Continuous Integration Checks
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
 jobs:
   build:
-
     name: Unit tests and code checks
     runs-on: ubuntu-latest
     env:
