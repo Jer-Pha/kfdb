@@ -42,7 +42,8 @@
     <div class="drawer">
       <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
-        <div class="w-full navbar bg-gradient-to-r from-secondary to-primary z-50 sticky top-0">
+        <div class="z-50 sticky top-0">
+          <div class="w-full navbar bg-gradient-to-r from-secondary to-primary">
           <div class="flex-none md:hidden">
             <label tabindex="0" role="button" for="nav-drawer" aria-label="navigation menu" class="btn btn-square btn-ghost">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-secondary-content">
@@ -289,8 +290,14 @@
             </div>
           </div>
         </div>
+        {% if request.path != '/support/' %}
+          <aside class="py-2 px-4 bg-warning text-warning-content rounded-none z-0 relative !h-9">
+            <p class="font-semibold text-sm text-center">Love what we do? <a href="{% url 'support' %}" class="link underline" tabindex="0">Support KFDB</a></p>
+          </aside>
+        {% endif %}
+      </div>
 
-        <main class="flex flex-col justify-center mx-auto min-h-[calc((var(--vh,1vh)*100)-11rem)] md:min-h-[calc((var(--vh,1vh)*100)-11.5rem)] lg:max-w-[80vw]">
+        <main class="flex flex-col justify-center mx-auto min-h-[calc((var(--vh,1vh)*100)-10rem)] md:min-h-[calc((var(--vh,1vh)*100)-10.5rem)] lg:max-w-[80vw]">
           {% block main %}
 
           {% endblock %}
@@ -394,8 +401,8 @@
         <a href="https://kindafunny.shop/" class="link link-hover min-w-28" tabindex="0">KF&nbsp;Merch</a>
       </nav>
       <nav class="grid grid-cols-3 xs:grid-cols-6 gap-x-12 xs:gap-x-8 md:gap-x-12 gap-y-6">
-        <a href="https://www.twitter.com/kindafunnyvids" target="_blank" aria-label="twitter" title="Twitter" tabindex="0">
-          {% include 'core/partials/socials/twitter.html' %}
+        <a href="https://bsky.app/profile/kindafunnyvids.bsky.social" target="_blank" aria-label="twitter" title="Twitter" tabindex="0">
+          {% include 'core/partials/socials/bluesky.html' %}
         </a>
         <a href="https://www.instagram.com/kindafunnyvids" target="_blank" aria-label="instagram" title="Instagram" tabindex="0">
           {% include 'core/partials/socials/instagram.html' %}
@@ -417,10 +424,10 @@
       </nav>
 
     </footer>
-    <footer class="footer footer-center py-4 px-6 bg-info text-info-content rounded-none z-0 relative">
+    <footer class="footer footer-center py-4 px-6 bg-info text-info-content rounded-none z-0 relative{% if request.path == '/home/' %} snap-end{% endif %}">
       <aside>
         <p>KFDB is not endorsed by Kinda Funny and does not reflect the views or opinions of Kinda Funny or anyone officially involved in producing or managing Kinda Funny content.</p>
-        <p class="flex flex-row -mr-6">From the creator of&nbsp;&nbsp;<a href="https://www.survayy.com/" target="_blank"  class="link link-hover" tabindex="0" aria-label="survayy dot com"><svg xmlns="http://www.w3.org/2000/svg" class="fill-info-content hover:fill-secondary" width="80%" height="24px" viewBox="0 0 1447 301">
+        <p class="flex flex-row -mr-6 flex-wrap justify-center items-center leading-8"><span>From the creator of&nbsp;</span><a href="https://www.controllerchronicle.com/" class="link font-bold" target="_blank">Controller&nbsp;Chronicle</a><span>&nbsp;and&nbsp;&nbsp;</span><a href="https://www.survayy.com/" target="_blank"  class="link link-hover" tabindex="0" aria-label="survayy dot com"><svg xmlns="http://www.w3.org/2000/svg" class="fill-info-content hover:fill-secondary" width="80%" height="24px" viewBox="0 0 1447 301">
           <path
             d="M 1240.00,64.00
               C 1240.00,64.00 1240.00,259.00 1240.00,259.00
@@ -587,11 +594,6 @@
                 910.00,194.00 992.00,194.00 992.00,194.00
                 992.00,194.00 992.00,166.00 992.00,166.00 Z" />
         </svg></a></p>
-      </aside>
-    </footer>
-    <footer class="footer footer-center py-4 px-6 bg-warning text-warning-content rounded-none z-0 relative{% if request.path == '/home/' %} snap-end{% endif %}">
-      <aside>
-          <p class="font-semibold">Love what we do? <a href="{% url 'support' %}" class="link underline" tabindex="0">Support KFDB</a></p>
       </aside>
     </footer>
 
