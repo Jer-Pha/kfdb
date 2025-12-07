@@ -1,23 +1,23 @@
 from collections import OrderedDict
-from datetime import date, timedelta, datetime
-from feedparser import parse
-from requests import get
+from datetime import date, datetime, timedelta
 
+from apps.channels.models import Channel
+from apps.core.views import DefaultVideoView
+from apps.shows.models import Show
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
-from django.http import HttpResponse
 from django.db.models import Count, Q
 from django.db.models.functions import TruncMonth
+from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
+from feedparser import parse
+from requests import get, head
 
 from .models import Video
-from apps.channels.models import Channel
-from apps.core.views import DefaultVideoView
-from apps.shows.models import Show
 
 
 class AllVideosView(DefaultVideoView):
@@ -204,14 +204,14 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
         published_before = f"{today + delta}T{now}Z"
         published_after = f"{today - delta}T{now}Z"
         max_results = 50
-        url_1 = (
+        channel_api_url = (
             f"https://youtube.googleapis.com/youtube/v3/search?key="
             f"{API_KEY}&channelId={channel}&part=snippet&maxResults="
             f"{max_results}&pageToken={page}&order=date&type=video&"
             f"publishedBefore={published_before}&publishedAfter="
             f"{published_after}"
         )
-        response = get(url=url_1).json()
+        response = get(url=channel_api_url).json()
         videos = response["items"]
 
         for video in videos:
@@ -225,30 +225,30 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
             ):
                 continue
 
-            url_2 = (
+            video_api_url = (
                 "https://youtube.googleapis.com/youtube/v3/videos?part="
                 f"contentDetails%2Csnippet&id={video_id}&key={API_KEY}"
             )
-            vid = get(url=url_2).json()["items"][0]
+            vid = get(url=video_api_url).json()["items"][0]
 
             blurb = vid["snippet"]["description"]
             release_date = datetime.fromisoformat(
                 vid["snippet"]["publishedAt"]
             ).date()
-            duration = vid["contentDetails"]["duration"]
 
-            if "M" in duration or "H" in duration:
-                link = f"https://www.youtube.com/watch?v={video_id}"
+            video_url = f"https://www.youtube.com/shorts/{video_id}"
+            short = True
+            response = head(video_url, allow_redirects=False)
+
+            if response.status_code != 200:
+                video_url = f"https://www.youtube.com/watch?v={video_id}"
                 short = False
-            else:
-                link = f"https://www.youtube.com/shorts/{video_id}"
-                short = True
 
             self.create_video(
                 video_id=video_id,
                 title=title,
                 release_date=release_date,
-                link=link,
+                link=video_url,
                 blurb=blurb,
                 short=short,
                 highlights=highlights,
@@ -394,4 +394,5 @@ class BirthdayGamesDaily(TemplateView):
             )
 
         context["videos"] = videos
+        return context
         return context
