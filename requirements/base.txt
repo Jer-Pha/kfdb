@@ -1,4 +1,4 @@
-django==4.2.26
+django==4.2.27
 django-autoslug==1.9.9
 django-cors-headers==4.6.0
 django-filter==24.2
