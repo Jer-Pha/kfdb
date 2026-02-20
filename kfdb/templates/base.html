@@ -292,7 +292,11 @@
         </div>
         {% if request.path != '/support/' %}
           <aside class="py-2 px-4 bg-warning text-warning-content rounded-none z-0 relative !h-9">
-            <p class="font-semibold text-sm text-center">Love what we do? <a href="{% url 'support' %}" class="link underline" tabindex="0">Support KFDB</a></p>
+            <p class="font-semibold text-sm text-center">
+              <span class="wiggle">&#x1f499;</span>
+              <a href="{% url 'support' %}" class="link underline" tabindex="0">Support KFDB</a>
+              <span class="wiggle-reverse">&#x1f499;</span>
+            </p>
           </aside>
         {% endif %}
       </div>
