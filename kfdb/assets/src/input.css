@@ -8,18 +8,20 @@
 
 #hero-banner {
   background-image: url(/static-files/img/kf-crew.webp);
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   background-blend-mode: darken;
 }
 
-#ch-games, #ch-prime {
+#ch-games,
+#ch-prime {
   background-repeat: no-repeat;
   background-position: center;
   background-origin: content-box;
   -webkit-filter: brightness(70%);
 }
 
-#ch-games:hover, #ch-prime:hover {
+#ch-games:hover,
+#ch-prime:hover {
   -webkit-filter: brightness(100%);
   -webkit-transition: all 0.7s ease;
   -moz-transition: all 0.7s ease;
@@ -39,29 +41,31 @@
 }
 
 @media (orientation: portrait) {
-  #ch-games, #ch-prime {
+  #ch-games,
+  #ch-prime {
     background-size: auto 60%;
     --angle: 7rem;
   }
   #ch-games {
-    clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - var(--angle)));
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--angle)));
   }
   #ch-prime {
-    clip-path:polygon(0 0,100% var(--angle),100% 100%,0 100%);
+    clip-path: polygon(0 0, 100% var(--angle), 100% 100%, 0 100%);
     margin-top: calc(var(--angle) * -1);
   }
 }
 
 @media (orientation: landscape) {
-  #ch-games, #ch-prime {
+  #ch-games,
+  #ch-prime {
     background-size: 40% auto;
     --angle: 9rem;
   }
   #ch-games {
-    clip-path:polygon(0 0,calc(100% - var(--angle)) 0,100% 100%,0 100%);
+    clip-path: polygon(0 0, calc(100% - var(--angle)) 0, 100% 100%, 0 100%);
   }
   #ch-prime {
-    clip-path:polygon(0 0,100% 0,100% 100%,var(--angle) 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, var(--angle) 100%);
     margin-left: calc(var(--angle) * -1);
   }
 }
@@ -107,10 +111,10 @@
 
 #pagination > .btn:is(input[type="radio"]:checked) {
   --tw-border-opacity: 1;
-  border-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
+  border-color: var(--fallback-b1, oklch(var(--b1) / var(--tw-bg-opacity)));
   --tw-bg-opacity: 1;
-  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
-  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
+  background-color: var(--fallback-b3, oklch(var(--b3) / var(--tw-bg-opacity)));
+  color: var(--fallback-bc, oklch(var(--bc) / var(--tw-text-opacity)));
 }
 
 img.loading-logo {
@@ -121,10 +125,10 @@ img.loading-logo {
 
 @keyframes spin {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -135,10 +139,10 @@ img.loading-logo {
 
 @keyframes fadeInOpacity {
   0% {
-      opacity: 0;
+    opacity: 0;
   }
   100% {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -149,10 +153,10 @@ img.loading-logo {
 
 @keyframes fadeOutOpacity {
   0% {
-      opacity: 1;
+    opacity: 1;
   }
   100% {
-      opacity: 0;
+    opacity: 0;
   }
 }
 
@@ -169,7 +173,7 @@ img.loading-logo {
 .host-card:has(img):before {
   opacity: 0.65 !important;
   top: 0;
-  transition: top .3s linear;
+  transition: top 0.3s linear;
 }
 
 .host-card:has(img):hover:before {
@@ -179,7 +183,7 @@ img.loading-logo {
 
 .host-card > img {
   transform: scale(1);
-  transition: all .3s ease-in;
+  transition: all 0.3s ease-in;
 }
 
 .host-card:hover img {
@@ -191,6 +195,28 @@ img.loading-logo {
 }
 
 .host-card:not(:has(img)):hover {
-  background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));
-  color: var(--fallback-pc,oklch(var(--pc)/var(--tw-text-opacity)));
+  background-color: var(--fallback-p, oklch(var(--p) / var(--tw-bg-opacity)));
+  color: var(--fallback-pc, oklch(var(--pc) / var(--tw-text-opacity)));
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(6deg);
+  }
+  50% {
+    transform: rotate(-6deg);
+  }
+  100% {
+    transform: rotate(6deg);
+  }
+}
+
+span.wiggle {
+  display: inline-block;
+  animation: wiggle 0.75s infinite;
+}
+
+span.wiggle-reverse {
+  display: inline-block;
+  animation: wiggle 0.75s infinite reverse;
 }
