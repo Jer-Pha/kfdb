@@ -7,6 +7,7 @@ staticfiles/
 media/
 logs/
 kfdb/apps/core/static/js/*.min.js
+.venv*/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
