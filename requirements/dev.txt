@@ -1,6 +1,6 @@
 -r base.txt
 
-black==24.4.2
+black==26.3.1
 coverage==7.5
 django-debug-toolbar==4.4.2
 pre-commit==3.7.1
