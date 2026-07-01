@@ -120,6 +120,9 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
         elif "game showdown" in title_lower:
             show_slug = "game-showdown"
             channel_slug = "games"
+        elif "gamescast plays" in title_lower:
+            show_slug = "gameplay"
+            channel_slug = "games"
         elif "gamescast" in title_lower:
             show_slug = "gamescast"
             channel_slug = "games"
@@ -159,6 +162,9 @@ class UpdateVideosView(LoginRequiredMixin, View):  # pragma: no cover
             channel_slug = "prime"
         elif "reaction" in title_lower:
             show_slug = "reactions"
+        elif "the buzz" in title_lower:
+            show_slug = "announcements"
+            channel_slug = "prime"
 
         if patreon:
             release_date = datetime.strptime(
