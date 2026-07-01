@@ -2,8 +2,8 @@ FROM python:3.12-slim
 
 LABEL maintainer="https://github.com/Jer-Pha"
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends curl
@@ -14,7 +14,9 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 
 RUN apt-get install -y --no-install-recommends \
     nodejs \
-    default-libmysqlclient-dev
+    default-libmysqlclient-dev \
+    pkg-config \
+    build-essential
 
 RUN mkdir -p /code
 
