@@ -14,9 +14,7 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 
 RUN apt-get install -y --no-install-recommends \
     nodejs \
-    default-libmysqlclient-dev \
-    pkg-config \
-    build-essential
+    default-libmysqlclient-dev
 
 RUN mkdir -p /code
 
