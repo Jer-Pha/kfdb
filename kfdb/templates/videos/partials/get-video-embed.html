@@ -1,5 +1,5 @@
 {% if video.embed_size %}
-  <iframe class="mx-auto max-w-[min(100%,480px)] max-h-[480px] {{ video.embed_size }}" src="https://www.youtube-nocookie.com/embed/{{ video.video_id }}?html5=1" title="{{ video.title }}" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+  <iframe class="mx-auto max-w-[min(100%,480px)] max-h-[480px] {{ video.embed_size }}" src="https://www.youtube-nocookie.com/embed/{{ video.video_id }}" title="{{ video.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 {% elif 'patreon' in video.link %}
   <p class="mx-auto pt-4">
     <a href="{{ video.link }}" target="_blank" class="flex flex-row min-w-[150px] rounded-none group/patreonpost">
